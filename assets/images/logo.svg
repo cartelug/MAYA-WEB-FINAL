@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="80" viewBox="0 0 220 80" role="img" aria-labelledby="t">
+<title id="t">Maya Nature Resort Logo</title>
+<rect width="220" height="80" rx="18" fill="#0f3d25"/>
+<path d="M36 52C42 30 58 18 77 21C62 26 54 40 52 58" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+<path d="M55 54C66 33 85 24 102 31C84 33 73 46 67 63" fill="none" stroke="#d4a62a" stroke-width="5" stroke-linecap="round"/>
+<circle cx="97" cy="18" r="4" fill="#fff"/>
+<circle cx="111" cy="23" r="3.5" fill="#fff"/>
+<circle cx="122" cy="33" r="3" fill="#fff"/>
+<text x="120" y="34" fill="#fff" font-family="Arial, sans-serif" font-size="18" font-weight="900">MAYA</text>
+<text x="120" y="55" fill="#fff" font-family="Arial, sans-serif" font-size="18" font-weight="900">NATURE</text>
+</svg>

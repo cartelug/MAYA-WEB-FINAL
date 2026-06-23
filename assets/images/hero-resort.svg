@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="t d" preserveAspectRatio="xMidYMid slice">
+  <title id="t">Maya Nature Resort</title>
+  <desc id="d">Layered illustration of misty forest hills at golden hour over a calm lake.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a2417"/>
+      <stop offset="0.45" stop-color="#123c26"/>
+      <stop offset="0.72" stop-color="#2c5a39"/>
+      <stop offset="0.86" stop-color="#a98a3c"/>
+      <stop offset="1" stop-color="#e9c059"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="72%" cy="40%" r="34%">
+      <stop offset="0" stop-color="#ffe9a8" stop-opacity="0.95"/>
+      <stop offset="0.35" stop-color="#f1ca55" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#f1ca55" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#173f29"/>
+      <stop offset="1" stop-color="#0a2014"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1e6541" stop-opacity="0"/>
+      <stop offset="0.7" stop-color="#d4a62a" stop-opacity="0"/>
+      <stop offset="1" stop-color="#f1ca55" stop-opacity="0.35"/>
+    </linearGradient>
+  </defs>
+
+  <!-- sky + sun -->
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <rect width="1600" height="1000" fill="url(#sun)"/>
+  <circle cx="1152" cy="400" r="120" fill="#ffe9a8" opacity="0.85"/>
+  <circle cx="1152" cy="400" r="120" fill="url(#rim)"/>
+
+  <!-- distant haze -->
+  <rect y="520" width="1600" height="120" fill="#ffffff" opacity="0.05"/>
+
+  <!-- mountain layers, far to near -->
+  <path d="M0 620 C220 560 360 600 560 545 C760 490 900 560 1080 505 C1260 450 1420 500 1600 455 L1600 1000 L0 1000 Z" fill="#2c5a39" opacity="0.6"/>
+  <path d="M0 690 C240 620 380 665 600 600 C820 535 960 620 1170 560 C1380 505 1470 565 1600 540 L1600 1000 L0 1000 Z" fill="#1c4a30"/>
+  <rect y="690" width="1600" height="40" fill="#ffffff" opacity="0.05"/>
+  <path d="M0 770 C230 700 400 740 620 680 C840 620 980 720 1200 650 C1400 590 1500 650 1600 630 L1600 1000 L0 1000 Z" fill="#123a25"/>
+  <path d="M0 845 C260 780 420 820 660 760 C900 700 1040 800 1280 740 C1440 700 1520 740 1600 730 L1600 1000 L0 1000 Z" fill="#0d2c1c"/>
+
+  <!-- lake + reflection -->
+  <rect y="858" width="1600" height="142" fill="url(#lake)"/>
+  <ellipse cx="1152" cy="880" rx="150" ry="10" fill="#f1ca55" opacity="0.18"/>
+  <rect x="1140" y="862" width="24" height="120" fill="#f1ca55" opacity="0.12"/>
+
+  <!-- foreground tree silhouettes -->
+  <g fill="#071a11">
+    <path d="M70 1000 C70 880 90 840 120 840 C150 840 170 880 170 1000 Z"/>
+    <path d="M120 850 l-46 60 92 0 Z M120 815 l-38 55 76 0 Z M120 785 l-30 48 60 0 Z"/>
+  </g>
+  <g fill="#071a11" opacity="0.92">
+    <path d="M1500 1000 C1500 870 1520 825 1552 825 C1584 825 1604 870 1604 1000 Z"/>
+    <path d="M1552 838 l-50 66 100 0 Z M1552 800 l-42 60 84 0 Z M1552 766 l-32 52 64 0 Z"/>
+  </g>
+
+  <!-- birds -->
+  <g stroke="#0a2014" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6">
+    <path d="M340 300 q14 -12 28 0 q14 -12 28 0"/>
+    <path d="M430 250 q11 -9 22 0 q11 -9 22 0"/>
+    <path d="M520 320 q9 -8 18 0 q9 -8 18 0"/>
+  </g>
+</svg>

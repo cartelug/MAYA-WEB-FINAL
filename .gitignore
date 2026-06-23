@@ -1,0 +1,20 @@
+# Claude Code local settings (machine-specific, may contain local permissions)
+.claude/settings.local.json
+
+# Dependencies / build noise (not used by this static site, but guarded)
+node_modules/
+*.log
+npm-debug.log*
+
+# Python cache from the ui-ux-pro-max skill tooling
+__pycache__/
+*.pyc
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*~
