@@ -243,14 +243,128 @@ This single motif, repeated with restraint, is what reads as "premium brand."
 
 ---
 
+## 8A. THE MAXED PRELOADER — "best first second"
+
+A short, deliberate brand moment that never feels like waiting and never hangs.
+
+**Build sequence (≈1.6–2.0s on fast networks):**
+1. `t0` — Dark forest field fades in (1 frame). Faint oversized sunburst centered.
+2. `t+0` — **Sun-ray dots scale-in radially**, clockwise, 18–24 dots, 18ms apart
+   (`transform: scale()` from 0, `--ease-spring`). This *is* the brand mark drawing itself.
+3. `t+350` — **Leaf marks stroke-draw** via `stroke-dashoffset` (the green M/leaf).
+4. `t+650` — **Wordmark** "MAYA NATURE RESORT" fades + rises (line-mask).
+5. `t+850` — **Tagline** "Where the sun rises and sets" wipes in (gold gradient mask).
+6. Under it: a **thin gold progress arc** (0→100) bound to real load (see timing).
+
+**Timing logic (never hangs, always graceful):**
+```
+progress = loadedAssets / trackedAssets        // real, from <img> onload + load event
+shown    = ease(min(progress, elapsed/MIN))    // can't outrun the animation
+MIN = 1600ms   HARD_CAP = 5000ms (failsafe → force-complete + remove)
+```
+Fast connection → smooth 0–100 in ~1.6s. Slow connection → arc advances with real
+load but the brand animation still reads as intentional, not stalled.
+
+**Exit — the signature move (FLIP):**
+- Curtain wipes up (`clip-path: inset(0 0 100% 0)`, 0.7s `--ease-premium`).
+- Simultaneously the preloader logo **morphs to the nav logo position** using a FLIP
+  transform (measure first/last rect, animate the delta) so the brand "flies into"
+  the header. Preloader then removed from DOM.
+- **Reduced motion / no-JS:** simple 200ms fade, no rays, no FLIP. Always dignified.
+
+**Mobile = desktop:** identical sequence; ray count and sizes via `clamp()`, FLIP
+target is the mobile nav logo. No layout shift, no scroll lock jank.
+
+---
+
+## 8B. THE OPEN EXPERIENCE — first-paint choreography (PC + mobile)
+
+The moment the curtain lifts, a single coordinated timeline plays. Same beats on
+both viewports; distances/durations scale with `clamp()` and viewport.
+
+| Beat | Element | Motion |
+|---|---|---|
+| 0ms | Hero image | Ken-Burns **bloom**: `scale(1.08)→1`, `opacity 0→1`, scrim deepens (1.2s) |
+| 150ms | Sunburst behind headline | Rays draw on faintly (gold, low opacity) |
+| 300ms | Script line | Line-mask rise + gold gradient sweep |
+| 450ms | **H1 (per line, then per word)** | Lines rise from behind a mask, words stagger 55ms, blur→sharp |
+| 800ms | Body paragraph | Per-line fade + rise |
+| 1000ms | CTA pills | `scale(.92)→1` pop + one-pass shimmer |
+| 1200ms | Trust rail | Stars twinkle-in (scale 0→1, 70ms apart), stats count up |
+| 1350ms | Bottom quick-jump strip | Slides up from below, settles |
+
+Driven by one class toggle (`body.is-ready`) + CSS `transition-delay` chain — no
+JS animation loop, so it's frame-perfect on low-end phones. Honors reduced-motion
+(all visible instantly).
+
+---
+
+## 8C. UNIVERSAL TEXT ANIMATION SYSTEM — every word, every page
+
+A single reusable vanilla utility (`splitText`) powers all word/line motion on
+open **and** on scroll, identically on mobile and PC.
+
+**Splitting:**
+- Wraps each line in a `.line` with `overflow: hidden` (mask) and each word in a
+  `.word` span. Optional char split for short accent words.
+- Re-splits on resize (debounced) so line masks stay correct at every width.
+- Preserves the existing `<em>` gold serif accents.
+
+**Reveal types (data attribute on any text element):**
+- `data-anim="lines"` — lines rise from behind the mask (premium default for H1/H2).
+- `data-anim="words"` — word-by-word stagger (eyebrows, short headings).
+- `data-anim="fade-lines"` — body copy: per-line fade + 12px rise.
+- `data-anim="sweep"` — gold "sunrise" gradient wipes across the heading as it enters.
+
+**Triggering:**
+- **On open:** hero text fires via the §8B timeline.
+- **On scroll:** one `IntersectionObserver` (threshold 0, `rootMargin -10%`) adds
+  `.is-in`; CSS handles the rest. `unobserve` after firing. `will-change` toggled on
+  just before, removed after — no permanent compositing cost.
+
+**Engineering guarantees:**
+- Transform + opacity only. Stagger capped (≤400ms) so long headings don't crawl.
+- Mobile rise distance smaller (`clamp(8px,2vw,24px)`) → elegant, never nauseating.
+- `prefers-reduced-motion` → no split, no motion, full text visible and selectable.
+- Text stays **real text** (accessible, selectable, SEO-readable) — spans only.
+
+---
+
+## 8D. 21st-CENTURY RESPONSIVE ENGINEERING
+
+Modern, clean, component-true responsiveness — not just viewport breakpoints.
+
+- **Container queries** (`@container`) so cards/sections respond to *their own* width,
+  not the screen — a room card looks right in a 1-up mobile list, a 2-up tablet
+  carousel, or a 3-up desktop grid with zero special-casing.
+- **Fluid everything**: `clamp()` type + space, `min()/max()` widths, no magic numbers.
+- **Modern CSS**: `:has()` for stateful layout, `color-mix()` for tonal variants from
+  brand tokens, logical properties (`inline/block`) for robustness, `text-wrap:
+  balance` (headings) + `pretty` (body), `aspect-ratio` on all media (zero CLS).
+- **Scroll-driven animation** via `animation-timeline: view()/scroll()` where
+  supported (parallax, progress, reveals) with IntersectionObserver fallback —
+  buttery, main-thread-free where the browser allows.
+- **`content-visibility: auto`** on below-the-fold sections → faster first render on
+  low-end devices.
+- **View Transitions API** for smooth cross-page navigation (progressive enhancement).
+- **`dvh`/`svh`/`lvh`** units so 100vh never breaks under mobile browser chrome.
+- **Safe-area insets** (`env(safe-area-inset-*)`) for notched phones.
+- **Clean-web aesthetic**: large fluid display type, generous whitespace, restrained
+  glassmorphism, bento grids, soft elevation, dark/light section rhythm, micro-typography.
+
+---
+
 ## 9. Build order (updated)
 
 - **Phase 0** — Asset prep + fix site-wide broken logos/favicons. Extract sunburst
-  motif SVG.
+  motif SVG (used by preloader + dividers + accents).
 - **Phase 1** — Foundation: shared-partial loader, CSS scales + tokens (elevation,
-  glass, scrim), mobile-first breakpoints, new preloader, motion-choreography system.
-- **Phase 2** — Homepage sections 01–08 with full design language (placeholders for
-  experience photos).
+  glass, scrim), **container-query + modern-CSS base (§8D)**, mobile-first
+  breakpoints, **maxed preloader with FLIP exit (§8A)**, **universal text-animation
+  utility (§8C)**, motion-choreography system.
+- **Phase 2** — Homepage sections 01–08 with full design language + **the open
+  experience timeline (§8B)** + every-word animation on open and scroll (placeholders
+  for experience photos).
 - **Phase 3** — SEO/infra layer: JSON-LD per page, OG/Twitter/canonical everywhere,
   analytics + WhatsApp event tracking, real map embeds, regenerated sitemap, PWA SW.
 - **Phase 4** — Real experience photos into the bento; photography grade pass.
