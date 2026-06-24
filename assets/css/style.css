@@ -2063,3 +2063,39 @@ label { font-weight: 600; font-size: .9rem; }
   .gallery-masonry .g-tall { grid-row: span 2; }
   .gallery-masonry .g-wide { grid-column: span 2; }
 }
+
+/* =========================================================================
+   CONTACT / DIRECTIONS V5  —  live map embed · enhanced contact cards
+   ========================================================================= */
+.map-embed {
+  border-radius: var(--radius-lg); overflow: hidden;
+  border: 1px solid var(--line); box-shadow: var(--shadow-sm);
+  min-height: clamp(320px, 42vw, 460px);
+  background: var(--green-100); position: relative;
+}
+.map-embed iframe {
+  display: block; width: 100%; height: 100%;
+  min-height: clamp(320px, 42vw, 460px); border: 0;
+}
+.map-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+
+/* Contact method cards with icon badges */
+.contact-card { text-align: left; }
+.contact-card .icon-badge { margin-bottom: 16px; }
+.contact-card h3 { font-size: 1.05rem; color: var(--green-900); }
+.contact-card p { font-size: .88rem; }
+.contact-card a {
+  margin-top: 14px; font-size: 1rem;
+  transition: gap var(--t) var(--ease), color var(--t) var(--ease);
+}
+.contact-card a:hover { color: var(--green-900); gap: 12px; }
+
+/* Hours / quick-info list */
+.info-list { display: grid; gap: 2px; margin-top: 6px; }
+.info-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 13px 0; border-bottom: 1px solid var(--line);
+}
+.info-row:last-child { border-bottom: 0; }
+.info-row span:first-child { color: var(--muted); font-size: .9rem; }
+.info-row span:last-child { font-weight: 600; color: var(--green-900); font-size: .9rem; }
