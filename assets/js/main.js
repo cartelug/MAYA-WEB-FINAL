@@ -18,7 +18,7 @@
   /* ---------- Preloader ---------- */
   const preloader = document.querySelector(".preloader");
   if (preloader) {
-    const minShow = 900;
+    const minShow = reduceMotion ? 500 : 2400; // let the logo + fill bar finish
     const start = performance.now();
     const hide = () => {
       const wait = Math.max(0, minShow - (performance.now() - start));
@@ -26,7 +26,7 @@
     };
     if (document.readyState === "complete") hide();
     else window.addEventListener("load", hide, { once: true });
-    setTimeout(() => preloader.classList.add("is-loaded"), 4000); // failsafe
+    setTimeout(() => preloader.classList.add("is-loaded"), 5200); // failsafe
   }
 
   /* ---------- Mobile menu (overlay) ---------- */
