@@ -134,22 +134,144 @@ Same component system + scroll animations rolled to every page:
 
 ---
 
-## 7. Build order
+## 7. GAP ANALYSIS — what was missing (found in deep code audit)
 
-- **Phase 0** — Asset prep + fix the site-wide broken logos/favicons.
-- **Phase 1** — Foundation (CSS scales, mobile-first breakpoints, preloader, motion).
-- **Phase 2** — Homepage sections 01–08 (placeholders for experience photos).
-- **Phase 3** — Drop in real experience photos (pool, sauna, gym, zip-line, fountain).
-- **Phase 4** — Roll the system to all inner pages.
+These are real defects/omissions found by reading the actual codebase. All are now
+in scope.
+
+### 7.1 Architecture / maintainability
+- **No shared components.** The header, mobile menu, footer, preloader and floating
+  WhatsApp are **copy-pasted into all 20 HTML files** (verified: `maya-mark.png`
+  appears 3× in each). One nav change = 20 edits = drift + bugs.
+  → **Fix:** extract `header`, `footer`, `preloader`, `mobile-menu`, `floating-cta`
+  into partials injected by a tiny vanilla JS loader (`data-include="partials/header.html"`)
+  with a no-JS `<noscript>` fallback. Single source of truth, still static-hostable.
+- **Inline styles** leaking into markup (e.g. `rooms.html` contact lines, `style=`
+  on SVGs). → Move to design-system classes.
+
+### 7.2 SEO / discoverability (big wins, currently absent)
+- **No structured data anywhere** (verified — zero JSON-LD). A resort *needs*
+  `LodgingBusiness`/`Resort` schema: name, geo coordinates, address, priceRange,
+  amenities, telephone, sameAs (socials), aggregateRating, and `Room` items.
+  → Enables Google rich results / map presence. Add per-page JSON-LD.
+- **Open Graph / Twitter / canonical only on `index.html`.** 19 pages have **no
+  social preview image and no canonical**. → Add OG + Twitter + canonical to every page.
+- **`sitemap.xml`**: missing `404` is correct, but `lastmod` is stale and priorities
+  are flat. → Regenerate with build; add `<image:image>` entries.
+- **No `theme-color` per scheme**, no `robots`/`googlebot` meta granularity.
+
+### 7.3 Conversion / trust
+- **Pricing is "On request" everywhere.** Even indicative "from UGX —" ranges lift
+  bookings. → Owner decision: provide ranges or keep on-request (flagged).
+- **Testimonials appear invented** ("Aisha & Daniel" etc.). Using fabricated reviews
+  is a trust + ethics risk. → Replace with **real guest quotes** (Google/Facebook),
+  or relabel honestly. Wire `Review`/`aggregateRating` schema only to real ones.
+- **Map is a literal placeholder** ("Insert the final Google Maps embed here") on
+  `contact.html` (and `directions.html`). → Embed real Google Map (lazy-loaded iframe)
+  + a static map fallback image for slow networks.
+- **No analytics** (verified — no GA4/Pixel). Owner can't measure traffic or bookings.
+  → Add privacy-light analytics (GA4 or Plausible) + WhatsApp-click event tracking.
+
+### 7.4 Content depth
+- Rooms lack **occupancy, bed type, size, photo count, per-room gallery**.
+- **Menu PDFs are 682 bytes** (placeholder/empty). → Need real menu content/photos.
+- No **FAQ** section (check-in/out times, pets, payment, parking) — strong for SEO
+  (`FAQPage` schema) and reduces repetitive WhatsApp questions.
+
+### 7.5 Technical hygiene
+- **Images have no `width`/`height`** → cumulative layout shift. Add intrinsic
+  dimensions + `aspect-ratio` everywhere.
+- **No PWA service worker.** → Add one: cache shell + logos + CSS/JS for instant
+  repeat visits on poor Ugandan mobile networks. (Manifest already planned.)
+- **No legal pages** (privacy, terms). → Add minimal, on-brand pages (also needed
+  for analytics consent).
+- **Forms** lack inline validation feedback + honeypot anti-spam.
 
 ---
 
-## 8. Outstanding inputs from owner
+## 8. ELEVATED DESIGN LANGUAGE — "Level 100"
 
-1. **Experience photos** — pool, sauna, gym, zip-line, dancing fountain (for bento).
-2. Approval to begin Phase 0–2 build.
+Beyond layout: a coherent, ownable design system so the site feels designed by a
+studio, not assembled.
+
+### 8.1 Signature brand motif — the "sunburst dot-ray"
+The logo's gold dotted sun-rays are a unique, ownable graphic. Extract them as a
+**reusable SVG device** used as connective tissue site-wide:
+- Faint oversized sunburst behind the hero headline and section eyebrows.
+- As the **preloader** animation (rays draw on in sequence, then logo settles).
+- Section dividers = a thin gold dotted arc instead of a plain line.
+- Hover bursts on primary CTAs (a few dots scatter outward, once).
+This single motif, repeated with restraint, is what reads as "premium brand."
+
+### 8.2 Depth & material system (tokens)
+- **Elevation scale** `--e0…e4`: formalized layered shadows (ambient + key light)
+  for cards, popovers, nav, modals — consistent light source (top, slightly right).
+- **Glass tiers**: `--glass-1` (nav), `--glass-2` (trust rail / strip), `--glass-3`
+  (overlays) with defined blur/saturation/border-tint per tier.
+- **Surface textures**: subtle film grain on dark zones, faint paper tooth on cream
+  zones — kills flat-gradient banding, adds tactility.
+
+### 8.3 Art direction for photography
+- Unified grade: gentle green-gold warmth, lifted shadows, consistent contrast.
+- Consistent **scrim system**: every photo-over-text uses the same gradient tokens
+  so legibility + mood are identical everywhere.
+- Focal-point discipline (`object-position` per image) so faces/subjects never crop.
+- Duotone (green/gold) treatment for background/secondary imagery to unify mismatched
+  source photos until pro photography arrives.
+
+### 8.4 Editorial layout
+- Fluid **12-column grid** with intentional asymmetry, overlapping elements, and
+  generous negative space (luxury = whitespace).
+- One **drop-cap editorial moment** (Atmosphere section) in the display serif.
+- Numbered section index (01 — 08) as a quiet luxury wayfinding cue.
+
+### 8.5 Motion choreography (a language, not random effects)
+- **Entrance direction follows reading flow**: left content from left, right media
+  from right, stacked content rises.
+- **Depth parallax**: 3 speed layers (bg / mid / fg) on hero + bridge (desktop).
+- **Signature heading reveal**: a soft gold "sunrise" sweep wipes across key H2s as
+  they enter (masked gradient, transform-only).
+- **Microinteractions**: CTA shimmer (one pass), link underline grow from left,
+  desktop card tilt (≤4°, pointer-based), image hover zoom + caption rise, magnetic
+  primary CTAs. All have **touch-friendly equivalents** and obey reduced-motion.
+
+### 8.6 Accessibility *as* design
+- On-brand visible focus rings (gold, offset) — designed, not default.
+- Reduced-motion variants are *designed* (instant, dignified), not just disabled.
+- Contrast verified AA+ on every text-over-image (scrim tokens guarantee it).
+- Full keyboard paths for menu, lightbox, carousels; ARIA on all interactive widgets.
 
 ---
 
-*Week 1 complete: discovery, asset audit, full information architecture, design
-system direction, responsive + performance strategy, and a locked build order.*
+## 9. Build order (updated)
+
+- **Phase 0** — Asset prep + fix site-wide broken logos/favicons. Extract sunburst
+  motif SVG.
+- **Phase 1** — Foundation: shared-partial loader, CSS scales + tokens (elevation,
+  glass, scrim), mobile-first breakpoints, new preloader, motion-choreography system.
+- **Phase 2** — Homepage sections 01–08 with full design language (placeholders for
+  experience photos).
+- **Phase 3** — SEO/infra layer: JSON-LD per page, OG/Twitter/canonical everywhere,
+  analytics + WhatsApp event tracking, real map embeds, regenerated sitemap, PWA SW.
+- **Phase 4** — Real experience photos into the bento; photography grade pass.
+- **Phase 5** — Roll system to all inner pages (rooms detail, events, experiences,
+  menu, gallery, contact, directions, 11 amenities, 404) + add FAQ + legal pages.
+
+---
+
+## 10. Outstanding inputs from owner
+
+1. **Experience photos** — pool, sauna, gym, zip-line, dancing fountain (bento).
+2. **Real testimonials** — 3–6 genuine guest quotes (and permission), or approve
+   relabeling current copy as illustrative.
+3. **Pricing** — provide indicative ranges, or confirm "on request" stays.
+4. **Google Maps** — exact pin / embed link for the resort.
+5. **Analytics** — GA4 ID or approve Plausible; confirm consent approach.
+6. **Real menu** — food/drink items (the current PDFs are empty placeholders).
+7. Approval to begin Phase 0–2 build.
+
+---
+
+*Week 1 complete: discovery, asset audit, deep gap analysis, full information
+architecture, an elevated/ownable design language, responsive + performance +
+SEO strategy, and a locked multi-phase build order.*
