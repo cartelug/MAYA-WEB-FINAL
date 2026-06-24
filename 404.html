@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>404 Page Not Found | Maya Nature Resort</title>
-  <meta name="description" content="Maya Nature Resort page not found." />
+  <title>Page Not Found | Maya Nature Resort</title>
+  <meta name="description" content="The page you were looking for couldn't be found. Return to Maya Nature Resort and explore our rooms, amenities, and events." />
+  <meta name="robots" content="noindex, follow" />
   <meta name="theme-color" content="#0f3d25" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,8 +14,9 @@
   <link rel="apple-touch-icon" href="assets/images/logo/apple-touch-icon.png" />
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
-<body class="">
-    <!-- Preloader -->
+<body>
+
+  <!-- Preloader -->
   <div class="preloader" aria-hidden="true">
     <div class="preloader-inner">
       <div class="preloader-mark">
@@ -27,7 +29,7 @@
 
   <a class="skip-link" href="#main">Skip to content</a>
 
-    <header class="site-header" data-header>
+  <header class="site-header" data-header>
     <div class="container nav-wrapper">
       <a href="index.html" class="brand" aria-label="Maya Nature Resort home">
         <img src="assets/images/logo/logo-icon.png" alt="Maya Nature Resort" />
@@ -83,22 +85,117 @@
   </div>
 
   <main id="main">
-    
-<section class="page-hero" style="background-image: url('assets/images/resort/garden-hilltop-view.jpg');">
-  <div class="container">
-    <p class="eyebrow" data-reveal>404</p>
-    <h1 data-text-reveal>Page <em>not found</em></h1>
-    <p data-reveal>The page you are looking for may have moved. Return to the homepage or contact Maya Nature Resort.</p>
-    <div class="hero-actions" data-reveal>
-      <a class="btn btn-primary magnet" href="index.html">Back Home</a>
-      <a class="btn btn-light" href="contact.html">Contact</a>
-    </div>
-  </div>
-</section>
+
+    <!-- Hero -->
+    <section class="page-hero" style="background-image: url('assets/images/resort/garden-hilltop-view.jpg');">
+      <div class="container">
+        <div class="breadcrumb" data-reveal>
+          <a href="index.html">Home</a>
+          <span aria-hidden="true">›</span>
+          <span>404 — Not Found</span>
+        </div>
+        <div class="icon-badge" data-reveal aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="28" height="28"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2M12 8v4l2 2"/></svg>
+        </div>
+        <p class="eyebrow" data-reveal>Error 404</p>
+        <h1 data-text-reveal>Lost in the <em>Forest?</em></h1>
+        <p class="hero-sub" data-reveal>The page you were looking for has moved or doesn't exist. Don't worry — the resort is easy to find. Let us point you in the right direction.</p>
+        <div class="hero-actions" data-reveal>
+          <a class="btn btn-primary magnet" href="index.html">
+            Back to Home
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-light" href="contact.html">Contact Us</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick navigation section -->
+    <section class="section" style="background: var(--surface);">
+      <div class="container">
+        <div class="text-center" data-reveal>
+          <p class="eyebrow">Find Your Way</p>
+          <h2>Popular Pages</h2>
+          <p class="section-sub" style="max-width: 520px; margin-inline: auto;">Here are some of our most visited pages to help you get back on track.</p>
+        </div>
+
+        <div class="stay-grid" style="margin-top: clamp(2rem, 5vw, 3.5rem);" data-reveal>
+
+          <a class="stay-item" href="rooms.html" style="text-decoration: none; color: inherit; cursor: pointer;">
+            <div class="icon-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <strong>Rooms &amp; Cottages</strong>
+            <span>View all accommodation options</span>
+          </a>
+
+          <a class="stay-item" href="events.html" style="text-decoration: none; color: inherit; cursor: pointer;">
+            <div class="icon-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <strong>Events &amp; Weddings</strong>
+            <span>Plan your celebration</span>
+          </a>
+
+          <a class="stay-item" href="experiences.html" style="text-decoration: none; color: inherit; cursor: pointer;">
+            <div class="icon-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <strong>Experiences</strong>
+            <span>Activities &amp; adventures</span>
+          </a>
+
+          <a class="stay-item" href="amenities/swimming-pool.html" style="text-decoration: none; color: inherit; cursor: pointer;">
+            <div class="icon-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" aria-hidden="true"><path d="M2 12c.6.5 1.2 1 2.5 1C7 13 7 11 9.5 11s2.5 2 5 2 2.5-2 5-2c1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1C7 19 7 17 9.5 17s2.5 2 5 2 2.5-2 5-2c1.3 0 1.9.5 2.5 1"/><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5s2.5 2 5 2 2.5-2 5-2c1.3 0 1.9.5 2.5 1"/></svg>
+            </div>
+            <strong>Swimming Pool</strong>
+            <span>Cool down and relax</span>
+          </a>
+
+          <a class="stay-item" href="gallery.html" style="text-decoration: none; color: inherit; cursor: pointer;">
+            <div class="icon-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <strong>Gallery</strong>
+            <span>See the resort in photos</span>
+          </a>
+
+          <a class="stay-item" href="directions.html" style="text-decoration: none; color: inherit; cursor: pointer;">
+            <div class="icon-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" aria-hidden="true"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+            </div>
+            <strong>Directions</strong>
+            <span>Find us from Kampala</span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA card -->
+    <section class="section" style="padding-top: 0;">
+      <div class="container">
+        <article class="room-book-card" data-reveal>
+          <div>
+            <p class="eyebrow">Still Need Help?</p>
+            <h2>Talk to the Resort Directly</h2>
+            <p>Our team is available on WhatsApp every day. We'll answer any question and help you find exactly what you're looking for.</p>
+          </div>
+          <div class="btn-2line-wrap">
+            <a class="btn-2line magnet" href="https://wa.me/256773883760?text=Hi%2C+I+couldn't+find+the+page+I+was+looking+for.+Can+you+help?" target="_blank" rel="noopener">
+              <span class="btn-2line-top">Chat on WhatsApp</span>
+              <span class="btn-2line-sub">+256 773 883 760</span>
+            </a>
+            <a class="btn btn-outline-light" href="contact.html">Contact Page</a>
+          </div>
+        </article>
+      </div>
+    </section>
 
   </main>
 
-    <footer class="site-footer">
+  <footer class="site-footer">
     <div class="container footer-grid">
       <div class="footer-brand-block">
         <a href="index.html" class="footer-logo">
@@ -132,8 +229,8 @@
       </div>
       <div class="footer-col">
         <h3>Visit</h3>
-        <a href="directions.html">Directions &amp; road</a>
-        <a href="contact.html">Contact page</a>
+        <a href="directions.html">Directions &amp; Map</a>
+        <a href="contact.html">Contact Page</a>
         <a href="amenities/swimming-pool.html">Amenities</a>
       </div>
       <div class="footer-col">
@@ -158,7 +255,9 @@
       <a href="https://wa.me/256773883760" target="_blank" rel="noopener">Reserve on WhatsApp</a>
     </div>
   </footer>
-<script src="assets/js/main.js"></script>
+
+  <script src="assets/js/main.js"></script>
+
   <a class="floating-whatsapp" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27d%20like%20to%20make%20a%20reservation." target="_blank" rel="noopener" aria-label="Book on WhatsApp">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.6 1 1.3 1.7.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.2.1.6 0 .9Z"/></svg>
     <span class="wa-label">Book on WhatsApp</span>
