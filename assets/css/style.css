@@ -1760,3 +1760,146 @@ label { font-weight: 600; font-size: .9rem; }
   .menu-cat-kicker { order: 1; padding-top: 0; }
   .menu-sun { order: 3; }
 }
+
+/* =========================================================================
+   HOMEPAGE V5  —  new components (v5)
+   ========================================================================= */
+
+/* Two-line CTA pill */
+.btn-2line {
+  flex-direction: column; gap: 3px;
+  padding: 14px 34px; min-height: 62px; line-height: 1.15;
+}
+.btn-2line b { display: block; font-weight: 800; font-size: 1rem; }
+.btn-2line em { display: block; font-style: italic; font-size: .72rem; font-weight: 500; opacity: .85; letter-spacing: .02em; }
+
+/* Hero scroll-cue anchor target */
+.scroll-cue[href="#day"] { /* keep default styles */ }
+
+/* Brand triptych  —  zone A (dark forest) */
+.hp-triptych {
+  background: var(--grad-dark-section);
+  padding: clamp(60px,8vw,104px) 0;
+  position: relative; overflow: hidden;
+}
+.hp-triptych::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(70% 80% at 50% 0%, rgba(241,202,85,.14), transparent 60%);
+}
+.hp-pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: clamp(2px,0.3vw,4px);
+}
+.hp-pillar {
+  position: relative; z-index: 1;
+  padding: clamp(32px,4vw,52px) clamp(24px,3vw,40px);
+  border-right: 1px solid rgba(255,255,255,.08);
+  display: flex; flex-direction: column; gap: 14px;
+}
+.hp-pillar:last-child { border-right: 0; }
+@media (max-width:767px) { .hp-pillar { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.08); } }
+.hp-pillar-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+  display: grid; place-items: center;
+  color: var(--gold-2);
+}
+.hp-pillar-icon svg { width: 26px; height: 26px; }
+.hp-pillar-num {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: clamp(2.4rem,5vw,4rem); font-weight: 600;
+  color: rgba(255,255,255,.12); line-height: 1; margin-bottom: -8px;
+}
+.hp-pillar h3 {
+  font-size: clamp(1.15rem,2vw,1.4rem); font-weight: 700;
+  color: #fff; line-height: 1.2;
+}
+.hp-pillar p { font-size: .9rem; color: rgba(255,255,255,.68); line-height: 1.6; }
+.hp-pillar a.link { color: var(--gold-2); font-size: .86rem; font-weight: 600; }
+.hp-pillar a.link::after { background: var(--gold-2); }
+
+/* A Day at Maya  —  photo-driven strip (replaces journey) */
+.hp-day { padding: clamp(60px,8vw,100px) 0; background: var(--cream); }
+.hp-day-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(12px,1.8vw,20px);
+  margin-top: clamp(36px,4vw,56px);
+}
+@media (min-width: 900px) { .hp-day-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.day-card {
+  position: relative; overflow: hidden; border-radius: var(--radius);
+  min-height: clamp(280px,40vw,420px);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  cursor: pointer; isolation: isolate;
+}
+.day-card-img {
+  position: absolute; inset: 0; z-index: 0;
+  background-size: cover; background-position: center;
+  transition: transform .9s var(--ease-premium);
+}
+.day-card:hover .day-card-img { transform: scale(1.06); }
+.day-card::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(0deg, rgba(4,18,11,.88) 0%, rgba(4,18,11,.3) 55%, rgba(4,18,11,.06) 100%);
+  pointer-events: none;
+}
+.day-card-body {
+  position: relative; z-index: 2; padding: clamp(18px,2.4vw,28px);
+  transform: translateY(14px); opacity: 0;
+  transition: transform .65s var(--ease-premium), opacity .65s var(--ease-premium);
+}
+.day-card.is-visible .day-card-body { transform: none; opacity: 1; }
+.day-card-time {
+  font: 600 .72rem var(--font-sans); letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold-2); margin-bottom: 8px;
+}
+.day-card h3 {
+  font-family: var(--font-serif); font-style: italic; font-weight: 600;
+  font-size: clamp(1.1rem,2.2vw,1.5rem); color: #fff; line-height: 1.1; margin-bottom: 8px;
+}
+.day-card p { font-size: .82rem; color: rgba(255,255,255,.78); line-height: 1.5; margin-bottom: 14px; }
+.day-card a {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 .78rem var(--font-sans); color: var(--gold-2); letter-spacing: .05em;
+  text-decoration: none;
+}
+.day-card a svg { width: 14px; height: 14px; transition: transform var(--t-fast) var(--ease); }
+.day-card a:hover svg { transform: translateX(4px); }
+
+/* Final full-bleed CTA (dark zone) */
+.hp-cta-full {
+  padding: clamp(64px,9vw,120px) 0;
+  background: var(--grad-dark-section);
+  text-align: center; color: #fff;
+  position: relative; overflow: hidden;
+}
+.hp-cta-full::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(60% 70% at 50% 0%, rgba(241,202,85,.22), transparent 65%),
+    radial-gradient(50% 60% at 15% 100%, rgba(30,101,65,.4), transparent 60%);
+}
+.hp-cta-full > .container { position: relative; z-index: 1; }
+.hp-cta-full h2 { color: #fff; font-size: clamp(2rem,5vw,3.4rem); max-width: 600px; margin: 0 auto 20px; }
+.hp-cta-full p { color: rgba(255,255,255,.78); max-width: 520px; margin: 0 auto 38px; font-size: clamp(1rem,1.4vw,1.15rem); }
+.hp-cta-full .cta-actions { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
+.hp-cta-contact {
+  margin-top: 44px; display: flex; flex-wrap: wrap; justify-content: center; gap: 28px 44px;
+  border-top: 1px solid rgba(255,255,255,.1); padding-top: 32px;
+}
+.hp-cta-contact a {
+  display: inline-flex; align-items: center; gap: 10px;
+  font: 600 .9rem var(--font-sans); color: rgba(255,255,255,.75); text-decoration: none;
+  transition: color var(--t-fast);
+}
+.hp-cta-contact a:hover { color: #fff; }
+.hp-cta-contact svg { width: 18px; height: 18px; color: var(--gold-2); flex: 0 0 auto; }
+
+@media (max-width: 600px) {
+  .hp-day-grid { grid-template-columns: 1fr; }
+  .day-card { min-height: 240px; }
+  .day-card-body { transform: none; opacity: 1; }
+}
