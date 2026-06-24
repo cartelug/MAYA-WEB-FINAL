@@ -2099,3 +2099,30 @@ label { font-weight: 600; font-size: .9rem; }
 .info-row:last-child { border-bottom: 0; }
 .info-row span:first-child { color: var(--muted); font-size: .9rem; }
 .info-row span:last-child { font-weight: 600; color: var(--green-900); font-size: .9rem; }
+
+/* =========================================================================
+   AMENITY PAGES V5  —  utilities + icon-badge on dark hero
+   ========================================================================= */
+.text-center { text-align: center; }
+.text-center .eyebrow { margin-left: auto; margin-right: auto; }
+
+.breadcrumb {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  font-size: .82rem; color: var(--muted); margin-bottom: 28px;
+}
+.breadcrumb a { color: var(--green-700); text-decoration: none; }
+.breadcrumb a:hover { color: var(--green-900); text-decoration: underline; }
+.breadcrumb span { color: var(--muted); }
+
+/* Icon badge inside dark hero — override to white-on-transparent */
+.page-hero .icon-badge {
+  background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.25);
+  color: #fff; margin-bottom: 16px;
+}
+.page-hero .icon-badge svg { color: var(--gold-2); }
+
+/* Amenity feature section helpers */
+.amenity-perks { margin-top: 28px; }
+.amenity-perks li { font-size: .92rem; }
+.room-feature-body .icon-badge { background: var(--grad-gold); color: var(--green-950); border: 0; margin-bottom: 14px; }
+.room-feature-body .icon-badge svg { color: var(--green-950); }
