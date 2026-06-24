@@ -3,23 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Food &amp; Drinks | Maya Nature Resort</title>
-  <meta name="description" content="Food and drinks menu page for Maya Nature Resort with PDF downloads." />
+  <title>Food &amp; Drinks Menu | Maya Nature Resort</title>
+  <meta name="description" content="Explore the full Maya Nature Resort menu — breakfasts, soups, salads, charcoal-grill mchomo, buffet packages, pizzas, desserts, cocktails, wines, whisky and more, served on garden terraces. Reserve a table on WhatsApp." />
   <meta name="theme-color" content="#0f3d25" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="icon" href="assets/images/logo/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" href="assets/images/logo/favicon-32.png" sizes="32x32" />
   <link rel="apple-touch-icon" href="assets/images/logo/apple-touch-icon.png" />
+  <meta property="og:type" content="restaurant.menu" />
+  <meta property="og:title" content="Food &amp; Drinks Menu | Maya Nature Resort" />
+  <meta property="og:description" content="The full Maya Nature Resort food and drinks menu — from charcoal-grill mchomo and buffet feasts to signature cocktails, served in the gardens." />
+  <meta property="og:image" content="assets/images/resort/dining-terrace-breakfast.jpg" />
   <link rel="stylesheet" href="assets/css/style.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Menu",
+    "name": "Maya Nature Resort — Food & Drinks Menu",
+    "inLanguage": "en",
+    "provider": {
+      "@type": "Restaurant",
+      "name": "Maya Nature Resort",
+      "servesCuisine": ["Ugandan", "Indian", "Continental", "Barbecue"],
+      "priceRange": "$$",
+      "telephone": "+256773883760",
+      "acceptsReservations": "https://wa.me/256773883760"
+    }
+  }
+  </script>
 </head>
-<body class="">
-    <!-- Preloader -->
+<body class="menu-page">
+  <!-- Preloader -->
   <div class="preloader" aria-hidden="true">
     <div class="preloader-inner">
       <div class="preloader-mark">
         <span class="preloader-ring"></span>
-        <img class="preloader-logo" src="assets/images/logo/maya-mark.png" alt="Maya Nature Resort" />
+        <img class="preloader-logo" src="assets/images/logo/logo-full.png" alt="Maya Nature Resort" />
       </div>
       <div class="preloader-bar"></div>
     </div>
@@ -27,10 +47,10 @@
 
   <a class="skip-link" href="#main">Skip to content</a>
 
-    <header class="site-header" data-header>
+  <header class="site-header" data-header>
     <div class="container nav-wrapper">
       <a href="index.html" class="brand" aria-label="Maya Nature Resort home">
-        <img src="assets/images/logo/maya-mark.png" alt="Maya Nature Resort" />
+        <img src="assets/images/logo/logo-icon.png" alt="Maya Nature Resort" />
         <span class="brand-text">
           <strong>Maya Nature</strong>
           <span>Where the sun rises and sets</span>
@@ -48,8 +68,8 @@
         <a href="contact.html">Contact</a>
       </nav>
 
-      <a class="nav-cta magnet" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27d%20like%20to%20make%20a%20reservation." target="_blank" rel="noopener">
-        Book Now
+      <a class="nav-cta magnet" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27d%20like%20to%20book%20a%20table." target="_blank" rel="noopener">
+        Book a Table
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
 
@@ -71,7 +91,7 @@
       <a class="mm-link" href="gallery.html">Gallery</a>
       <a class="mm-link" href="directions.html">Directions</a>
       <a class="mm-link" href="contact.html">Contact</a>
-      <a class="mm-cta" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27d%20like%20to%20make%20a%20reservation." target="_blank" rel="noopener">
+      <a class="mm-cta" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27d%20like%20to%20book%20a%20table." target="_blank" rel="noopener">
         Book on WhatsApp
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.6 1 1.3 1.7.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.2.1.6 0 .9Z"/></svg>
       </a>
@@ -83,51 +103,565 @@
   </div>
 
   <main id="main">
-    
 
     <section class="page-hero" style="background-image: url('assets/images/resort/dining-terrace-breakfast.jpg');">
       <div class="container">
-        <p class="eyebrow" data-reveal>Menus</p>
-        <h1 data-text-reveal>Food &amp; <em>Drinks</em></h1>
-        <p data-reveal>Fresh breakfasts, full mains, and drinks served on terraces that overlook the gardens.</p>
+        <p class="eyebrow" data-reveal>Food &amp; Drinks</p>
+        <h1 data-text-reveal>The Maya <em>Menu</em></h1>
+        <p data-reveal>From charcoal-grill mchomo and slow-cooked goat stew to signature cocktails and fresh garden juices — every plate and pour, served where nature welcomes you.</p>
       </div>
     </section>
-    
-<section class="section">
-  <div class="container split">
-    <div>
-      <p class="eyebrow">Dining</p>
-      <h2>Food and drinks should be easy to access.</h2>
-      <p class="muted">Place the real PDF menus inside <strong>assets/pdf/</strong> and update the file names if needed. The page already has download buttons ready.</p>
-      <div class="menu-list">
-        <div class="menu-row">
-          <div><strong>Food Menu</strong><br><span>MAYA FOOD MENU — Updated Nov 2025.pdf</span></div>
-          <a class="btn btn-dark" href="assets/pdf/food-menu.pdf">Download</a>
+
+    <!-- Intro -->
+    <section class="menu-intro">
+      <div class="container">
+        <h2 data-text-reveal>Cooked to order, served in the gardens.</h2>
+        <p data-reveal>Two full menus, browse-able right here — no downloads. Tap a tab, jump to a category, or search for a dish or drink by name.</p>
+        <div class="menu-meta" data-reveal>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Freshly prepared on order</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h12"/></svg> Buffet packages for groups</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg> Prices in Ugandan Shillings (/=)</span>
         </div>
-        <div class="menu-row">
-          <div><strong>Drink Menu</strong><br><span>Maya Drink Menu Updated VF 2024-Flat.pdf</span></div>
-          <a class="btn btn-dark" href="assets/pdf/drink-menu.pdf">Download</a>
+      </div>
+    </section>
+
+    <!-- Sticky control bar -->
+    <div class="menu-bar" data-menu-bar>
+      <div class="container">
+        <div class="menu-bar-top">
+          <div class="menu-tabs" role="tablist" aria-label="Menu type" data-tabs>
+            <span class="menu-tab-ind" aria-hidden="true"></span>
+            <button class="menu-tab" role="tab" id="tab-food" aria-controls="panel-food" aria-selected="true" data-tab="food">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3v8a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V3M7 3v18M16 3c-1.7 0-3 2-3 5s1.3 4 3 4v9"/></svg>
+              Food
+            </button>
+            <button class="menu-tab" role="tab" id="tab-drinks" aria-controls="panel-drinks" aria-selected="false" data-tab="drinks">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14l-2 9a5 5 0 0 1-10 0L5 4ZM12 18v3M8 21h8"/></svg>
+              Drinks
+            </button>
+          </div>
+
+          <div class="menu-search" data-search>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="search" placeholder="Search the menu…" aria-label="Search the menu" data-search-input />
+            <button class="clear" type="button" aria-label="Clear search" data-search-clear>&times;</button>
+          </div>
+        </div>
+
+        <div class="menu-chips-wrap">
+          <div class="menu-chips" role="tablist" aria-label="Menu categories" data-chips></div>
         </div>
       </div>
     </div>
-    <img class="feature-img" src="assets/images/resort/dining-terrace-breakfast.jpg" alt="Dining terrace at Maya Nature Resort" loading="lazy">
-  </div>
-</section>
-<section class="section alt">
-  <div class="container grid grid-3">
-    <article class="card"><h3>Breakfast</h3><p>Breakfast is part of the confirmed room benefit wording.</p></article>
-    <article class="card"><h3>BBQ</h3><p>Outdoor food moments for families, teams, and events.</p></article>
-    <article class="card"><h3>Drinks</h3><p>Promote drinks menu access for guests and visitors.</p></article>
-  </div>
-</section>
+
+    <!-- ============================ FOOD PANEL ============================ -->
+    <div class="menu-panel is-active" id="panel-food" role="tabpanel" aria-labelledby="tab-food" data-panel="food">
+      <div class="container">
+
+        <section class="menu-cat" id="food-breakfast" data-cat="Breakfast">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">01</span><h2>Breakfast</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items">
+            <li class="m-item"><div class="m-row"><span class="m-name">Full English Breakfast</span><span class="m-dots"></span><span class="m-price">40,000<i>/=</i></span></div></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="food-soups" data-cat="Soups">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">02</span><h2>Soups</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Clear / Cream of Vegetable Soup</span><span class="m-dots"></span><span class="m-price">20,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Clear / Cream of Mushroom Soup</span><span class="m-dots"></span><span class="m-price">20,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Clear / Cream of Chicken Soup</span><span class="m-dots"></span><span class="m-price">20,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Home-made Tomato Soup</span><span class="m-dots"></span><span class="m-price">20,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Cream of Carrot &amp; Ginger Soup</span><span class="m-dots"></span><span class="m-price">20,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Cream of Green Pea Soup</span><span class="m-dots"></span><span class="m-price">20,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Extras</span><span class="m-dots"></span><span class="m-price">3,000<i>/=</i></span></div><p class="m-desc">Croutons, jalapeños, green olives, sultanas, cherries and cheese.</p></li>
+          </ul>
+          <p class="menu-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Please allow 20–30 minutes for proper food preparation.</p>
+        </section>
+
+        <section class="menu-cat" id="food-salads" data-cat="Salads">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">03</span><h2>Salads</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Tuna Mayonnaise Salad</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Steak &amp; Corn Salad</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Greek Salad</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Caesar Salad</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Chicken Salad</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div><p class="m-desc">Spicy chicken strips on a base of fresh market vegetables and fruits.</p></li>
+          </ul>
+          <p class="menu-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> A mixture of fresh market vegetables and fruits. Please allow 30 minutes for proper preparation.</p>
+        </section>
+
+        <section class="menu-cat" id="food-main" data-cat="Main Course">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">04</span><h2>Main Course</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Traditional Goat Stew</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Liver Provence</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div><p class="m-desc">Marinated with garlic, salt, peppercorns and fresh rosemary, grilled and garnished with seasoned onion slices.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Grilled Goat Cutlets / Ribs</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Fish Fillet</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Mushroom Steak</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Fish Fingers</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Chicken Casserole</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Traditional Fish Stew</span><span class="m-dots"></span><span class="m-price">60,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Pan-Fried Ox Liver</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Honey-Glazed Chicken Wings</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Whole Grilled Chicken</span><span class="m-dots"></span><span class="m-price">75,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Half Grilled Chicken</span><span class="m-dots"></span><span class="m-price">45,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Wet-Fried Whole Fish</span><span class="m-dots"></span><span class="m-price">80,000<i>/=</i></span></div><p class="m-desc">Whole tilapia marinated with soy sauce, salt, pepper, lemon and garlic, garnished with fine herbs.</p></li>
+          </ul>
+          <p class="menu-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h10"/></svg> All served with one or two accompaniments — rice, chips, mashed potatoes or chapatti.</p>
+        </section>
+
+        <section class="menu-cat" id="food-buffet" data-cat="Buffet Packages">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">05</span><h2>Buffet Packages</h2><span class="menu-sun"></span></div>
+          <p class="menu-cat-sub" data-reveal>Choose your courses and build your own buffet. All packages include potato salad, matoke and groundnut sauce, plus a soft drink.</p>
+          <div class="menu-packs">
+            <article class="pack" data-reveal>
+              <span class="pack-badge">Basic</span>
+              <span class="pack-name">Basic Package</span>
+              <span class="pack-price">65,000<i>/=</i></span>
+              <ul class="pack-list">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Two soups &amp; one salad</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Meat, chicken &amp; rice</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Two local items &amp; vegetables</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Two desserts</li>
+              </ul>
+              <p class="pack-note">Includes potato salad, matoke &amp; groundnut sauce.</p>
+            </article>
+            <article class="pack feature" data-reveal>
+              <span class="pack-badge">Most popular</span>
+              <span class="pack-name">Grand Package</span>
+              <span class="pack-price">80,000<i>/=</i></span>
+              <ul class="pack-list">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Two soups &amp; two salads</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Red meat, chicken &amp; fish</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Two milk potatoes &amp; two vegetables</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Three local items or desserts</li>
+              </ul>
+              <p class="pack-note">Includes potato salad, matoke &amp; groundnut sauce.</p>
+            </article>
+            <article class="pack" data-reveal>
+              <span class="pack-badge">Lavish</span>
+              <span class="pack-name">Lavish Package</span>
+              <span class="pack-price">95,000<i>/=</i></span>
+              <ul class="pack-list">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Two soups &amp; three salads</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Two red meats, chicken &amp; fish</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Two rice, potato, pasta &amp; three vegetables</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Four desserts, assorted tea &amp; coffee</li>
+              </ul>
+              <p class="pack-note">Includes potato salad, matoke &amp; groundnut sauce.</p>
+            </article>
+            <article class="pack" data-reveal>
+              <span class="pack-badge">Outdoor</span>
+              <span class="pack-name">BBQ Package</span>
+              <span class="pack-price">60,000<i>/=</i></span>
+              <ul class="pack-list">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Roasted beef or goat</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Grilled fish skewers</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Jacket matoke &amp; potato wedges</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Gravy, salads &amp; kachumbari</li>
+              </ul>
+              <p class="pack-note">Served outdoors from the charcoal grill.</p>
+            </article>
+            <article class="pack" data-reveal>
+              <span class="pack-badge">Signature feast</span>
+              <span class="pack-name">Stuffed Whole Goat</span>
+              <span class="pack-price">1,000,000<i>/=</i></span>
+              <ul class="pack-list">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Whole goat, stuffed &amp; slow-roasted</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Two accompaniments</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg> Gravy &amp; salads</li>
+              </ul>
+              <p class="pack-note">A celebration centrepiece — order ahead.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="menu-cat" id="food-indian" data-cat="Indian Corner">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">06</span><h2>Indian Corner</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Chicken Korma</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div><p class="m-desc">Marinated chicken cubes cooked in Indian sauce.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Beef Madras</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div><p class="m-desc">Marinated cubes of beef cooked in Indian sauce.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Fish Curry</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Vegetable Curry</span><span class="m-tag veg">Veg</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div></li>
+          </ul>
+          <p class="menu-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h10"/></svg> Served with halves or a full portion of mashed potatoes, rice, chips or chapatti. Allow 30 minutes for preparation.</p>
+        </section>
+
+        <section class="menu-cat" id="food-snacks" data-cat="Snacks">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">07</span><h2>Snacks</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Chips Masala</span><span class="m-dots"></span><span class="m-price">20,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Maya Fries</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Omelette</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">A Toss of Bread</span><span class="m-dots"></span><span class="m-price">5,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">A Pair of Samosa — Beef / Vegetable</span><span class="m-dots"></span><span class="m-price">10,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">A Pair of Sausages</span><span class="m-dots"></span><span class="m-price">10,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Plain Chips</span><span class="m-dots"></span><span class="m-price">10,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Chicken Pie</span><span class="m-dots"></span><span class="m-price">20,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Pair of Mandazi</span><span class="m-dots"></span><span class="m-price">10,000<i>/=</i></span></div></li>
+          </ul>
+          <p class="menu-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Please allow 15 minutes for proper preparation.</p>
+        </section>
+
+        <section class="menu-cat" id="food-burgers" data-cat="Burgers">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">08</span><h2>Burgers</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Grilled Chicken Burger</span><span class="m-dots"></span><span class="m-price">30,000<i>/=</i></span></div><p class="m-desc">Minced chicken with onions, fresh coriander, celery and garlic, seasoned and grilled to your taste.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Prime Beef Burger</span><span class="m-dots"></span><span class="m-price">30,000<i>/=</i></span></div><p class="m-desc">Minced meat with onions, garlic, peppercorns, celery and egg, seasoned to perfection.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Vegetable Burger</span><span class="m-tag veg">Veg</span><span class="m-dots"></span><span class="m-price">30,000<i>/=</i></span></div><p class="m-desc">Toasted seasoned vegetables laced together with mashed Irish potatoes.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Chinese Wok</span><span class="m-dots"></span><span class="m-price">40,000<i>/=</i></span></div><p class="m-desc">Stir-fried chicken, beef, egg or vegetables with noodles, spaghetti or rice.</p></li>
+          </ul>
+          <p class="menu-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h10"/></svg> All burgers are served with chips and salad.</p>
+        </section>
+
+        <section class="menu-cat" id="food-sandwich" data-cat="Sandwich Corner">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">09</span><h2>Sandwich Corner</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Steak Sandwich</span><span class="m-dots"></span><span class="m-price">30,000<i>/=</i></span></div><p class="m-desc">Grilled beef fillet, onions and tomato slices.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Chicken Sandwich</span><span class="m-dots"></span><span class="m-price">30,000<i>/=</i></span></div><p class="m-desc">Grilled chicken fillet and onions.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Make Your Own Sandwich</span><span class="m-dots"></span><span class="m-price">30,000<i>/=</i></span></div><p class="m-desc">Tomato slices, fried egg, Gouda cheese, grilled vegetables and lettuce.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Maya Triple Decker</span><span class="m-dots"></span><span class="m-price">40,000<i>/=</i></span></div><p class="m-desc">Beef, chicken, lettuce, fried egg and tomatoes.</p></li>
+          </ul>
+          <p class="menu-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h10"/></svg> All served with chips and salad.</p>
+        </section>
+
+        <section class="menu-cat" id="food-favourites" data-cat="House Favourites">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">10</span><h2>House Favourites</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Rosemary Grilled Chicken</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Florentine Chicken</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div><p class="m-desc">Marinated and crumbed chicken breast with garlic butter.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Liver Sauté</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Fried Goat</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Chicken Stew</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Maya Baked Whole Tilapia</span><span class="m-dots"></span><span class="m-price">60,000<i>/=</i></span></div><p class="m-desc">Whole fish seasoned to perfection, garnished with grilled, peeled and herb-seasoned vegetables.</p></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="food-grill" data-cat="Charcoal Grill">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">11</span><h2>Charcoal Grill</h2><span class="menu-sun"></span></div>
+          <p class="menu-cat-sub" data-reveal>From the tradition charcoal grill — “experience nature in the garden.”</p>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Whole Fish Mchomo</span><span class="m-dots"></span><span class="m-price">60,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Goat Mchomo</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Whole Chicken Mchomo</span><span class="m-dots"></span><span class="m-price">75,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Chicken Mchomo</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div></li>
+          </ul>
+          <p class="menu-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h10"/></svg> Served with a choice of roasted matoke or chips and kachumbari. Allow 30 minutes for preparation.</p>
+        </section>
+
+        <section class="menu-cat" id="food-pizza" data-cat="Pizza Corner">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">12</span><h2>Pizza Corner</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Bombay Pizza</span><span class="m-tag veg">Veg</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div><p class="m-desc">Tossed seasoned vegetables, bell pepper, sweet corn, tomatoes and onions.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Hawaii Pizza</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div><p class="m-desc">Grilled chicken slices, pineapple cubes and black olives topped with mozzarella.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Margarita Pizza</span><span class="m-tag veg">Veg</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div><p class="m-desc">Tomatoes, onions, black olives and cheese.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Foreign Pizza</span><span class="m-tag spicy">Spicy</span><span class="m-dots"></span><span class="m-price">35,000<i>/=</i></span></div><p class="m-desc">Spicy minced meat, onions, green pepper and cheese.</p></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="food-desserts" data-cat="Desserts">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">13</span><h2>Desserts &amp; Cakes</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Chocolate Cake</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Carrot Cake</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Coconut Cake</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Orange Cake</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Marble Cake</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+          </ul>
+          <p class="menu-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Please allow 15 minutes for proper preparation.</p>
+        </section>
+
+        <section class="menu-cat" id="food-fruit" data-cat="Fruit &amp; Ice Cream">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">14</span><h2>Fruit &amp; Ice Cream</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Fruit Salad</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Tropical Fruit Platter</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Chocolate Ice Cream — a scoop</span><span class="m-dots"></span><span class="m-price">6,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Vanilla Ice Cream — a scoop</span><span class="m-dots"></span><span class="m-price">6,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Strawberry Ice Cream — a scoop</span><span class="m-dots"></span><span class="m-price">6,000<i>/=</i></span></div></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="food-shakes" data-cat="Shakes &amp; Juices">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">15</span><h2>Shakes &amp; Fresh Juices</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Vanilla Milk Shake</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Strawberry Milk Shake</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Chocolate Milk Shake</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Mango Juice</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Passion Juice</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Melon Juice</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Orange Juice</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Pineapple Juice</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Cocktail Juice</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="food-hot" data-cat="Hot Beverages">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">16</span><h2>Hot Beverages</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">African Tea</span><span class="m-dots"></span><span class="m-price">5,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Coffee</span><span class="m-dots"></span><span class="m-price">5,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Black Tea</span><span class="m-dots"></span><span class="m-price">3,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Lemon Tea</span><span class="m-dots"></span><span class="m-price">5,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Hot Chocolate</span><span class="m-dots"></span><span class="m-price">5,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Spiced Dishes Tea</span><span class="m-dots"></span><span class="m-price">5,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Lemon Grass Tea</span><span class="m-dots"></span><span class="m-price">5,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">A Pot of Hot Water</span><span class="m-dots"></span><span class="m-price">5,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Herbal Tea</span><span class="m-dots"></span><span class="m-price">5,000<i>/=</i></span></div></li>
+          </ul>
+        </section>
+
+        <div class="menu-empty" data-empty>
+          <p>No food items match “<strong data-empty-term></strong>”. Try another word, or <a href="#" data-empty-reset>clear the search</a>.</p>
+        </div>
+
+        <div class="menu-reserve" data-reveal>
+          <h3>Hungry already?</h3>
+          <p>Reserve a table or pre-order a buffet package — we reply within minutes.</p>
+          <a class="btn btn-primary" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27d%20like%20to%20book%20a%20table." target="_blank" rel="noopener">Book a Table on WhatsApp</a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================ DRINKS PANEL ============================ -->
+    <div class="menu-panel" id="panel-drinks" role="tabpanel" aria-labelledby="tab-drinks" data-panel="drinks" hidden>
+      <div class="container">
+
+        <section class="menu-cat" id="drinks-soft" data-cat="Soft Drinks">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">01</span><h2>Soft Drinks</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Sodas</span><span class="m-dots"></span><span class="m-price">3,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Mineral Water</span><span class="m-dots"></span><span class="m-price">3,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Coke Zero</span><span class="m-dots"></span><span class="m-price">5,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Red Bull</span><span class="m-dots"></span><span class="m-price">10,000<i>/=</i></span></div></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="drinks-beer" data-cat="Beers">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">02</span><h2>Beers</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Bell</span><span class="m-dots"></span><span class="m-price">6,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Tusker Malt</span><span class="m-dots"></span><span class="m-price">6,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Tusker Lite</span><span class="m-dots"></span><span class="m-price">6,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Tusker Lager</span><span class="m-dots"></span><span class="m-price">6,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Smirnoff Ice — Red &amp; Black</span><span class="m-dots"></span><span class="m-price">6,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Guinness Stout</span><span class="m-dots"></span><span class="m-price">6,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Guinness Smooth</span><span class="m-dots"></span><span class="m-price">6,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Club</span><span class="m-dots"></span><span class="m-price">6,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Nile Special</span><span class="m-dots"></span><span class="m-price">6,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Castle Lite</span><span class="m-dots"></span><span class="m-price">6,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Heineken</span><span class="m-dots"></span><span class="m-price">10,000<i>/=</i></span></div></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="drinks-wine" data-cat="Wine by Bottle">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">03</span><h2>Wine by Bottle</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Nederburg Baronne</span><span class="m-dots"></span><span class="m-price">100,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Nederburg Cabernet Sauvignon</span><span class="m-dots"></span><span class="m-price">100,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Nederburg Shiraz</span><span class="m-dots"></span><span class="m-price">100,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Nederburg Pinotage</span><span class="m-dots"></span><span class="m-price">100,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Nederburg Lyric White</span><span class="m-dots"></span><span class="m-price">100,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Nederburg Stein White</span><span class="m-dots"></span><span class="m-price">100,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Nederburg Chardonnay White</span><span class="m-dots"></span><span class="m-price">100,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Nederburg Sauvignon Blanc White</span><span class="m-dots"></span><span class="m-price">100,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Four Cousins — Red / White</span><span class="m-dots"></span><span class="m-price">80,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Robertson — Red / White</span><span class="m-dots"></span><span class="m-price">80,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">4th Street Wine</span><span class="m-dots"></span><span class="m-price">80,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Wine by the Glass</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="drinks-champagne" data-cat="Champagne">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">04</span><h2>Champagne</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Nederburg Cuvée Brut</span><span class="m-dots"></span><span class="m-price">150,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">JB Chenet Ice Edition Rosé</span><span class="m-dots"></span><span class="m-price">150,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">JB Chenet Ice White</span><span class="m-dots"></span><span class="m-price">150,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Martinellis</span><span class="m-dots"></span><span class="m-price">150,000<i>/=</i></span></div></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="drinks-whisky" data-cat="Whisky">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">05</span><h2>Whisky</h2><span class="menu-sun"></span></div>
+          <div class="m-price-head"><span>Tot</span><span>Bottle</span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Black Label</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>18,000</b><i>tot</i></span><span><b>385,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Red Label</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>8,000</b><i>tot</i></span><span><b>265,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Grants</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>8,000</b><i>tot</i></span><span><b>265,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Chivas Regal</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>15,000</b><i>tot</i></span><span><b>265,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Jameson</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>15,000</b><i>tot</i></span><span><b>265,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Vat 69</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>8,000</b><i>tot</i></span><span><b>180,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Glenfiddich</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>15,000</b><i>tot</i></span><span><b>265,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">J&amp;B Rare</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>8,000</b><i>tot</i></span><span><b>265,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Singleton 12 Years</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>10,000</b><i>tot</i></span><span><b>320,000</b><i>btl</i></span></span></div></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="drinks-brandy" data-cat="Brandy &amp; Cognac">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">06</span><h2>Brandy &amp; Cognac</h2><span class="menu-sun"></span></div>
+          <div class="m-price-head"><span>Tot</span><span>Bottle</span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Hennessy</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>10,000</b><i>tot</i></span><span><b>330,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Rémy Martin</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>10,000</b><i>tot</i></span><span><b>300,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Courvoisier</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>10,000</b><i>tot</i></span><span><b>330,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Viceroy</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>10,000</b><i>tot</i></span><span><b>250,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Martell</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>15,000</b><i>tot</i></span><span><b>300,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Tequila Gold</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>10,000</b><i>tot</i></span><span><b>220,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Tequila Silver</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>10,000</b><i>tot</i></span><span><b>220,000</b><i>btl</i></span></span></div></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="drinks-liqueur" data-cat="Liqueur">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">07</span><h2>Liqueur</h2><span class="menu-sun"></span></div>
+          <div class="m-price-head"><span>Tot</span><span>Bottle</span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Drambuie</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>6,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Cointreau</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>6,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Tia Maria</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>6,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Amarula</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>6,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Baileys</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>6,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Kahlua Coffee</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>6,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Southern Comfort</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>6,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="drinks-vermouth" data-cat="Vermouth">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">08</span><h2>Vermouth</h2><span class="menu-sun"></span></div>
+          <div class="m-price-head"><span>Tot</span><span>Bottle</span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Martini Bianco</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>6,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Martini Rosso</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>6,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Cinzano Bianco</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>6,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="drinks-rum" data-cat="Rum">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">09</span><h2>Rum</h2><span class="menu-sun"></span></div>
+          <div class="m-price-head"><span>Tot</span><span>Bottle</span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Captain Morgan</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>8,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Bacardi Gold</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>8,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Malibu</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>8,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Havana Club Rum White</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>6,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="drinks-gin" data-cat="Gin &amp; Vodka">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">10</span><h2>Gin &amp; Vodka</h2><span class="menu-sun"></span></div>
+          <div class="m-price-head"><span>Tot</span><span>Bottle</span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Gordon's</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>8,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Gilbey's Gin</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>8,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Beefeater Gin</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>8,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Hendrick's</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>8,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Tanqueray No.10</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>10,000</b><i>tot</i></span><span><b>300,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Smirnoff Vodka</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>8,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Absolut Vodka</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>8,000</b><i>tot</i></span><span><b>198,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">UG Waragi Premium</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>5,000</b><i>tot</i></span><span><b>70,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">UG Coconut</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>5,000</b><i>tot</i></span><span><b>70,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">UG Lemon Ginger</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>5,000</b><i>tot</i></span><span><b>70,000</b><i>btl</i></span></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">UG Pineapple</span><span class="m-dots"></span><span class="m-price m-price-dual"><span><b>5,000</b><i>tot</i></span><span><b>70,000</b><i>btl</i></span></span></div></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="drinks-na-wine" data-cat="Non-Alcoholic Wines">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">11</span><h2>Non-Alcoholic Wines</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Pure Heaven Apple</span><span class="m-dots"></span><span class="m-price">50,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Pure Heaven Red</span><span class="m-dots"></span><span class="m-price">50,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Pure Heaven White</span><span class="m-dots"></span><span class="m-price">50,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Chamdor White</span><span class="m-dots"></span><span class="m-price">50,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Chamdor Red</span><span class="m-dots"></span><span class="m-price">50,000<i>/=</i></span></div></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="drinks-cocktails" data-cat="Maya Cocktail Corner">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">12</span><h2>Maya Cocktail Corner</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Long Island Iced Tea</span><span class="m-dots"></span><span class="m-price">30,000<i>/=</i></span></div><p class="m-desc">Vodka, gin, tequila, white rum, Cointreau, lime &amp; cola.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Margarita</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div><p class="m-desc">Tequila, lime juice &amp; sugar syrup.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Mojito</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div><p class="m-desc">White rum, lime juice, mint leaves, soda water &amp; sugar syrup.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Blue Lagoon</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div><p class="m-desc">Vodka, blue curaçao, lemon juice &amp; syrup.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Piña Colada</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div><p class="m-desc">White rum, coconut cream &amp; pineapple juice.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Whisky Sour</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div><p class="m-desc">Whisky, lemon juice &amp; sugar syrup.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Black Russian</span><span class="m-dots"></span><span class="m-price">20,000<i>/=</i></span></div><p class="m-desc">Vodka, Kahlua &amp; lemon juice.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Maya Nature Baileys Walk</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div><p class="m-desc">Baileys, Amarula, coconut cream milk &amp; Kahlua.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Gordon's Pink Strawberry Cocktail</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div><p class="m-desc">Gordon's Pink gin, vodka, lemon juice &amp; sugar syrup.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Gin &amp; Tonic</span><span class="m-dots"></span><span class="m-price">20,000<i>/=</i></span></div><p class="m-desc">Gin, lemon juice, tonic, soda &amp; sugar syrup.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Maya Lemon &amp; Ginger</span><span class="m-dots"></span><span class="m-price">20,000<i>/=</i></span></div><p class="m-desc">UG Waragi, lemon ginger liqueur, lime juice &amp; sugar syrup.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Jameson Cocktail</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div><p class="m-desc">Irish whiskey, lime, white rum &amp; sugar syrup.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Blue Hawaii</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div><p class="m-desc">Pineapple juice, vodka, rum, sweet &amp; sour and blue curaçao.</p></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="drinks-shooters" data-cat="Shooters">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">13</span><h2>Shooters</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">B52</span><span class="m-dots"></span><span class="m-price">8,000<i>/=</i></span></div><p class="m-desc">Kahlua, Baileys &amp; Cointreau.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Bob Marley</span><span class="m-dots"></span><span class="m-price">8,000<i>/=</i></span></div><p class="m-desc">Baileys, Kahlua &amp; blue liqueur.</p></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="drinks-mocktails" data-cat="Mocktails">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">14</span><h2>Mocktails</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Pineapple Ginger</span><span class="m-dots"></span><span class="m-price">20,000<i>/=</i></span></div><p class="m-desc">Lime juice, pineapple &amp; ginger juice, iced and shaken.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Cleanser</span><span class="m-dots"></span><span class="m-price">20,000<i>/=</i></span></div><p class="m-desc">Pineapple, lime juice, strawberry syrup &amp; beetroot.</p></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Revitalizer</span><span class="m-dots"></span><span class="m-price">20,000<i>/=</i></span></div><p class="m-desc">Carrot, ginger &amp; lime juice, iced and shaken.</p></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="drinks-smoothies" data-cat="Smoothies &amp; Shakes">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">15</span><h2>Smoothies &amp; Shakes</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Banana Strawberry Smoothie</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Banana Chocolate Smoothie</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Banana Vanilla Smoothie</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Avocado / Mango Smoothie</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Vanilla Milk Shake</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Strawberry Milk Shake</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Chocolate Milk Shake</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div></li>
+          </ul>
+        </section>
+
+        <section class="menu-cat" id="drinks-juice" data-cat="Fresh Juices">
+          <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">16</span><h2>Fresh Juices</h2><span class="menu-sun"></span></div>
+          <ul class="menu-items cols-2">
+            <li class="m-item"><div class="m-row"><span class="m-name">Passion Juice</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Melon Juice</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Orange Juice</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Mango Juice</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Pineapple Juice</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Lemon Juice</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Cocktail Juice</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+            <li class="m-item"><div class="m-row"><span class="m-name">Beetroot Juice</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
+          </ul>
+        </section>
+
+        <div class="menu-empty" data-empty>
+          <p>No drinks match “<strong data-empty-term></strong>”. Try another word, or <a href="#" data-empty-reset>clear the search</a>.</p>
+        </div>
+
+        <div class="menu-reserve" data-reveal>
+          <h3>Raise a glass at Maya</h3>
+          <p>From sundowner cocktails to a bottle for the table — reserve and we’ll have it chilled.</p>
+          <a class="btn btn-primary" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27d%20like%20to%20book%20a%20table%20for%20drinks." target="_blank" rel="noopener">Book a Table on WhatsApp</a>
+        </div>
+
+      </div>
+    </div>
 
   </main>
 
-    <footer class="site-footer">
+  <footer class="site-footer">
     <div class="container footer-grid">
       <div class="footer-brand-block">
         <a href="index.html" class="footer-logo">
-          <img src="assets/images/logo/maya-mark.png" alt="" />
+          <img src="assets/images/logo/logo-icon-white.png" alt="" />
           <span class="footer-wordmark">Maya Nature Resort</span>
         </a>
         <p class="footer-tagline">Where the sun rises and sets</p>
@@ -183,8 +717,9 @@
       <a href="https://wa.me/256773883760" target="_blank" rel="noopener">Reserve on WhatsApp</a>
     </div>
   </footer>
-<script src="assets/js/main.js"></script>
-  <a class="floating-whatsapp" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27d%20like%20to%20make%20a%20reservation." target="_blank" rel="noopener" aria-label="Book on WhatsApp">
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/menu.js"></script>
+  <a class="floating-whatsapp" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27d%20like%20to%20book%20a%20table." target="_blank" rel="noopener" aria-label="Book on WhatsApp">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.6 1 1.3 1.7.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.2.1.6 0 .9Z"/></svg>
     <span class="wa-label">Book on WhatsApp</span>
   </a>

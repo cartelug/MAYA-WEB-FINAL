@@ -381,11 +381,60 @@ Modern, clean, component-true responsiveness — not just viewport breakpoints.
 3. **Pricing** — provide indicative ranges, or confirm "on request" stays.
 4. **Google Maps** — exact pin / embed link for the resort.
 5. **Analytics** — GA4 ID or approve Plausible; confirm consent approach.
-6. **Real menu** — food/drink items (the current PDFs are empty placeholders).
+6. ~~**Real menu** — food/drink items.~~ ✅ **Received** (food 12pp + drinks 12pp
+   PDFs) and rebuilt as a web-native page — see §11.
 7. Approval to begin Phase 0–2 build.
+
+---
+
+## 11. Build progress log
+
+### ✅ Done
+
+**Logo + favicon assets (Phase 0, partial)**
+- Trimmed the 6 source 2000×2000 logos to content bbox and generated web
+  derivatives: `logo-full(.png/-white/-black)` (~880w) and
+  `logo-icon(.png/-white/-black)` (512w).
+- Regenerated favicons from the colour icon mark on a brand-green rounded tile:
+  `favicon.ico` (16/32/48/64), `favicon-32.png`, `favicon-512.png`,
+  `apple-touch-icon.png` (full-bleed for iOS).
+
+**`menu.html` — web-native food & drinks menu (replaces the PDF-link page)**
+- Both real menus transcribed in full: **199 items across 32 categories**
+  (16 food + 16 drinks).
+- UX: sticky control bar with a **Food / Drinks** tab switch (sliding indicator),
+  **live search** that filters items + empty-state, and **scrollspy category
+  chips** that track the section in view and scroll-to on tap.
+- Design: classic dotted-leader price rows, dual **tot / bottle** pricing for
+  spirits, signature **buffet package cards** (Basic → Lavish + BBQ + Stuffed
+  Whole Goat), veg/spicy tags, prep-time notes, in-page reservation CTAs.
+- Built mobile-first with `clamp()` throughout; `transform`/`opacity` motion only;
+  reduced-motion safe; `Menu` JSON-LD added. New `assets/js/menu.js` (guarded,
+  progressive-enhancement — page works with JS off).
+
+### ⏳ Pages still to rebuild for V5 parity
+
+| Page | State today | Needs |
+|---|---|---|
+| `index.html` | v4, 500vh journey | Phase 2 full redesign (§2 homepage) |
+| `rooms.html` | broken logos, "on request" | Room detail, pricing decision, gallery |
+| `events.html` | v4 | Weddings/corporate redesign + enquiry CTA |
+| `experiences.html` | v4 | Bento of real experience photos |
+| `gallery.html` | v4 | Responsive masonry + lightbox polish |
+| `contact.html` | map is a placeholder | Real Google Maps embed, form |
+| `directions.html` | v4 | Map + route steps |
+| `amenities/*.html` (11) | broken logos | Template + real photos per amenity |
+| `404.html` | v4 | On-brand redesign |
+| _new_ | — | FAQ + legal (privacy/terms) pages |
+
+**Site-wide blocker:** the other 19 HTML pages still reference the deleted
+`maya-mark.png` + old favicon files. The replacement assets now exist, so this is
+a mechanical swap (logo-icon / logo-icon-white / favicons) — should be the next
+commit before any preview.
 
 ---
 
 *Week 1 complete: discovery, asset audit, deep gap analysis, full information
 architecture, an elevated/ownable design language, responsive + performance +
-SEO strategy, and a locked multi-phase build order.*
+SEO strategy, and a locked multi-phase build order. First V5 page shipped:
+the web-native menu.*
