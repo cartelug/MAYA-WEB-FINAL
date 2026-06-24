@@ -1,12 +1,18 @@
 /* =========================================================================
-   Maya Nature Resort — v4 interactions
+   Maya Nature Resort — v7 interactions
    Vanilla JS, progressive enhancement, respects prefers-reduced-motion.
+   Modules: preloader · mobile menu · header · text/scroll reveal · counters ·
+            hero parallax · magnetic CTAs · cursor glow · gallery lightbox ·
+            day→night cinematic journey.
    ========================================================================= */
 (function () {
   "use strict";
 
   const root = document.documentElement;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   if (!reduceMotion) root.classList.add("reveal-ready");
 
   /* ---------- Preloader ---------- */
@@ -15,27 +21,23 @@
     const minShow = 900;
     const start = performance.now();
     const hide = () => {
-      const elapsed = performance.now() - start;
-      const wait = Math.max(0, minShow - elapsed);
+      const wait = Math.max(0, minShow - (performance.now() - start));
       setTimeout(() => preloader.classList.add("is-loaded"), wait);
     };
     if (document.readyState === "complete") hide();
     else window.addEventListener("load", hide, { once: true });
-    // Failsafe: never block visibility longer than 4s
-    setTimeout(() => preloader.classList.add("is-loaded"), 4000);
+    setTimeout(() => preloader.classList.add("is-loaded"), 4000); // failsafe
   }
 
   /* ---------- Mobile menu (overlay) ---------- */
   const menuToggle = document.getElementById("menuToggle");
   const mobileMenu = document.getElementById("mobileMenu");
-
   function openMenu() {
     if (!mobileMenu) return;
     mobileMenu.classList.add("is-open");
     menuToggle.setAttribute("aria-expanded", "true");
     menuToggle.setAttribute("aria-label", "Close menu");
     document.body.style.overflow = "hidden";
-    // focus first link for keyboard users
     const first = mobileMenu.querySelector(".mm-link");
     if (first) setTimeout(() => first.focus(), 250);
   }
@@ -46,19 +48,16 @@
     menuToggle.setAttribute("aria-label", "Open menu");
     document.body.style.overflow = "";
   }
-
   if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener("click", () => {
-      if (mobileMenu.classList.contains("is-open")) closeMenu();
-      else openMenu();
-    });
+    menuToggle.addEventListener("click", () =>
+      mobileMenu.classList.contains("is-open") ? closeMenu() : openMenu()
+    );
     mobileMenu.querySelectorAll(".mm-link, .mm-cta").forEach((a) =>
       a.addEventListener("click", closeMenu)
     );
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && mobileMenu.classList.contains("is-open")) {
-        closeMenu();
-        menuToggle.focus();
+        closeMenu(); menuToggle.focus();
       }
     });
   }
@@ -83,71 +82,52 @@
     window.addEventListener("scroll", onScroll, { passive: true });
   }
 
-  /* ---------- Word-by-word reveal (hero headings) ---------- */
+  /* ---------- Word-by-word reveal (headings) ---------- */
   document.querySelectorAll("[data-text-reveal]").forEach((el) => {
-    // skip if already split (e.g. re-runs)
     if (el.dataset.split === "1") return;
     el.dataset.split = "1";
-    // Walk children, splitting text nodes into word spans while preserving inline tags (e.g. <em>)
     const walk = (node) => {
       if (node.nodeType === Node.TEXT_NODE) {
         const frag = document.createDocumentFragment();
-        const parts = node.textContent.split(/(\s+)/);
-        parts.forEach((p) => {
-          if (/^\s+$/.test(p)) {
-            frag.appendChild(document.createTextNode(p));
-          } else if (p.length) {
+        node.textContent.split(/(\s+)/).forEach((p) => {
+          if (/^\s+$/.test(p)) frag.appendChild(document.createTextNode(p));
+          else if (p.length) {
             const w = document.createElement("span");
-            w.className = "word";
-            w.textContent = p;
+            w.className = "word"; w.textContent = p;
             frag.appendChild(w);
           }
         });
         node.parentNode.replaceChild(frag, node);
-      } else if (node.nodeType === Node.ELEMENT_NODE) {
-        // recurse but skip already-split words
-        if (!node.classList.contains("word")) {
-          Array.from(node.childNodes).forEach(walk);
-        }
+      } else if (node.nodeType === Node.ELEMENT_NODE && !node.classList.contains("word")) {
+        Array.from(node.childNodes).forEach(walk);
       }
     };
     Array.from(el.childNodes).forEach(walk);
-    // stagger
     el.querySelectorAll(".word").forEach((w, i) => {
       w.style.transitionDelay = Math.min(i * 60, 540) + "ms";
     });
   });
 
-  /* ---------- Scroll reveal ([data-reveal], [data-text-reveal]) ---------- */
+  /* ---------- Scroll reveal ---------- */
   const revealEls = Array.from(document.querySelectorAll("[data-reveal], [data-text-reveal]"));
   if (revealEls.length) {
     if (reduceMotion || !("IntersectionObserver" in window)) {
       revealEls.forEach((el) => el.classList.add("is-visible"));
     } else {
-      // Stagger siblings inside the same parent that are [data-reveal] (skip text-reveal heading)
       const groups = new Map();
       revealEls.forEach((el) => {
         if (!el.hasAttribute("data-reveal")) return;
         const sibs = groups.get(el.parentElement) || [];
-        sibs.push(el);
-        groups.set(el.parentElement, sibs);
+        sibs.push(el); groups.set(el.parentElement, sibs);
       });
-      groups.forEach((sibs) => {
-        sibs.forEach((el, i) => {
-          if (i > 0) el.style.transitionDelay = Math.min(i * 90, 540) + "ms";
+      groups.forEach((sibs) => sibs.forEach((el, i) => {
+        if (i > 0) el.style.transitionDelay = Math.min(i * 90, 540) + "ms";
+      }));
+      const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) { entry.target.classList.add("is-visible"); obs.unobserve(entry.target); }
         });
-      });
-      const io = new IntersectionObserver(
-        (entries, obs) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              obs.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
-      );
+      }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
       revealEls.forEach((el) => io.observe(el));
     }
   }
@@ -158,63 +138,199 @@
     const target = parseFloat(el.dataset.count);
     const suffix = el.dataset.suffix || "";
     if (reduceMotion) { el.textContent = target + suffix; return; }
-    const dur = 1600;
-    const start = performance.now();
+    const dur = 1600, start = performance.now();
     (function tick(now) {
       const p = Math.min((now - start) / dur, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(target * eased) + suffix;
-      if (p < 1) requestAnimationFrame(tick);
-      else el.textContent = target + suffix;
+      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + suffix;
+      if (p < 1) requestAnimationFrame(tick); else el.textContent = target + suffix;
     })(start);
   }
   if (counters.length) {
-    if (!("IntersectionObserver" in window)) {
-      counters.forEach(runCount);
-    } else {
-      const co = new IntersectionObserver(
-        (entries, obs) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) { runCount(entry.target); obs.unobserve(entry.target); }
-          });
-        },
-        { threshold: 0.6 }
-      );
+    if (!("IntersectionObserver" in window)) counters.forEach(runCount);
+    else {
+      const co = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) { runCount(entry.target); obs.unobserve(entry.target); }
+        });
+      }, { threshold: 0.6 });
       counters.forEach((el) => co.observe(el));
     }
   }
 
-  /* ---------- Hero parallax (background image) ---------- */
-  const scene = document.querySelector("[data-parallax]");
-  if (scene && !reduceMotion) {
-    const speed = parseFloat(scene.dataset.parallax) || 0.18;
+  /* ---------- Generic hero parallax ([data-parallax]) ---------- */
+  const parallaxEls = Array.from(document.querySelectorAll("[data-parallax]"));
+  if (parallaxEls.length && !reduceMotion) {
     let ticking = false;
     const update = () => {
       const y = window.scrollY;
-      if (y < window.innerHeight * 1.3) {
-        scene.style.transform = `translateY(${y * speed}px) scale(1.04)`;
-      }
+      parallaxEls.forEach((el) => {
+        const speed = parseFloat(el.dataset.parallax) || 0.15;
+        if (y < window.innerHeight * 1.4) el.style.transform = `translateY(${y * speed}px) scale(1.04)`;
+      });
       ticking = false;
     };
-    window.addEventListener(
-      "scroll",
-      () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } },
-      { passive: true }
-    );
+    window.addEventListener("scroll", () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    update();
   }
 
-  /* ---------- Magnetic buttons / nav-cta ---------- */
-  if (!reduceMotion && window.matchMedia("(hover: hover)").matches) {
+  /* ---------- Magnetic buttons ---------- */
+  if (!reduceMotion && finePointer) {
     document.querySelectorAll(".magnet, .nav-cta, .btn-primary").forEach((el) => {
       el.addEventListener("mousemove", (e) => {
-        const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
+        const r = el.getBoundingClientRect();
+        const x = e.clientX - r.left - r.width / 2;
+        const y = e.clientY - r.top - r.height / 2;
         el.style.transform = `translate(${x * 0.18}px, ${y * 0.18 - 3}px)`;
       });
-      el.addEventListener("mouseleave", () => {
-        el.style.transform = "";
-      });
+      el.addEventListener("mouseleave", () => { el.style.transform = ""; });
     });
+  }
+
+  /* ---------- Cursor glow ---------- */
+  if (!reduceMotion && finePointer) {
+    const glow = document.createElement("div");
+    glow.className = "cursor-glow";
+    document.body.appendChild(glow);
+    let gx = 0, gy = 0, cx = 0, cy = 0, active = false;
+    window.addEventListener("mousemove", (e) => {
+      gx = e.clientX; gy = e.clientY;
+      if (!active) { active = true; glow.classList.add("is-active"); }
+    });
+    document.addEventListener("mouseover", (e) => {
+      const hot = e.target.closest("a, button, .card, .gallery-item, .quote-card");
+      glow.classList.toggle("is-hot", !!hot);
+    });
+    (function loop() {
+      cx = lerp(cx, gx, 0.18); cy = lerp(cy, gy, 0.18);
+      glow.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+      requestAnimationFrame(loop);
+    })();
+  }
+
+  /* ---------- Gallery lightbox ---------- */
+  const galleryItems = Array.from(document.querySelectorAll("[data-lightbox]"));
+  if (galleryItems.length) {
+    const sources = galleryItems.map((el) => el.getAttribute("data-lightbox"));
+    const labels = galleryItems.map((el) => el.getAttribute("data-caption") || "");
+    let idx = 0;
+    const box = document.createElement("div");
+    box.className = "lightbox"; box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true");
+    box.innerHTML =
+      '<button class="lightbox-close" aria-label="Close gallery"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>' +
+      '<button class="lightbox-nav lightbox-prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>' +
+      '<img alt="" />' +
+      '<button class="lightbox-nav lightbox-next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>';
+    document.body.appendChild(box);
+    const imgEl = box.querySelector("img");
+    const show = (i) => { idx = (i + sources.length) % sources.length; imgEl.src = sources[idx]; imgEl.alt = labels[idx]; };
+    const open = (i) => { show(i); box.classList.add("is-open"); document.body.style.overflow = "hidden"; };
+    const close = () => { box.classList.remove("is-open"); document.body.style.overflow = ""; };
+    galleryItems.forEach((el, i) => {
+      el.setAttribute("tabindex", "0"); el.setAttribute("role", "button");
+      el.addEventListener("click", () => open(i));
+      el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(i); } });
+    });
+    box.querySelector(".lightbox-close").addEventListener("click", close);
+    box.querySelector(".lightbox-prev").addEventListener("click", () => show(idx - 1));
+    box.querySelector(".lightbox-next").addEventListener("click", () => show(idx + 1));
+    box.addEventListener("click", (e) => { if (e.target === box) close(); });
+    document.addEventListener("keydown", (e) => {
+      if (!box.classList.contains("is-open")) return;
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") show(idx - 1);
+      if (e.key === "ArrowRight") show(idx + 1);
+    });
+  }
+
+  /* ---------- Day → Night cinematic journey ---------- */
+  const journey = document.querySelector(".journey");
+  if (journey) {
+    const stage = journey.querySelector(".journey-stage");
+    const sky = journey.querySelector(".journey-sky");
+    const chapters = Array.from(journey.querySelectorAll(".chapter"));
+    const dots = Array.from(journey.querySelectorAll(".journey-progress button"));
+    const hills = Array.from(journey.querySelectorAll(".journey-hill"));
+
+    // Sky keyframe palettes from dawn → night (top, mid, bottom)
+    const skies = [
+      { t: "#163a6b", m: "#4d6a8f", b: "#f3b65a", land: "#13361f", star: 0 }, // dawn
+      { t: "#3d7fc4", m: "#8fc0e8", b: "#dbeefc", land: "#16451f", star: 0 }, // midday
+      { t: "#1f5fa8", m: "#e89a4e", b: "#f7d27a", land: "#123a1d", star: 0 }, // golden hour
+      { t: "#3a2a5e", m: "#9c4f74", b: "#e88a52", land: "#0e2a17", star: .15 }, // dusk
+      { t: "#050a1f", m: "#0e1f3a", b: "#243a54", land: "#06180e", star: 1 }, // night
+    ];
+    const mix = (c1, c2, t) => {
+      const h2r = (h) => [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
+      const a = h2r(c1), b = h2r(c2);
+      return `rgb(${Math.round(lerp(a[0],b[0],t))},${Math.round(lerp(a[1],b[1],t))},${Math.round(lerp(a[2],b[2],t))})`;
+    };
+
+    const setStatic = () => {
+      journey.classList.add("is-static");
+      // apply golden-hour palette as the static backdrop
+      const s = skies[2];
+      stage.style.setProperty("--sky-top", s.t);
+      stage.style.setProperty("--sky-mid", s.m);
+      stage.style.setProperty("--sky-bot", s.b);
+      stage.style.setProperty("--land", s.land);
+      chapters.forEach((c) => c.classList.add("is-active"));
+    };
+
+    if (reduceMotion || !("IntersectionObserver" in window) || window.innerWidth < 760) {
+      setStatic();
+    } else {
+      let ticking = false, activeChapter = -1;
+      const render = () => {
+        const rect = journey.getBoundingClientRect();
+        const total = journey.offsetHeight - window.innerHeight;
+        const p = clamp(-rect.top / total, 0, 1); // 0..1 progress through journey
+        // segment between palettes
+        const seg = p * (skies.length - 1);
+        const i = Math.min(skies.length - 2, Math.floor(seg));
+        const f = seg - i;
+        const a = skies[i], b = skies[i + 1];
+        stage.style.setProperty("--sky-top", mix(a.t, b.t, f));
+        stage.style.setProperty("--sky-mid", mix(a.m, b.m, f));
+        stage.style.setProperty("--sky-bot", mix(a.b, b.b, f));
+        stage.style.setProperty("--land", mix(a.land, b.land, f));
+        stage.style.setProperty("--star-op", lerp(a.star, b.star, f).toFixed(3));
+        // sun arc: rises from left-low, peaks centre, sets right-low (parametric semicircle)
+        const ang = Math.PI * p;                 // 0..π
+        const sunX = 8 + 84 * p;                 // 8%..92%
+        const sunY = 80 - Math.sin(ang) * 64;    // dips to ~16% at peak
+        stage.style.setProperty("--sun-x", sunX.toFixed(1) + "%");
+        stage.style.setProperty("--sun-y", sunY.toFixed(1) + "%");
+        // sun fades out as it sets into night
+        stage.style.setProperty("--sun-op", (p > 0.9 ? lerp(1, 0.1, (p - 0.9) / 0.1) : 1).toFixed(2));
+        // hills parallax
+        hills.forEach((h, k) => {
+          const speed = (k + 1) * 14;
+          h.style.transform = `translateY(${(1 - Math.sin(ang)) * speed}px)`;
+        });
+        // chapter cross-fade (5 chapters across progress)
+        const ci = clamp(Math.round(p * (chapters.length - 1)), 0, chapters.length - 1);
+        if (ci !== activeChapter) {
+          activeChapter = ci;
+          chapters.forEach((c, k) => c.classList.toggle("is-active", k === ci));
+          dots.forEach((d, k) => d.classList.toggle("is-active", k === ci));
+        }
+        ticking = false;
+      };
+      window.addEventListener("scroll", () => {
+        if (!ticking) { ticking = true; requestAnimationFrame(render); }
+      }, { passive: true });
+      window.addEventListener("resize", () => {
+        if (window.innerWidth < 760) { location.reload(); }
+      }, { passive: true });
+      // dot navigation
+      dots.forEach((d, k) => d.addEventListener("click", () => {
+        const total = journey.offsetHeight - window.innerHeight;
+        const target = journey.offsetTop + (k / (chapters.length - 1)) * total;
+        window.scrollTo({ top: target, behavior: "smooth" });
+      }));
+      render();
+    }
   }
 })();

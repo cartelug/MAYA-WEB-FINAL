@@ -12,7 +12,9 @@
   <meta property="og:url" content="https://mayanatureresort.com/" />
   <meta property="og:image" content="https://mayanatureresort.com/assets/images/resort/garden-hilltop-view.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="icon" href="assets/images/logo/maya-logo-mark.png" />
+  <link rel="icon" href="assets/images/logo/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" href="assets/images/logo/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="assets/images/logo/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="assets/css/style.css" />
@@ -21,8 +23,11 @@
     <!-- Preloader -->
   <div class="preloader" aria-hidden="true">
     <div class="preloader-inner">
-      <img class="preloader-logo" src="assets/images/logo/maya-logo-mark.png" alt="Maya Nature Resort" />
-      <div class="preloader-bar" aria-hidden="true"></div>
+      <div class="preloader-mark">
+        <span class="preloader-ring"></span>
+        <img class="preloader-logo" src="assets/images/logo/maya-mark.png" alt="Maya Nature Resort" />
+      </div>
+      <div class="preloader-bar"></div>
     </div>
   </div>
 
@@ -31,7 +36,7 @@
     <header class="site-header" data-header>
     <div class="container nav-wrapper">
       <a href="index.html" class="brand" aria-label="Maya Nature Resort home">
-        <img src="assets/images/logo/maya-logo-mark.png" alt="Maya Nature Resort" />
+        <img src="assets/images/logo/maya-mark.png" alt="Maya Nature Resort" />
         <span class="brand-text">
           <strong>Maya Nature</strong>
           <span>Where the sun rises and sets</span>
@@ -114,7 +119,72 @@
         </div>
       </div>
 
-      <a class="scroll-cue" href="#highlights" aria-label="Scroll to explore"><span></span></a>
+      <a class="scroll-cue" href="#journey" aria-label="Scroll to explore"><span></span></a>
+    </section>
+
+    <!-- ============ DAY → NIGHT CINEMATIC JOURNEY ============ -->
+    <section class="journey" id="journey" aria-label="A day at Maya, from sunrise to night">
+      <div class="journey-stage">
+        <div class="journey-sky" aria-hidden="true"></div>
+        <div class="journey-stars" aria-hidden="true"></div>
+        <div class="journey-sun" aria-hidden="true"></div>
+        <div class="journey-haze" aria-hidden="true"></div>
+
+        <div class="journey-hills" aria-hidden="true">
+          <div class="journey-hill journey-hill-3">
+            <svg viewBox="0 0 1440 220" preserveAspectRatio="none"><path fill="rgba(10,40,25,.55)" d="M0,150 C240,90 420,170 720,130 C1010,92 1180,160 1440,110 L1440,220 L0,220 Z"/></svg>
+          </div>
+          <div class="journey-hill journey-hill-2">
+            <svg viewBox="0 0 1440 200" preserveAspectRatio="none"><path fill="rgba(8,32,20,.8)" d="M0,140 C300,80 520,150 760,120 C1040,86 1240,150 1440,120 L1440,200 L0,200 Z"/></svg>
+          </div>
+          <div class="journey-hill journey-hill-1">
+            <svg viewBox="0 0 1440 180" preserveAspectRatio="none"><path d="M0,120 C260,150 480,90 740,120 C1020,152 1220,96 1440,130 L1440,180 L0,180 Z" style="fill:var(--land)"/></svg>
+          </div>
+        </div>
+        <div class="journey-foreground" aria-hidden="true"></div>
+
+        <div class="journey-chapters">
+          <article class="chapter">
+            <p class="chapter-time">Sunrise · 6 AM</p>
+            <h2>Wake where the <em>sun rises</em></h2>
+            <p>Open your curtains to birdsong and a valley bathed in gold. Every room stay begins with a fresh breakfast on the terrace.</p>
+            <a class="btn btn-primary magnet" href="rooms.html">View rooms &amp; cottages</a>
+          </article>
+          <article class="chapter">
+            <p class="chapter-time">Midday · 12 PM</p>
+            <h2>Bright days, <em>full of play</em></h2>
+            <p>Dive into the pool, work out in the gym, fly the zip-line, or wander lush gardens where wildlife roams freely.</p>
+            <a class="btn btn-primary magnet" href="experiences.html">Explore experiences</a>
+          </article>
+          <article class="chapter">
+            <p class="chapter-time">Golden hour · 5 PM</p>
+            <h2>Say <em>"I do"</em> in golden light</h2>
+            <p>The rose arch, the Oasis Gardens, and Bulangiti Hall set the scene for weddings and celebrations to remember.</p>
+            <a class="btn btn-primary magnet" href="events.html">Plan an event</a>
+          </article>
+          <article class="chapter">
+            <p class="chapter-time">Dusk · 7 PM</p>
+            <h2>Evenings by the <em>fountain</em></h2>
+            <p>Dine on the terrace as the dancing fountain lights up and the hills fade to silhouette. Slow food, slower evenings.</p>
+            <a class="btn btn-primary magnet" href="menu.html">See food &amp; drinks</a>
+          </article>
+          <article class="chapter">
+            <p class="chapter-time">Night · 9 PM</p>
+            <h2>Rest where the <em>sun sets</em></h2>
+            <p>Stars over the valley, quiet gardens, and a deep night's rest. Book your escape directly on WhatsApp — we reply fast.</p>
+            <a class="btn btn-primary magnet" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27d%20like%20to%20make%20a%20reservation." target="_blank" rel="noopener">Book on WhatsApp</a>
+          </article>
+        </div>
+
+        <div class="journey-progress" role="tablist" aria-label="Time of day">
+          <button class="is-active" aria-label="Sunrise"></button>
+          <button aria-label="Midday"></button>
+          <button aria-label="Golden hour"></button>
+          <button aria-label="Dusk"></button>
+          <button aria-label="Night"></button>
+        </div>
+        <div class="journey-cue" aria-hidden="true">Scroll through the day</div>
+      </div>
     </section>
 
     <!-- ============ AMENITIES MARQUEE ============ -->
@@ -305,12 +375,12 @@
         <a class="btn btn-outline" href="gallery.html" data-reveal>View full gallery</a>
       </div>
       <div class="container gallery-grid">
-        <div class="gallery-item" data-reveal style="background-image:linear-gradient(transparent,rgba(7,26,17,.85)),url('assets/images/resort/garden-hilltop-view.jpg')"><strong>Hilltop gardens</strong></div>
-        <div class="gallery-item" data-reveal style="background-image:linear-gradient(transparent,rgba(7,26,17,.85)),url('assets/images/resort/wedding-rose-arch.jpg')"><strong>Weddings</strong></div>
-        <div class="gallery-item" data-reveal style="background-image:linear-gradient(transparent,rgba(7,26,17,.85)),url('assets/images/resort/dining-terrace-breakfast.jpg')"><strong>Dining</strong></div>
-        <div class="gallery-item" data-reveal style="background-image:linear-gradient(transparent,rgba(7,26,17,.85)),url('assets/images/resort/wildlife-monkeys.jpg')"><strong>Wildlife</strong></div>
-        <div class="gallery-item" data-reveal style="background-image:linear-gradient(transparent,rgba(7,26,17,.85)),url('assets/images/resort/grounds-sports-field.jpg')"><strong>Grounds</strong></div>
-        <div class="gallery-item" data-reveal style="background-image:linear-gradient(transparent,rgba(7,26,17,.85)),url('assets/images/rooms/room-executive.jpg')"><strong>Rooms</strong></div>
+        <div class="gallery-item" data-reveal data-lightbox="assets/images/resort/garden-hilltop-view.jpg" data-caption="Hilltop gardens" style="background-image:linear-gradient(transparent,rgba(7,26,17,.85)),url('assets/images/resort/garden-hilltop-view.jpg')"><strong>Hilltop gardens</strong></div>
+        <div class="gallery-item" data-reveal data-lightbox="assets/images/resort/wedding-rose-arch.jpg" data-caption="Weddings" style="background-image:linear-gradient(transparent,rgba(7,26,17,.85)),url('assets/images/resort/wedding-rose-arch.jpg')"><strong>Weddings</strong></div>
+        <div class="gallery-item" data-reveal data-lightbox="assets/images/resort/dining-terrace-breakfast.jpg" data-caption="Dining terrace" style="background-image:linear-gradient(transparent,rgba(7,26,17,.85)),url('assets/images/resort/dining-terrace-breakfast.jpg')"><strong>Dining</strong></div>
+        <div class="gallery-item" data-reveal data-lightbox="assets/images/resort/wildlife-monkeys.jpg" data-caption="Resident wildlife" style="background-image:linear-gradient(transparent,rgba(7,26,17,.85)),url('assets/images/resort/wildlife-monkeys.jpg')"><strong>Wildlife</strong></div>
+        <div class="gallery-item" data-reveal data-lightbox="assets/images/resort/grounds-sports-field.jpg" data-caption="Open grounds" style="background-image:linear-gradient(transparent,rgba(7,26,17,.85)),url('assets/images/resort/grounds-sports-field.jpg')"><strong>Grounds</strong></div>
+        <div class="gallery-item" data-reveal data-lightbox="assets/images/rooms/room-executive.jpg" data-caption="Rooms &amp; cottages" style="background-image:linear-gradient(transparent,rgba(7,26,17,.85)),url('assets/images/rooms/room-executive.jpg')"><strong>Rooms</strong></div>
       </div>
     </section>
 
@@ -334,7 +404,10 @@
     <footer class="site-footer">
     <div class="container footer-grid">
       <div class="footer-brand-block">
-        <img src="assets/images/logo/maya-logo-mark.png" alt="Maya Nature Resort" />
+        <a href="index.html" class="footer-logo">
+          <img src="assets/images/logo/maya-mark.png" alt="" />
+          <span class="footer-wordmark">Maya Nature Resort</span>
+        </a>
         <p class="footer-tagline">Where the sun rises and sets</p>
         <p>A peaceful destination for stays, weddings, events, garden experiences, and family getaways — minutes from the city, a world away in feel.</p>
         <div class="footer-socials">
