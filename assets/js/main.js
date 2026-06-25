@@ -15,18 +15,24 @@
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   if (!reduceMotion) root.classList.add("reveal-ready");
 
-  /* ---------- Preloader ---------- */
+  /* ---------- Preloader → orchestrated hero entrance ---------- */
+  // Hero stays hidden behind the preloader; once it lifts we add `intro-ready`
+  // so the logo animates in first and the wording follows, on open.
+  const startIntro = () => { if (!reduceMotion) root.classList.add("intro-ready"); };
   const preloader = document.querySelector(".preloader");
   if (preloader) {
     const minShow = reduceMotion ? 500 : 2400; // let the logo + fill bar finish
     const start = performance.now();
+    const reveal = () => { preloader.classList.add("is-loaded"); startIntro(); };
     const hide = () => {
       const wait = Math.max(0, minShow - (performance.now() - start));
-      setTimeout(() => preloader.classList.add("is-loaded"), wait);
+      setTimeout(reveal, wait);
     };
     if (document.readyState === "complete") hide();
     else window.addEventListener("load", hide, { once: true });
-    setTimeout(() => preloader.classList.add("is-loaded"), 5200); // failsafe
+    setTimeout(reveal, 5200); // failsafe
+  } else {
+    startIntro(); // no preloader on this page — play the entrance straight away
   }
 
   /* ---------- Mobile menu (overlay) ---------- */
