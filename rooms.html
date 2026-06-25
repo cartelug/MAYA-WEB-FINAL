@@ -102,14 +102,23 @@
 
     <!-- ===== Intro stat strip ===== -->
     <div class="container">
-      <div class="rooms-intro" data-reveal>
-        <div class="ri-stat"><strong>6</strong><span>Room types</span></div>
-        <div class="ri-div" aria-hidden="true"></div>
-        <div class="ri-stat"><strong>5★</strong><span>Guest-loved stays</span></div>
-        <div class="ri-div" aria-hidden="true"></div>
-        <div class="ri-stat"><strong>All-in</strong><span>Pool · gym · sauna</span></div>
-        <div class="ri-div" aria-hidden="true"></div>
-        <div class="ri-stat"><strong>Daily</strong><span>Breakfast included</span></div>
+      <div class="rooms-intro intro-premium" data-reveal>
+        <div class="ri-stat"><strong class="ri-num" data-count="6">6</strong><span>Room types</span></div>
+        <div class="ri-dot" aria-hidden="true"></div>
+        <div class="ri-stat">
+          <span class="ri-stars" aria-label="Five-star guest rating">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 2.9 6.3 6.8.7-5.1 4.6 1.5 6.7L12 17.3 5.9 20.6l1.5-6.7L2.3 9.3l6.8-.7L12 2Z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 2.9 6.3 6.8.7-5.1 4.6 1.5 6.7L12 17.3 5.9 20.6l1.5-6.7L2.3 9.3l6.8-.7L12 2Z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 2.9 6.3 6.8.7-5.1 4.6 1.5 6.7L12 17.3 5.9 20.6l1.5-6.7L2.3 9.3l6.8-.7L12 2Z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 2.9 6.3 6.8.7-5.1 4.6 1.5 6.7L12 17.3 5.9 20.6l1.5-6.7L2.3 9.3l6.8-.7L12 2Z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 2.9 6.3 6.8.7-5.1 4.6 1.5 6.7L12 17.3 5.9 20.6l1.5-6.7L2.3 9.3l6.8-.7L12 2Z"/></svg>
+          </span>
+          <span>Guest-loved stays</span>
+        </div>
+        <div class="ri-dot" aria-hidden="true"></div>
+        <div class="ri-stat"><strong class="ri-num ri-num-word">All-in</strong><span>Pool · gym · sauna</span></div>
+        <div class="ri-dot" aria-hidden="true"></div>
+        <div class="ri-stat"><strong class="ri-num ri-num-serif">Daily</strong><span>Breakfast included</span></div>
       </div>
     </div>
 
@@ -158,7 +167,7 @@
         <h2 data-reveal>A room for <em>every</em> kind of stay.</h2>
         <p class="muted" data-reveal>From couples' getaways to family weekends and shared trips — every room includes full resort access.</p>
       </div>
-      <div class="container grid grid-3">
+      <div class="container grid grid-3 room-grid">
 
         <article class="card lift room-card" data-reveal="scale">
           <div class="card-media">
@@ -168,13 +177,16 @@
           <h3>Deluxe Room</h3>
           <p>A comfortable room option for couples, solo travellers, and short stays.</p>
           <div class="room-specs">
-            <span class="room-spec">Sleeps 2</span>
-            <span class="room-spec">Queen bed</span>
-            <span class="room-spec">Garden view</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Sleeps 2</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9v9M2 13h20v5M22 13V9a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2"/></svg>Queen bed</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>Garden view</span>
           </div>
-          <div class="price">On request</div>
           <div class="room-inclusion">Pool · gym · sauna · breakfast included.</div>
-          <a class="link" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27m%20interested%20in%20the%20Deluxe%20Room." target="_blank" rel="noopener">Book this room</a>
+          <a class="btn-wa-card magnet" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27m%20interested%20in%20the%20Deluxe%20Room." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.6 1 1.3 1.7.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.2.1.6 0 .9Z"/></svg>
+            <span class="wa-card-text"><b>Reserve the Deluxe Room</b><em>Best rate on WhatsApp</em></span>
+            <svg class="wa-card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
         </article>
 
         <article class="card lift room-card" data-reveal="scale">
@@ -185,13 +197,16 @@
           <h3>Twin Room</h3>
           <p>A practical room option for friends, colleagues, and shared stays.</p>
           <div class="room-specs">
-            <span class="room-spec">Sleeps 2</span>
-            <span class="room-spec">Two singles</span>
-            <span class="room-spec">En-suite</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Sleeps 2</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9v9M2 13h20v5M22 13V9a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2"/></svg>Two singles</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12V6a2 2 0 0 1 2-2 2 2 0 0 1 2 2M3 12h18v3a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/></svg>En-suite</span>
           </div>
-          <div class="price">On request</div>
           <div class="room-inclusion">Pool · gym · sauna · breakfast included.</div>
-          <a class="link" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27m%20interested%20in%20the%20Twin%20Room." target="_blank" rel="noopener">Book this room</a>
+          <a class="btn-wa-card magnet" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27m%20interested%20in%20the%20Twin%20Room." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.6 1 1.3 1.7.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.2.1.6 0 .9Z"/></svg>
+            <span class="wa-card-text"><b>Reserve the Twin Room</b><em>Best rate on WhatsApp</em></span>
+            <svg class="wa-card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
         </article>
 
         <article class="card lift room-card" data-reveal="scale">
@@ -202,13 +217,16 @@
           <h3>Family Room</h3>
           <p>A family-friendly option for guests visiting with children or groups.</p>
           <div class="room-specs">
-            <span class="room-spec">Sleeps 4</span>
-            <span class="room-spec">King + singles</span>
-            <span class="room-spec">En-suite</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Sleeps 4</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9v9M2 13h20v5M22 13V9a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2"/></svg>King + singles</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12V6a2 2 0 0 1 2-2 2 2 0 0 1 2 2M3 12h18v3a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/></svg>En-suite</span>
           </div>
-          <div class="price">On request</div>
           <div class="room-inclusion">Pool · gym · sauna · breakfast included.</div>
-          <a class="link" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27m%20interested%20in%20the%20Family%20Room." target="_blank" rel="noopener">Book this room</a>
+          <a class="btn-wa-card magnet" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27m%20interested%20in%20the%20Family%20Room." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.6 1 1.3 1.7.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.2.1.6 0 .9Z"/></svg>
+            <span class="wa-card-text"><b>Reserve the Family Room</b><em>Best rate on WhatsApp</em></span>
+            <svg class="wa-card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
         </article>
 
         <article class="card lift room-card" data-reveal="scale">
@@ -219,13 +237,16 @@
           <h3>Standard Room</h3>
           <p>A simple, clean stay with access to all key resort amenities.</p>
           <div class="room-specs">
-            <span class="room-spec">Sleeps 2</span>
-            <span class="room-spec">Double bed</span>
-            <span class="room-spec">En-suite</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Sleeps 2</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9v9M2 13h20v5M22 13V9a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2"/></svg>Double bed</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12V6a2 2 0 0 1 2-2 2 2 0 0 1 2 2M3 12h18v3a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/></svg>En-suite</span>
           </div>
-          <div class="price">On request</div>
           <div class="room-inclusion">Pool · gym · sauna · breakfast included.</div>
-          <a class="link" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27m%20interested%20in%20the%20Standard%20Room." target="_blank" rel="noopener">Book this room</a>
+          <a class="btn-wa-card magnet" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27m%20interested%20in%20the%20Standard%20Room." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.6 1 1.3 1.7.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.2.1.6 0 .9Z"/></svg>
+            <span class="wa-card-text"><b>Reserve the Standard Room</b><em>Best rate on WhatsApp</em></span>
+            <svg class="wa-card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
         </article>
 
         <article class="card lift room-card" data-reveal="scale">
@@ -236,13 +257,16 @@
           <h3>Garden Cottage</h3>
           <p>A peaceful cottage-style stay close to nature and resort grounds.</p>
           <div class="room-specs">
-            <span class="room-spec">Sleeps 2</span>
-            <span class="room-spec">Queen bed</span>
-            <span class="room-spec">Private entrance</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Sleeps 2</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9v9M2 13h20v5M22 13V9a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2"/></svg>Queen bed</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16M14 12h.01"/></svg>Private entrance</span>
           </div>
-          <div class="price">On request</div>
           <div class="room-inclusion">Pool · gym · sauna · breakfast included.</div>
-          <a class="link" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27m%20interested%20in%20the%20Garden%20Cottage." target="_blank" rel="noopener">Book this room</a>
+          <a class="btn-wa-card magnet" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27m%20interested%20in%20the%20Garden%20Cottage." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.6 1 1.3 1.7.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.2.1.6 0 .9Z"/></svg>
+            <span class="wa-card-text"><b>Reserve the Garden Cottage</b><em>Best rate on WhatsApp</em></span>
+            <svg class="wa-card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
         </article>
 
         <article class="card lift room-card" data-reveal="scale">
@@ -253,13 +277,16 @@
           <h3>Groups &amp; Long Stays</h3>
           <p>Booking for a retreat, wedding party, or extended visit? We'll tailor a package.</p>
           <div class="room-specs">
-            <span class="room-spec">Multi-room</span>
-            <span class="room-spec">Custom rates</span>
-            <span class="room-spec">Flexible</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V7l8-4 8 4v14"/></svg>Multi-room</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Custom rates</span>
+            <span class="room-spec"><svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.5 5 5.5.8-4 3.9.9 5.5L12 21l-4.9 2.6.9-5.5-4-3.9 5.5-.8L12 3Z"/></svg>Flexible</span>
           </div>
-          <div class="price">Tailored quote</div>
           <div class="room-inclusion">Pool · gym · sauna · breakfast included.</div>
-          <a class="link" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27d%20like%20a%20group%20or%20long-stay%20package." target="_blank" rel="noopener">Request a package</a>
+          <a class="btn-wa-card magnet" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27d%20like%20a%20group%20or%20long-stay%20package." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.6 1 1.3 1.7.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.2.1.6 0 .9Z"/></svg>
+            <span class="wa-card-text"><b>Request a Package</b><em>Tailored group quote</em></span>
+            <svg class="wa-card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
         </article>
 
       </div>

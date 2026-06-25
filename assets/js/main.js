@@ -134,15 +134,16 @@
 
   /* ---------- Count-up stats ---------- */
   const counters = Array.from(document.querySelectorAll("[data-count]"));
+  const fmtNum = (n) => n.toLocaleString("en-US");
   function runCount(el) {
     const target = parseFloat(el.dataset.count);
     const suffix = el.dataset.suffix || "";
-    if (reduceMotion) { el.textContent = target + suffix; return; }
+    if (reduceMotion) { el.textContent = fmtNum(target) + suffix; return; }
     const dur = 1600, start = performance.now();
     (function tick(now) {
       const p = Math.min((now - start) / dur, 1);
-      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + suffix;
-      if (p < 1) requestAnimationFrame(tick); else el.textContent = target + suffix;
+      el.textContent = fmtNum(Math.round(target * (1 - Math.pow(1 - p, 3)))) + suffix;
+      if (p < 1) requestAnimationFrame(tick); else el.textContent = fmtNum(target) + suffix;
     })(start);
   }
   if (counters.length) {
@@ -332,5 +333,144 @@
       }));
       render();
     }
+  }
+
+  /* ---------- Menu ordering cart ---------- */
+  if (document.body.classList.contains("menu-page")) {
+    const WA_NUMBER = "256773883760";
+    const cart = []; // { name, price, qty }
+
+    const parsePrice = (txt) => {
+      const digits = (txt || "").replace(/[^0-9]/g, "");
+      return digits ? parseInt(digits, 10) : 0;
+    };
+    const fmtPrice = (n) => n.toLocaleString("en-US") + "/=";
+
+    // Inject an add button into every single-price menu row
+    document.querySelectorAll(".menu-panel .m-row").forEach((row) => {
+      const nameEl = row.querySelector(".m-name");
+      const priceEl = row.querySelector(".m-price");
+      if (!nameEl || !priceEl) return;                 // skip dual-price / headers
+      if (priceEl.classList.contains("m-price-dual")) return;
+      const price = parsePrice(priceEl.textContent);
+      if (!price) return;
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "menu-add";
+      btn.setAttribute("aria-label", "Add " + nameEl.textContent.trim() + " to order");
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+      btn.addEventListener("click", () => {
+        addItem(nameEl.textContent.trim(), price);
+        btn.classList.remove("added"); void btn.offsetWidth; btn.classList.add("added");
+      });
+      row.appendChild(btn);
+    });
+
+    // Build cart UI
+    const fab = document.createElement("button");
+    fab.type = "button"; fab.className = "cart-fab";
+    fab.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12zM6 6 5 3H2M9 20a1 1 0 1 0 0 .01M18 20a1 1 0 1 0 0 .01"/></svg> My Order <span class="cart-count">0</span>';
+
+    const overlay = document.createElement("div"); overlay.className = "cart-overlay";
+    const drawer = document.createElement("aside");
+    drawer.className = "cart-drawer"; drawer.setAttribute("aria-label", "Your order");
+    drawer.innerHTML =
+      '<div class="cart-head"><h3>Your Order</h3><button class="cart-close" aria-label="Close order">&times;</button></div>' +
+      '<div class="cart-body"></div>' +
+      '<div class="cart-foot"></div>';
+    document.body.append(fab, overlay, drawer);
+
+    const countEl = fab.querySelector(".cart-count");
+    const bodyEl = drawer.querySelector(".cart-body");
+    const footEl = drawer.querySelector(".cart-foot");
+    let checkout = false;
+
+    const total = () => cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const count = () => cart.reduce((s, i) => s + i.qty, 0);
+
+    function addItem(name, price) {
+      const ex = cart.find((i) => i.name === name);
+      if (ex) ex.qty++; else cart.push({ name, price, qty: 1 });
+      sync();
+      fab.classList.add("show");
+    }
+    function setQty(name, d) {
+      const it = cart.find((i) => i.name === name); if (!it) return;
+      it.qty += d;
+      if (it.qty <= 0) cart.splice(cart.indexOf(it), 1);
+      if (!cart.length) { checkout = false; closeDrawer(); fab.classList.remove("show"); }
+      sync();
+    }
+    function sync() {
+      countEl.textContent = count();
+      checkout ? renderCheckout() : renderCart();
+    }
+    function renderCart() {
+      if (!cart.length) { bodyEl.innerHTML = '<p class="cart-empty">Your order is empty. Tap + on any dish to add it.</p>'; footEl.innerHTML = ""; return; }
+      bodyEl.innerHTML = cart.map((i) =>
+        '<div class="cart-line"><div class="cart-line-info"><div class="cart-line-name">' + i.name + '</div>' +
+        '<div class="cart-line-price">' + fmtPrice(i.price) + ' each</div></div>' +
+        '<div class="cart-qty"><button data-dec="' + esc(i.name) + '" aria-label="Reduce">&minus;</button>' +
+        '<span>' + i.qty + '</span>' +
+        '<button data-inc="' + esc(i.name) + '" aria-label="Add">+</button></div></div>'
+      ).join("");
+      footEl.innerHTML =
+        '<div class="cart-total"><span>Total</span><b>' + fmtPrice(total()) + '</b></div>' +
+        '<button class="cart-send" data-checkout><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Continue to Details</button>';
+    }
+    function renderCheckout() {
+      bodyEl.innerHTML =
+        '<button class="cart-back" data-back>&larr; Back to items</button>' +
+        '<form class="order-form" id="orderForm">' +
+        '<div><label>Your name</label><input type="text" name="name" required placeholder="e.g. Sarah M." /></div>' +
+        '<div><label>Order type</label><div class="order-type">' +
+        '<input type="radio" id="ot-dine" name="otype" value="Dine-in" checked><label for="ot-dine">Dine-in</label>' +
+        '<input type="radio" id="ot-take" name="otype" value="Takeaway"><label for="ot-take">Takeaway</label></div></div>' +
+        '<div><label id="timeLabel">Expected arrival time</label><input type="time" name="time" /></div>' +
+        '<div><label>Special requests (optional)</label><textarea name="notes" placeholder="Allergies, no onions, table preference…"></textarea></div>' +
+        '</form>';
+      footEl.innerHTML =
+        '<div class="cart-total"><span>' + count() + ' item' + (count() > 1 ? 's' : '') + '</span><b>' + fmtPrice(total()) + '</b></div>' +
+        '<button class="cart-send" data-send><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.6 1 1.3 1.7.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.2.1.6 0 .9Z"/></svg>Send Order on WhatsApp</button>';
+      const take = bodyEl.querySelector("#ot-take"), dine = bodyEl.querySelector("#ot-dine");
+      const tl = bodyEl.querySelector("#timeLabel");
+      const updLabel = () => { tl.textContent = take.checked ? "Preferred pickup time" : "Expected arrival time"; };
+      take.addEventListener("change", updLabel); dine.addEventListener("change", updLabel);
+    }
+    function esc(s) { return s.replace(/"/g, "&quot;"); }
+
+    function sendOrder() {
+      const form = document.getElementById("orderForm"); if (!form) return;
+      const name = form.name.value.trim();
+      if (!name) { form.name.focus(); form.name.style.borderColor = "#c0392b"; return; }
+      const otype = form.otype.value;
+      const time = form.time.value;
+      const notes = form.notes.value.trim();
+      let msg = "Hi Maya Nature Resort! 🍽️ I'd like to place an order:\n\n";
+      cart.forEach((i) => { msg += "• " + i.name + " × " + i.qty + " — " + fmtPrice(i.price * i.qty) + "\n"; });
+      msg += "\nTotal: " + fmtPrice(total());
+      msg += "\nType: " + otype;
+      if (time) msg += "\n" + (otype === "Takeaway" ? "Pickup" : "Arrival") + ": " + time;
+      msg += "\nName: " + name;
+      if (notes) msg += "\nSpecial: " + notes;
+      msg += "\n\nThank you!";
+      window.open("https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
+    }
+
+    function openDrawer() { overlay.classList.add("open"); drawer.classList.add("open"); document.body.style.overflow = "hidden"; }
+    function closeDrawer() { overlay.classList.remove("open"); drawer.classList.remove("open"); document.body.style.overflow = ""; }
+
+    fab.addEventListener("click", () => { checkout = false; sync(); openDrawer(); });
+    overlay.addEventListener("click", closeDrawer);
+    drawer.querySelector(".cart-close").addEventListener("click", closeDrawer);
+    drawer.addEventListener("click", (e) => {
+      const t = e.target.closest("button"); if (!t) return;
+      if (t.dataset.inc !== undefined) setQty(t.dataset.inc, 1);
+      else if (t.dataset.dec !== undefined) setQty(t.dataset.dec, -1);
+      else if (t.hasAttribute("data-checkout")) { checkout = true; sync(); }
+      else if (t.hasAttribute("data-back")) { checkout = false; sync(); }
+      else if (t.hasAttribute("data-send")) sendOrder();
+    });
+    sync();
   }
 })();
