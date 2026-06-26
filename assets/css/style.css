@@ -150,21 +150,22 @@ button { font: inherit; }
 .skip-link:focus { left: 14px; }
 
 /* =========================================================================
-   Typography  —  Syne headings (wt 400–800); Knockout Sumo for display numerals
+   Typography  —  Syne headings (wt 500–700); Knockout Sumo for display numerals
+   Syne is ~40% wider than Knockout — sizes are tuned accordingly.
    ========================================================================= */
 h1, h2, h3, h4, h5 {
   font-family: var(--font-sans);
-  line-height: 1.04;
-  letter-spacing: -.01em;
+  line-height: 1.08;
+  letter-spacing: -.02em;
   font-weight: 700;
   color: var(--text);
   text-wrap: balance;
 }
-h1 { font-weight: 800; font-size: clamp(2.05rem, 5.6vw, 5.8rem); letter-spacing: -.02em; margin-bottom: 24px; }
-h2 { font-weight: 700; font-size: clamp(2rem, 4.7vw, 3.95rem); letter-spacing: -.015em; margin-bottom: 18px; }
-h3 { font-weight: 600; font-size: clamp(1.35rem, 1.9vw, 1.65rem); letter-spacing: -.005em; line-height: 1.1; }
-h4 { font-weight: 500; font-size: 1.15rem; letter-spacing: 0; }
-h5 { font-weight: 400; font-size: 1rem; letter-spacing: 0; }
+h1 { font-weight: 700; font-size: clamp(1.9rem, 3.8vw, 3.6rem); letter-spacing: -.028em; line-height: 1.06; margin-bottom: 22px; }
+h2 { font-weight: 700; font-size: clamp(1.55rem, 2.6vw, 2.55rem); letter-spacing: -.022em; margin-bottom: 16px; }
+h3 { font-weight: 600; font-size: clamp(1.12rem, 1.4vw, 1.4rem); letter-spacing: -.01em; line-height: 1.15; }
+h4 { font-weight: 600; font-size: 1.05rem; letter-spacing: -.005em; }
+h5 { font-weight: 500; font-size: .95rem; letter-spacing: 0; }
 
 /* Gold accent words inside headings via <em> — italic-free, inherits Syne weight */
 h1 em, h2 em, h3 em {
