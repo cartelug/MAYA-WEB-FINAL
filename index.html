@@ -207,62 +207,99 @@
         <div class="section-head">
           <div>
             <p class="eyebrow" data-reveal>From sunrise to starlight</p>
-            <h2 id="day-hd" data-text-reveal>A day at <em>Maya</em>.</h2>
+            <h2 id="day-hd" data-reveal>A day at <em>Maya</em>.</h2>
           </div>
-          <p data-reveal="right">Every hour here has its own rhythm. Here's what a day at Maya looks and feels like.</p>
+          <p data-reveal="right">Every hour here has its own rhythm — here's how one perfect day unfolds.</p>
         </div>
-        <div class="hp-day-grid">
-          <article class="day-card day-sunrise" data-reveal>
-            <div class="day-card-img" style="background-image:url('assets/images/resort/garden-hilltop-view.jpg')" aria-hidden="true"></div>
-            <span class="day-fx" aria-hidden="true"></span>
-            <div class="day-card-body">
-              <p class="day-card-time">Sunrise · 6 AM</p>
-              <h3>Wake where the sun rises</h3>
-              <p>Open your curtains to birdsong and a valley bathed in gold — breakfast on the terrace awaits.</p>
-              <a href="rooms.html">
-                View rooms
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </a>
-            </div>
+        <div class="day-timeline" data-reveal>
+          <span class="day-rail" aria-hidden="true"></span>
+
+          <article class="day-card" data-moment="sunrise" data-reveal>
+            <a class="day-card-link" href="rooms.html" aria-label="Sunrise at Maya — view rooms">
+              <span class="day-node" aria-hidden="true"></span>
+              <span class="day-card-img" style="background-image:url('assets/images/resort/garden-hilltop-view.jpg')" aria-hidden="true"></span>
+              <span class="day-card-scrim" aria-hidden="true"></span>
+              <span class="day-card-body">
+                <span class="day-card-meta">
+                  <span class="day-index">01</span>
+                  <span class="day-card-time">
+                    <svg class="day-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v7M4.2 10.2l1.4 1.4M2 18h2M20 18h2M18.4 11.6l1.4-1.4M22 22H2M16 18a4 4 0 0 0-8 0M8 6l4-4 4 4"/></svg>
+                    Sunrise · 6 AM
+                  </span>
+                </span>
+                <h3 class="day-card-title">Wake where the sun rises</h3>
+                <span class="day-card-line">Breakfast on the terrace at dawn</span>
+                <span class="day-card-cta">View rooms
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+              </span>
+            </a>
           </article>
-          <article class="day-card day-midday" data-reveal>
-            <div class="day-card-img" style="background-image:url('assets/images/resort/grounds-sports-field.jpg')" aria-hidden="true"></div>
-            <span class="day-fx" aria-hidden="true"></span>
-            <div class="day-card-body">
-              <p class="day-card-time">Midday · 12 PM</p>
-              <h3>Bright days, full of play</h3>
-              <p>Dive into the pool, work out in the gym, fly the zip-line, or wander lush gardens as wildlife roams freely.</p>
-              <a href="experiences.html">
-                Explore experiences
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </a>
-            </div>
+
+          <article class="day-card" data-moment="midday" data-reveal>
+            <a class="day-card-link" href="experiences.html" aria-label="Midday at Maya — explore experiences">
+              <span class="day-node" aria-hidden="true"></span>
+              <span class="day-card-img" style="background-image:url('assets/images/resort/grounds-sports-field.jpg')" aria-hidden="true"></span>
+              <span class="day-card-scrim" aria-hidden="true"></span>
+              <span class="day-card-body">
+                <span class="day-card-meta">
+                  <span class="day-index">02</span>
+                  <span class="day-card-time">
+                    <svg class="day-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v1M12 20v1M4.6 4.6l.7.7M18.7 18.7l.7.7M3 12h1M20 12h1M4.6 19.4l.7-.7M18.7 5.3l.7-.7"/></svg>
+                    Midday · 12 PM
+                  </span>
+                </span>
+                <h3 class="day-card-title">Bright days, full of play</h3>
+                <span class="day-card-line">Pool, gym, zip-line and wildlife</span>
+                <span class="day-card-cta">Explore experiences
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+              </span>
+            </a>
           </article>
-          <article class="day-card day-golden" data-reveal>
-            <div class="day-card-img" style="background-image:url('assets/images/resort/wedding-rose-arch.jpg')" aria-hidden="true"></div>
-            <span class="day-fx" aria-hidden="true"></span>
-            <div class="day-card-body">
-              <p class="day-card-time">Golden hour · 5 PM</p>
-              <h3>Say "I do" in golden light</h3>
-              <p>The rose arch, Oasis Gardens, and Bulangiti Hall set the scene for weddings and celebrations to remember.</p>
-              <a href="events.html">
-                Plan an event
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </a>
-            </div>
+
+          <article class="day-card" data-moment="golden" data-reveal>
+            <a class="day-card-link" href="events.html" aria-label="Golden hour at Maya — plan an event">
+              <span class="day-node" aria-hidden="true"></span>
+              <span class="day-card-img" style="background-image:url('assets/images/resort/wedding-rose-arch.jpg')" aria-hidden="true"></span>
+              <span class="day-card-scrim" aria-hidden="true"></span>
+              <span class="day-card-body">
+                <span class="day-card-meta">
+                  <span class="day-index">03</span>
+                  <span class="day-card-time">
+                    <svg class="day-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9V2M4.2 10.2l1.4 1.4M2 18h2M20 18h2M18.4 11.6l1.4-1.4M22 22H2M16 18a4 4 0 0 0-8 0M16 5l-4 4-4-4"/></svg>
+                    Golden hour · 5 PM
+                  </span>
+                </span>
+                <h3 class="day-card-title">Say &ldquo;I do&rdquo; in golden light</h3>
+                <span class="day-card-line">Rose arch, gardens &amp; grand halls</span>
+                <span class="day-card-cta">Plan an event
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+              </span>
+            </a>
           </article>
-          <article class="day-card day-dusk" data-reveal>
-            <div class="day-card-img" style="background-image:url('assets/images/resort/dining-terrace-breakfast.jpg')" aria-hidden="true"></div>
-            <span class="day-fx" aria-hidden="true"></span>
-            <div class="day-card-body">
-              <p class="day-card-time">Dusk · 7 PM</p>
-              <h3>Evenings by the fountain</h3>
-              <p>Dine on the terrace as the dancing fountain lights up and the valley fades to silhouette. Slow food, slower evenings.</p>
-              <a href="menu.html">
-                See food &amp; drinks
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </a>
-            </div>
+
+          <article class="day-card" data-moment="dusk" data-reveal>
+            <a class="day-card-link" href="menu.html" aria-label="Dusk at Maya — see food and drinks">
+              <span class="day-node" aria-hidden="true"></span>
+              <span class="day-card-img" style="background-image:url('assets/images/resort/dining-terrace-breakfast.jpg')" aria-hidden="true"></span>
+              <span class="day-card-scrim" aria-hidden="true"></span>
+              <span class="day-card-body">
+                <span class="day-card-meta">
+                  <span class="day-index">04</span>
+                  <span class="day-card-time">
+                    <svg class="day-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+                    Dusk · 7 PM
+                  </span>
+                </span>
+                <h3 class="day-card-title">Evenings by the fountain</h3>
+                <span class="day-card-line">Dinner as the fountain lights up</span>
+                <span class="day-card-cta">See food &amp; drinks
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+              </span>
+            </a>
           </article>
         </div>
       </div>
