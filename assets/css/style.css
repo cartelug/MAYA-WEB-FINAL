@@ -2997,3 +2997,477 @@ html.reveal-ready .hero-home .hero-content {
   .reveal-ready .hp-pillar .hp-pillar-icon { opacity: 1 !important; transform: none !important; }
   .section.dark::before { animation: none; }
 }
+
+/* =========================================================================
+   v10 "Artistic Identity"
+   A: Preloader Sunrise-Wake  B: Nav art  C: CTA Syne+foil  D: Amenity scenes
+   E: Stat art  F: Rooms polish  G: Menu photos  ★→leaf sitewide
+   ========================================================================= */
+
+/* ─── A · Preloader "Sunrise Wake-Up" SVG ─────────────────────────────── */
+.preloader-sunrise {
+  width: clamp(130px, 18vw, 190px);
+  height: auto;
+  filter: drop-shadow(0 0 22px rgba(241,202,85,.35));
+  animation: srFloat 3.2s var(--ease) 2.2s infinite;
+}
+@keyframes srFloat {
+  0%,100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-7px) scale(1.02); }
+}
+/* rays — draw in one by one */
+.sr-ray {
+  stroke-dasharray: 14;
+  stroke-dashoffset: 14;
+  animation: srDraw .22s var(--ease-premium) both;
+}
+.sr-rays .sr-ray:nth-child(1) { animation-delay: .08s; }
+.sr-rays .sr-ray:nth-child(2) { animation-delay: .16s; }
+.sr-rays .sr-ray:nth-child(3) { animation-delay: .24s; }
+.sr-rays .sr-ray:nth-child(4) { animation-delay: .32s; }
+.sr-rays .sr-ray:nth-child(5) { animation-delay: .40s; }
+.sr-rays .sr-ray:nth-child(6) { animation-delay: .48s; }
+.sr-rays .sr-ray:nth-child(7) { animation-delay: .56s; }
+.sr-rays .sr-ray:nth-child(8) { animation-delay: .64s; }
+/* sun ring draws */
+.sr-sun {
+  stroke-dasharray: 176;
+  stroke-dashoffset: 176;
+  animation: srDraw .75s var(--ease-premium) .72s both;
+}
+/* petals draw in */
+.sr-petals .sr-petal {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: srDraw .38s var(--ease-premium) both;
+}
+.sr-petals .sr-petal:nth-child(1) { animation-delay: 1.52s; }
+.sr-petals .sr-petal:nth-child(2) { animation-delay: 1.68s; }
+.sr-petals .sr-petal:nth-child(3) { animation-delay: 1.84s; }
+.sr-petals .sr-petal:nth-child(4) { animation-delay: 2.00s; }
+/* center glyph pops */
+.sr-center {
+  opacity: 0; transform-origin: center;
+  animation: srPop .35s var(--ease-spring) 1.48s both;
+}
+/* horizon line sweeps across */
+.sr-horizon {
+  stroke-dasharray: 112;
+  stroke-dashoffset: 112;
+  animation: srDraw .52s var(--ease-premium) 1.62s both;
+}
+@keyframes srDraw { to { stroke-dashoffset: 0; } }
+@keyframes srPop {
+  from { opacity: 0; transform: scale(0); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ─── B · Nav word-art: micro icon above each word (desktop) ─────────── */
+@media (min-width: 1021px) {
+  .nav-menu a {
+    display: inline-flex; flex-direction: column;
+    align-items: center; gap: 3px;
+    padding: 8px 11px 10px;
+  }
+  .nav-ic {
+    display: block; line-height: 0;
+    color: currentColor; opacity: .55;
+    transition: opacity .2s var(--ease), transform .25s var(--ease-spring);
+    pointer-events: none;
+  }
+  .nav-ic svg { width: 13px; height: 13px; }
+  .nav-menu a:hover .nav-ic { opacity: 1; transform: scale(1.22) translateY(-1px); }
+  .nav-menu a.active .nav-ic { opacity: 1; color: var(--gold-2); }
+}
+
+/* ─── C · CTA Buttons — Syne font + ticket-stub + foil shimmer ─────────── */
+/* Override base btn font → Syne */
+.btn { font-family: var(--font-sans); }
+
+/* btn-primary: gold ticket-stub shape with diagonal cut + foil shimmer */
+.btn-primary {
+  font-weight: 700; font-size: 1rem;
+  border-radius: 14px;
+  letter-spacing: .04em;
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+  /* box-shadow can't show through clip-path; use filter instead */
+  box-shadow: none;
+  filter: drop-shadow(0 12px 28px rgba(212,166,42,.55));
+  transition: filter .3s var(--ease), transform .18s var(--ease), clip-path 0s;
+}
+.btn-primary:hover {
+  filter: drop-shadow(0 20px 42px rgba(212,166,42,.75)) brightness(1.06);
+  transform: translateY(-3px);
+}
+/* foil shimmer on btn-primary (::before, since ::after is taken by light-sweep) */
+.btn-primary::before {
+  content: "";
+  position: absolute; top: 0; left: -100%; width: 55%; height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,.48), rgba(255,255,255,.6), transparent);
+  transform: skewX(-20deg);
+  animation: btnFoil 5s linear 3s infinite;
+  pointer-events: none;
+}
+@keyframes btnFoil {
+  0%,35%   { left: -100%; opacity: 0; }
+  36%      { opacity: 1; }
+  60%      { left: 160%; }
+  61%,100% { left: 160%; opacity: 0; }
+}
+
+/* btn-light "Explore Experiences": frosted asymmetric capsule */
+.btn-light {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: .97rem;
+  border-radius: 999px 16px 999px 16px;
+  letter-spacing: .03em;
+}
+.btn-light:hover { background: rgba(255,255,255,.18); }
+
+/* btn-2line: two-tier layout */
+.btn-2line {
+  flex-direction: column; gap: 2px;
+  padding: 12px 26px;
+  text-transform: none; letter-spacing: 0;
+}
+.btn-2line b {
+  font-family: var(--font-sans); font-weight: 700; font-size: .98rem;
+  letter-spacing: -.01em; line-height: 1;
+}
+.btn-2line em {
+  font-style: normal; font-size: .74rem; font-weight: 400;
+  letter-spacing: .03em; opacity: .8; line-height: 1; white-space: nowrap;
+}
+
+/* ─── D · Amenity scene cards ─────────────────────────────────────────── */
+.amenity-card {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 22px 20px 18px;
+  color: white;
+  border-radius: var(--radius-sm);
+  transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+  text-decoration: none;
+  box-shadow: 0 6px 24px rgba(7,26,17,.18);
+}
+.amenity-card:hover { transform: translateY(-6px) scale(1.015); box-shadow: 0 18px 45px rgba(7,26,17,.3); }
+.amenity-card h3 { color: #fff; margin-bottom: 4px; font-size: clamp(.95rem, 1.2vw, 1.15rem); }
+.amenity-card p { color: rgba(255,255,255,.82); font-size: .84rem; margin-bottom: 10px; }
+.amenity-cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-sans); font-weight: 600; font-size: .78rem;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: var(--gold-2); opacity: .9;
+}
+.amenity-cta svg { width: 14px; height: 14px; }
+/* text content scrim */
+.amenity-card::before {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(0deg, rgba(4,18,11,.85) 0%, rgba(4,18,11,.3) 50%, transparent 100%);
+}
+.amenity-icon, .amenity-scene { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.amenity-card > * { position: relative; z-index: 2; }
+
+/* ── Pool: deep-blue wave-glow ── */
+.amenity-pool .amenity-scene { background: linear-gradient(165deg, #04568a 0%, #0880b8 45%, #1aaad6 100%); }
+.pool-caustic {
+  position: absolute; inset: 0; pointer-events: none; opacity: .45;
+  background:
+    radial-gradient(ellipse 55% 35% at 30% 40%, rgba(120,220,255,.55), transparent 65%),
+    radial-gradient(ellipse 45% 28% at 70% 60%, rgba(80,200,245,.45), transparent 60%);
+  animation: causticShift 5s ease-in-out infinite alternate;
+}
+@keyframes causticShift {
+  from { opacity: .35; transform: scale(1) rotate(-2deg); }
+  to   { opacity: .6; transform: scale(1.1) rotate(2deg); }
+}
+.pool-wave-el {
+  position: absolute; left: -10%; right: -10%; height: 3px;
+  border-radius: 3px; background: rgba(255,255,255,.45);
+}
+.pool-wave-el:nth-child(1) { top: 42%; animation: waveMove 3.2s ease-in-out infinite; --wd:.1s; }
+.pool-wave-el:nth-child(2) { top: 52%; animation: waveMove 2.8s ease-in-out infinite .85s; }
+.pool-wave-el:nth-child(3) { top: 61%; animation: waveMove 3.5s ease-in-out infinite 1.7s; }
+.pool-wave-el:nth-child(4) { top: 70%; height: 2px; animation: waveMove 2.5s ease-in-out infinite 2.4s; }
+.pool-wave-el:nth-child(5) { top: 78%; height: 2px; animation: waveMove 3s ease-in-out infinite 3.1s; }
+@keyframes waveMove {
+  0%   { transform: scaleX(.88) translateX(-6%); opacity: .25; }
+  50%  { transform: scaleX(1.12) translateX(6%); opacity: .65; }
+  100% { transform: scaleX(.88) translateX(-6%); opacity: .25; }
+}
+
+/* ── Gym: stickman doing bicep curl ── */
+.amenity-gym .amenity-scene { background: linear-gradient(165deg, #0b2a14 0%, #142d1c 50%, #1a3a22 100%); }
+.gym-stickman {
+  position: absolute; left: 50%; top: 45%; width: 68px; height: 88px;
+  transform: translate(-50%, -50%); opacity: .85;
+}
+.stick-arm-r {
+  transform-origin: 55% 37%;
+  animation: armCurl 1.35s ease-in-out infinite alternate;
+}
+@keyframes armCurl {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-88deg); }
+}
+.stick-leg-l {
+  transform-origin: 46% 72%;
+  animation: legSway 2.7s ease-in-out infinite alternate;
+}
+.stick-leg-r {
+  transform-origin: 54% 72%;
+  animation: legSway 2.7s ease-in-out infinite alternate-reverse;
+}
+@keyframes legSway {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(6deg); }
+}
+/* Glow rings in background */
+.gym-bg-ring {
+  position: absolute; border-radius: 50%; border: 1px solid rgba(46,125,83,.35);
+  animation: gymRingPulse 3.5s ease-in-out infinite;
+}
+.gym-bg-ring:nth-child(1) { width: 80px; height: 80px; top: 30%; left: 35%; animation-delay: 0s; }
+.gym-bg-ring:nth-child(2) { width: 120px; height: 120px; top: 20%; left: 25%; animation-delay: 1.2s; opacity: .5; }
+@keyframes gymRingPulse {
+  0%,100% { opacity: .2; transform: scale(1); }
+  50%     { opacity: .55; transform: scale(1.12); }
+}
+
+/* ── Sauna: amber glow + rising steam ── */
+.amenity-sauna .amenity-scene { background: linear-gradient(165deg, #3d1a04 0%, #5c2a08 50%, #7a3d10 100%); }
+.sauna-rocks {
+  position: absolute; bottom: 30%; left: 50%; transform: translateX(-50%);
+  width: 52px; opacity: .75;
+}
+.sauna-glow {
+  position: absolute; bottom: 24%; left: 50%; transform: translateX(-50%);
+  width: 64px; height: 24px; border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255,120,30,.7), transparent 70%);
+  animation: saunaGlow 2.2s ease-in-out infinite alternate;
+}
+@keyframes saunaGlow {
+  from { opacity: .55; transform: translateX(-50%) scaleX(.9); }
+  to   { opacity: 1; transform: translateX(-50%) scaleX(1.1); }
+}
+.steam-wisp {
+  position: absolute; bottom: 32%; pointer-events: none;
+}
+.steam-wisp path { fill: none; stroke: rgba(255,255,255,.5); stroke-linecap: round; stroke-width: 2; }
+.steam-wisp:nth-child(1) { left: 38%; animation: steamUp 2.6s ease-out infinite; }
+.steam-wisp:nth-child(2) { left: 50%; animation: steamUp 2.6s ease-out infinite .9s; }
+.steam-wisp:nth-child(3) { left: 58%; animation: steamUp 2.6s ease-out infinite 1.8s; }
+@keyframes steamUp {
+  0%   { transform: translateY(0) scaleX(1); opacity: 0; }
+  15%  { opacity: .75; }
+  75%  { opacity: .2; }
+  100% { transform: translateY(-55px) scaleX(.35); opacity: 0; }
+}
+
+/* ── Breakfast: warm golden steam ── */
+.amenity-breakfast .amenity-scene {
+  background: linear-gradient(165deg, #6b3500 0%, #9b5a10 50%, #c07820 100%);
+}
+.breakfast-steam {
+  position: absolute; bottom: 35%; left: 50%; transform: translateX(-50%);
+}
+.breakfast-steam span {
+  display: block; width: 3px; height: 20px;
+  border-radius: 3px; background: rgba(255,255,255,.45);
+  animation: brkSteam 2.2s ease-out infinite;
+}
+.breakfast-steam span:nth-child(1) { margin-left: -10px; animation-delay: 0s; }
+.breakfast-steam span:nth-child(2) { margin-left: 7px; animation-delay: .75s; }
+.breakfast-steam span:nth-child(3) { margin-left: -4px; animation-delay: 1.5s; }
+@keyframes brkSteam {
+  0%   { transform: translateY(0) scaleX(1); opacity: 0; }
+  15%  { opacity: .7; }
+  100% { transform: translateY(-40px) scaleX(.2); opacity: 0; }
+}
+.breakfast-plate {
+  position: absolute; bottom: 28%; left: 50%; transform: translateX(-50%);
+  opacity: .6;
+}
+
+/* ── Dancing Fountain: blue arcs ── */
+.amenity-fountain .amenity-scene {
+  background: linear-gradient(165deg, #041525 0%, #082444 50%, #0d3563 100%);
+}
+.fountain-arc {
+  position: absolute; bottom: 24%; left: 50%; transform: translateX(-50%);
+}
+.fountain-arc path {
+  fill: none; stroke-linecap: round;
+  animation: arcShoot 1.8s ease-out infinite;
+}
+.fountain-arc path:nth-child(1) { stroke: rgba(100,200,255,.7); stroke-width: 2; animation-delay: 0s; }
+.fountain-arc path:nth-child(2) { stroke: rgba(80,170,255,.55); stroke-width: 1.5; animation-delay: .35s; }
+.fountain-arc path:nth-child(3) { stroke: rgba(120,220,255,.45); stroke-width: 1.5; animation-delay: .7s; }
+@keyframes arcShoot {
+  0%   { opacity: 0; stroke-dashoffset: 120; }
+  10%  { opacity: 1; }
+  80%  { opacity: .6; }
+  100% { opacity: 0; stroke-dashoffset: 0; }
+}
+.fountain-arc path { stroke-dasharray: 120; }
+.fountain-base { position: absolute; bottom: 22%; left: 50%; transform: translateX(-50%); opacity: .5; }
+
+/* ── Zip-line: traveller on a line ── */
+.amenity-zip .amenity-scene {
+  background: linear-gradient(165deg, #0a2810 0%, #123518 50%, #1a4822 100%);
+}
+.zip-line-el {
+  position: absolute; left: 10%; right: 5%; top: 40%;
+  height: 2px; background: rgba(255,255,255,.35);
+  transform: rotate(14deg); transform-origin: left center;
+}
+.zip-rider {
+  position: absolute; top: calc(40% - 4px); left: 10%;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--gold-2);
+  box-shadow: 0 0 12px rgba(241,202,85,.8);
+  animation: zipRide 2.2s var(--ease-premium) infinite;
+}
+@keyframes zipRide {
+  from { left: 12%; top: calc(40% - 4px); }
+  to   { left: 83%; top: calc(56% - 4px); }
+}
+.zip-trees {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 35%;
+  background: linear-gradient(0deg, rgba(10,40,16,.9) 0%, transparent 100%);
+}
+
+/* ─── E · Stat illustrated containers ──────────────────────────────────── */
+/* Hall capacity art (events page) */
+.ri-stat-hall-art {
+  display: block; margin-bottom: 8px; line-height: 0;
+}
+.ri-stat-hall-art svg { width: 80px; height: 52px; }
+.hall-bg { fill: rgba(212,166,42,.11); stroke: rgba(212,166,42,.42); stroke-width: 1.5; }
+.hall-floor { stroke: rgba(212,166,42,.55); stroke-width: 2; }
+.hall-num {
+  font-family: var(--font-sans); font-weight: 800; font-size: 18px;
+  fill: var(--gold); letter-spacing: -.02em;
+}
+/* Tent glyphs for garden spaces */
+.stat-tents {
+  display: flex; flex-wrap: wrap; gap: 4px; width: 86px; margin-bottom: 8px;
+}
+.stat-tents svg { width: 14px; height: 14px; }
+/* Experience count art */
+.stat-compass svg { width: 48px; height: 48px; margin-bottom: 8px; }
+
+/* ─── F · Rooms page: btn-wa-card fix + leaf stars ──────────────────────── */
+/* Fix stretched wording on room reserve buttons */
+.btn-wa-card {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  padding: 14px 18px; border-radius: var(--radius-sm);
+  background: var(--green-900);
+  border: 1px solid rgba(255,255,255,.1);
+  color: #fff; text-decoration: none;
+  transition: background .22s var(--ease), transform .18s var(--ease), box-shadow .3s var(--ease);
+  box-shadow: 0 4px 18px rgba(15,61,37,.25);
+}
+.btn-wa-card:hover { background: var(--green-800); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(15,61,37,.35); }
+.btn-wa-card > svg:first-child { width: 20px; height: 20px; flex: none; color: #25D366; }
+.wa-card-text {
+  flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0;
+}
+.wa-card-text b {
+  font-family: var(--font-sans); font-weight: 700; font-size: .88rem;
+  white-space: normal; word-break: break-word; line-height: 1.2;
+  color: #fff;
+}
+.wa-card-text em {
+  font-family: var(--font-sans); font-style: normal;
+  font-size: .72rem; color: rgba(255,255,255,.65); font-weight: 400;
+}
+.wa-card-arrow { width: 16px; height: 16px; flex: none; opacity: .55; }
+
+/* Brand leaf mark — replaces ★ stars sitewide */
+.leaf-stars {
+  display: inline-flex; align-items: center; gap: 4px;
+  line-height: 0;
+}
+.leaf-stars svg { width: 14px; height: 14px; color: var(--gold); }
+.hero-page .stars .leaf-stars svg,
+.quote-card .stars .leaf-stars svg { color: var(--gold-2); }
+
+/* Rooms ri-stars leaf marks */
+.ri-stars { display: inline-flex; align-items: center; gap: 5px; }
+.ri-stars svg { width: 16px; height: 16px; color: var(--gold); }
+
+/* ─── G · Menu photo sections ───────────────────────────────────────────── */
+.menu-cat-hero {
+  width: 100%; border-radius: var(--radius-sm);
+  margin-bottom: 28px; display: block;
+  object-fit: cover; object-position: center;
+  height: clamp(180px, 26vw, 300px);
+  box-shadow: var(--shadow-sm);
+  transition: transform .55s var(--ease);
+}
+.menu-cat-hero:hover { transform: scale(1.015); }
+
+/* Desktop: 2-col layout — photo sticky left, content right */
+@media (min-width: 860px) {
+  .menu-cat.has-photo {
+    display: grid;
+    grid-template-columns: clamp(260px, 36%, 400px) 1fr;
+    gap: 36px 44px;
+    align-items: start;
+  }
+  .menu-cat.has-photo .menu-cat-hero {
+    height: clamp(280px, 42vw, 480px);
+    margin-bottom: 0;
+    grid-row: 1 / span 4;
+    position: sticky; top: 106px;
+  }
+  .menu-cat.has-photo .menu-cat-head { grid-column: 2; }
+  .menu-cat.has-photo .menu-items { grid-column: 2; }
+  .menu-cat.has-photo .menu-cat-sub { grid-column: 2; }
+  .menu-cat.has-photo .menu-note { grid-column: 2; }
+  .menu-cat.has-photo .menu-packs { grid-column: 2; }
+}
+
+/* Drinks panel: cocktail hero banner */
+.drinks-photo-banner {
+  width: 100%; border-radius: var(--radius-sm);
+  overflow: hidden; margin-bottom: 36px; position: relative;
+  height: clamp(200px, 30vw, 360px);
+}
+.drinks-photo-banner img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center top;
+  display: block;
+}
+.drinks-photo-banner::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(4,18,11,.7) 100%);
+}
+.drinks-banner-title {
+  position: absolute; bottom: 24px; left: 28px; z-index: 2;
+  color: #fff; font-family: var(--font-sans); font-weight: 700;
+  font-size: clamp(1.4rem, 3vw, 2.2rem); letter-spacing: -.02em;
+}
+.drinks-banner-title em { color: var(--gold-2); font-style: normal; }
+
+/* ─── Reduced-motion fallbacks ──────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .sr-ray, .sr-sun, .sr-petal, .sr-center, .sr-horizon { animation: none !important; stroke-dashoffset: 0 !important; opacity: 1 !important; transform: none !important; }
+  .preloader-sunrise { animation: none !important; }
+  .btn-primary::before { animation: none !important; }
+  .pool-caustic, .pool-wave-el { animation: none !important; opacity: .35; }
+  .stick-arm-r, .stick-leg-l, .stick-leg-r { animation: none !important; }
+  .gym-bg-ring { animation: none !important; }
+  .sauna-glow, .steam-wisp { animation: none !important; }
+  .breakfast-steam span { animation: none !important; }
+  .fountain-arc path { animation: none !important; opacity: .6; stroke-dashoffset: 0; }
+  .zip-rider { animation: none !important; }
+  .menu-cat-hero { transition: none; }
+}
+
+/* v10 arm-pivot fix: rotate around shoulder joint (fill-box 0,0) */
+.stick-arm-r { transform-box: fill-box; transform-origin: 0% 0%; }

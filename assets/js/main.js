@@ -615,3 +615,74 @@
     sync();
   }
 })();
+
+/* =========================================================================
+   v10 "Artistic Identity" — JS enhancements
+   A: Preloader sunrise SVG  B: Nav micro-icons  ★: Star→leaf sitewide
+   ========================================================================= */
+(function () {
+  "use strict";
+
+  /* ── A · Replace preloader logo with animated sunrise SVG ── */
+  const preloaderLogo = document.querySelector(".preloader-logo");
+  if (preloaderLogo) {
+    const sunriseSVG = `<svg class="preloader-sunrise" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g class="sr-rays" stroke="#F1CA55" stroke-linecap="round" stroke-width="2.2">
+    <line class="sr-ray" x1="80" y1="22" x2="80" y2="8"/>
+    <line class="sr-ray" x1="100" y1="30" x2="110" y2="20"/>
+    <line class="sr-ray" x1="108" y1="50" x2="122" y2="50"/>
+    <line class="sr-ray" x1="100" y1="70" x2="110" y2="80"/>
+    <line class="sr-ray" x1="80" y1="78" x2="80" y2="92"/>
+    <line class="sr-ray" x1="60" y1="70" x2="50" y2="80"/>
+    <line class="sr-ray" x1="52" y1="50" x2="38" y2="50"/>
+    <line class="sr-ray" x1="60" y1="30" x2="50" y2="20"/>
+  </g>
+  <circle class="sr-sun" cx="80" cy="50" r="28" stroke="#F1CA55" stroke-width="2"/>
+  <g class="sr-petals" stroke="#F1CA55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path class="sr-petal" d="M80 50 Q72 36 80 26 Q88 36 80 50Z"/>
+    <path class="sr-petal" d="M80 50 Q94 42 100 30 Q90 40 80 50Z"/>
+    <path class="sr-petal" d="M80 50 Q66 42 60 30 Q70 40 80 50Z"/>
+    <path class="sr-petal" d="M80 50 Q90 58 94 70 Q84 62 80 50Z"/>
+  </g>
+  <circle class="sr-center" cx="80" cy="50" r="5.5" fill="#F1CA55"/>
+  <line class="sr-horizon" x1="24" y1="82" x2="136" y2="82" stroke="#F1CA55" stroke-width="2" stroke-linecap="round"/>
+  <path d="M24 82 Q80 70 136 82" fill="none" stroke="#F1CA55" stroke-width="1" stroke-linecap="round" opacity="0.38"/>
+</svg>`;
+    preloaderLogo.outerHTML = sunriseSVG;
+    const bar = document.querySelector(".preloader-bar");
+    if (bar) bar.style.display = "none";
+  }
+
+  /* ── B · Nav micro-icons — inject above each nav word (desktop only) ── */
+  const NAV_ICONS = {
+    "index.html":       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2C7 7 3 11 3 15a9 9 0 0 0 18 0C21 11 17 7 12 2Z"/></svg>',
+    "rooms.html":       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9v9M22 9v9M2 13h20"/><rect x="5" y="5" width="14" height="8" rx="2"/></svg>',
+    "events.html":      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20 12 4 21 20H3Z"/><path d="M10 20v-4a2 2 0 1 1 4 0v4"/></svg>',
+    "experiences.html": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m16.2 7.8-5.5 8.1-2.9-4.1 8.4-4Z"/></svg>',
+    "menu.html":        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 2v7c0 1.7 1.3 3 3 3a3 3 0 0 0 3-3V2M6 12v10"/><path d="M16 2v20M16 2c2 2 3 4.5 3 7s-1 5-3 7"/></svg>',
+    "gallery.html":     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="6" width="22" height="15" rx="3"/><circle cx="12" cy="13" r="4"/><path d="M8 6 10 2h4l2 4"/></svg>',
+    "directions.html":  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5"/><path d="M7.8 15C5.5 17.4 4 20 4 22h16c0-2-1.5-4.6-3.8-7"/></svg>',
+    "contact.html":     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  };
+
+  document.querySelectorAll(".nav-menu a").forEach(function (link) {
+    const href = link.getAttribute("href") || "";
+    const key = Object.keys(NAV_ICONS).find(function (k) { return href.includes(k); });
+    if (!key) return;
+    const ic = document.createElement("span");
+    ic.className = "nav-ic";
+    ic.innerHTML = NAV_ICONS[key];
+    link.insertBefore(ic, link.firstChild);
+  });
+
+  /* ── ★ Sitewide: replace ★★★★★ text with brand-leaf SVG marks ── */
+  const LEAF_SVG = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C7 7 3 11 3 15a9 9 0 0 0 18 0C21 11 17 7 12 2Z"/></svg>';
+  const FIVE_LEAVES = '<span class="leaf-stars">' + Array(5).fill(LEAF_SVG).join("") + '</span>';
+
+  document.querySelectorAll(".stars").forEach(function (el) {
+    if (el.textContent.trim().match(/^★+$/)) {
+      el.innerHTML = FIVE_LEAVES;
+    }
+  });
+
+})();
