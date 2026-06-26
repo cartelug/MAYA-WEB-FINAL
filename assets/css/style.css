@@ -1,11 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');
 
 /* =========================================================================
-   MAYA NATURE RESORT — v4 design system
-   Type     : Montserrat (everything) + Cormorant Garamond italic (accent)
+   MAYA NATURE RESORT — v8 design system
+   Type     : Knockout (Sumo + Cruiserweight, self-hosted) display + Syne body
    Palette  : brand greens + gold + cream
    Motion   : "ease-premium" deceleration curve, tasteful, reduced-motion safe
    ========================================================================= */
+
+/* --- Self-hosted Knockout (Hoefler&Co) — display + headings --- */
+@font-face {
+  font-family: "Knockout Sumo";
+  src: url("../fonts/Knockout-Sumo.woff2") format("woff2");
+  font-weight: 400 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Knockout Ultimate Sumo";
+  src: url("../fonts/Knockout-UltimateSumo.woff2") format("woff2");
+  font-weight: 400 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Knockout Cruiserweight";
+  src: url("../fonts/Knockout-Cruiserweight.woff2") format("woff2");
+  font-weight: 400 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Knockout Junior";
+  src: url("../fonts/Knockout-JuniorMiddleweight.woff2") format("woff2");
+  font-weight: 400 900; font-style: normal; font-display: swap;
+}
 
 :root {
   /* --- Brand greens --- */
@@ -34,9 +56,10 @@
   --line-2:  #d6e2d6;
 
   /* --- Typography --- */
-  --font-sans:   "Montserrat", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  --font-serif:  "Cormorant Garamond", "Times New Roman", Georgia, serif;
-  --font-display: var(--font-sans);
+  --font-sans:    "Syne", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-display: "Knockout Sumo", "Arial Narrow", "Helvetica Neue Condensed", "Oswald", var(--font-sans);
+  --font-head:    "Knockout Cruiserweight", "Arial Narrow", "Oswald", var(--font-sans);
+  --font-serif:   var(--font-head);  /* legacy alias — accent <em>s now render in Knockout */
 
   /* --- Shape --- */
   --radius-xs: 10px;
@@ -102,6 +125,7 @@ body {
   text-rendering: optimizeLegibility;
   overflow-x: clip;
   max-width: 100%;
+  font-synthesis: none;   /* Knockout has no italic/extra weights — never fake them */
 }
 
 img, svg { max-width: 100%; display: block; }
@@ -126,31 +150,32 @@ button { font: inherit; }
 .skip-link:focus { left: 14px; }
 
 /* =========================================================================
-   Typography  —  Montserrat everywhere + Cormorant italic accent
+   Typography  —  Knockout display (Sumo + Cruiserweight) + Syne body
    ========================================================================= */
 h1, h2, h3, h4, h5 {
-  font-family: var(--font-sans);
-  line-height: 1.08;
-  letter-spacing: -.025em;
-  font-weight: 800;
+  font-family: var(--font-head);
+  line-height: 1.04;
+  letter-spacing: .005em;
+  font-weight: 500;
   color: var(--text);
   text-wrap: balance;
 }
-h1 { font-size: clamp(2.6rem, 6vw, 5.4rem); font-weight: 900; margin-bottom: 24px; }
-h2 { font-size: clamp(2rem, 4.2vw, 3.4rem); font-weight: 800; margin-bottom: 18px; }
-h3 { font-size: clamp(1.2rem, 1.6vw, 1.45rem); font-weight: 700; letter-spacing: -.015em; }
-h4 { font-size: 1.05rem; font-weight: 700; letter-spacing: -.01em; }
+h1 { font-family: var(--font-display); font-size: clamp(2.05rem, 5.6vw, 5.8rem); margin-bottom: 24px; }
+h2 { font-family: var(--font-display); font-size: clamp(1.9rem, 4.4vw, 3.7rem); margin-bottom: 18px; }
+h3 { font-size: clamp(1.35rem, 1.9vw, 1.65rem); letter-spacing: .01em; line-height: 1.05; }
+h4 { font-size: 1.15rem; letter-spacing: .01em; }
 
-/* Cormorant italic accents inside headings via <em> */
+/* Gold accent words inside headings via <em> — Cruiserweight, no italic */
 h1 em, h2 em, h3 em {
-  font-family: var(--font-serif);
-  font-style: italic;
+  font-family: var(--font-head);
+  font-style: normal;
   font-weight: 500;
   color: var(--gold);
-  letter-spacing: -.005em;
+  letter-spacing: .01em;
   white-space: nowrap;
   position: relative;
 }
+h1 em, h2 em { font-family: var(--font-display); }
 .hero h1 em, .hero h2 em, .page-hero h1 em { color: var(--gold-2); }
 
 p { text-wrap: pretty; }
@@ -158,12 +183,12 @@ p + p { margin-top: 14px; }
 
 .eyebrow {
   display: inline-flex; align-items: center; gap: 10px;
-  font-family: var(--font-sans);
+  font-family: var(--font-head);
   color: var(--green-700);
   text-transform: uppercase;
-  font-weight: 700;
-  font-size: .76rem;
-  letter-spacing: .24em;
+  font-weight: 500;
+  font-size: .92rem;
+  letter-spacing: .22em;
   margin-bottom: 20px;
 }
 .eyebrow::before {
@@ -339,13 +364,14 @@ body { padding-top: var(--header-h); }
 }
 .nav-menu a {
   position: relative;
-  font-family: var(--font-sans);
-  font-size: .88rem;
-  font-weight: 600;
-  letter-spacing: .015em;
+  font-family: var(--font-head);
+  font-size: .98rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .07em;
   opacity: .9;
   color: var(--white);
-  padding: 10px 14px;
+  padding: 10px 13px;
   border-radius: 999px;
   transition: color var(--t-fast) var(--ease),
               background var(--t-fast) var(--ease),
@@ -366,8 +392,8 @@ body { padding-top: var(--header-h); }
 .nav-cta {
   display: inline-flex; align-items: center; gap: 8px;
   background: var(--grad-gold); color: var(--green-950);
-  font-family: var(--font-sans);
-  font-weight: 800; font-size: .88rem;
+  font-family: var(--font-head);
+  font-weight: 500; font-size: 1rem; text-transform: uppercase; letter-spacing: .05em;
   padding: 11px 22px; border-radius: 999px;
   margin-left: 10px;
   box-shadow: var(--shadow-gold);
@@ -407,10 +433,11 @@ body { padding-top: var(--header-h); }
   position: relative; overflow: hidden;
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   min-height: 52px; padding: 14px 28px;
-  border: 0; cursor: pointer; letter-spacing: .005em;
+  border: 0; cursor: pointer;
+  text-transform: uppercase; letter-spacing: .06em;
   border-radius: 999px;
-  font-family: var(--font-sans);
-  font-weight: 700; font-size: .98rem;
+  font-family: var(--font-head);
+  font-weight: 500; font-size: 1.05rem;
   transition: transform var(--t-fast) var(--ease),
               box-shadow var(--t) var(--ease),
               background var(--t) var(--ease),
@@ -752,12 +779,12 @@ body { padding-top: var(--header-h); }
 }
 .stat strong {
   display: block;
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   color: var(--gold-2);
-  font-size: clamp(2.2rem, 3vw, 3rem);
-  line-height: 1;
-  font-weight: 800;
-  letter-spacing: -.02em;
+  font-size: clamp(2.6rem, 3.6vw, 3.6rem);
+  line-height: .92;
+  font-weight: 500;
+  letter-spacing: .005em;
 }
 .stat span {
   color: rgba(255,255,255,.78);
@@ -791,11 +818,11 @@ body { padding-top: var(--header-h); }
 }
 .quote-card .stars { color: var(--gold); letter-spacing: 3px; font-size: 1rem; }
 .quote-card blockquote {
-  font-family: var(--font-serif);
-  font-style: italic;
+  font-family: var(--font-sans);
+  font-style: normal;
   font-weight: 500;
-  font-size: 1.25rem;
-  line-height: 1.55;
+  font-size: 1.2rem;
+  line-height: 1.6;
   color: var(--text);
 }
 .quote-card .who {
@@ -1527,8 +1554,8 @@ label { font-weight: 600; font-size: .9rem; }
   .gallery-item, .gallery-item:nth-child(n) { grid-column: auto; min-height: 240px; }
   .floating-whatsapp { right: 18px; bottom: 18px; }
   .btn { width: 100%; }
-  .hero-actions { width: 100%; }
-  .hero-actions .btn { flex: 1; }
+  .hero-actions { width: 100%; flex-direction: column; }
+  .hero-actions .btn { flex: 1 0 100%; width: 100%; }
   .footer-wordmark { font-size: 1.2rem; }
 }
 
@@ -1794,8 +1821,8 @@ label { font-weight: 600; font-size: .9rem; }
   flex-direction: column; gap: 3px;
   padding: 14px 34px; min-height: 62px; line-height: 1.15;
 }
-.btn-2line b { display: block; font-weight: 800; font-size: 1rem; }
-.btn-2line em { display: block; font-style: italic; font-size: .72rem; font-weight: 500; opacity: .85; letter-spacing: .02em; }
+.btn-2line b { display: block; font-family: var(--font-head); font-weight: 500; font-size: 1.18rem; letter-spacing: .05em; }
+.btn-2line em { display: block; font-family: var(--font-sans); text-transform: none; font-style: normal; font-size: .72rem; font-weight: 500; opacity: .85; letter-spacing: .01em; }
 
 /* Hero scroll-cue anchor target */
 .scroll-cue[href="#day"] { /* keep default styles */ }
@@ -1923,9 +1950,23 @@ label { font-weight: 600; font-size: .9rem; }
 .hp-cta-contact svg { width: 18px; height: 18px; color: var(--gold-2); flex: 0 0 auto; }
 
 @media (max-width: 600px) {
-  .hp-day-grid { grid-template-columns: 1fr; }
-  .day-card { min-height: 240px; }
-  .day-card-body { transform: none; opacity: 1; }
+  /* A Day at Maya — neat 2x2 tile grid, all four moments visible at once */
+  .hp-day-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .day-card { min-height: 206px; border-radius: 18px; }
+  .day-card-body { padding: 13px; transform: none; opacity: 1; }
+  .day-card-time {
+    font-size: .66rem; letter-spacing: .08em;
+    padding: 4px 9px 4px 8px; gap: 5px; margin-bottom: 8px;
+  }
+  .day-card-time::before { width: 5px; height: 5px; }
+  .day-card h3 { font-size: 1.12rem; line-height: 1; margin-bottom: 0; }
+  .day-card p:not(.day-card-time) { display: none; }   /* hide description, keep time badge */
+  .day-card a { font-size: 0; gap: 0; margin-top: 10px; }   /* arrow-only CTA */
+  .day-card a svg { width: 28px; height: 28px; padding: 7px; }
+}
+@media (max-width: 360px) {
+  .day-card h3 { font-size: 1rem; }
+  .day-card-body { padding: 11px; }
 }
 
 /* =========================================================================
@@ -2327,7 +2368,7 @@ label { font-weight: 600; font-size: .9rem; }
   padding: 6px 13px 6px 11px; margin-bottom: 12px;
   background: var(--grad-gold); color: var(--green-950);
   border-radius: 999px;
-  font: 800 .66rem var(--font-sans); letter-spacing: .12em; text-transform: uppercase;
+  font: 500 .82rem var(--font-head); letter-spacing: .1em; text-transform: uppercase;
   box-shadow: 0 8px 20px -8px rgba(212,166,42,.7);
 }
 .day-card-time::before {
@@ -2349,18 +2390,19 @@ label { font-weight: 600; font-size: .9rem; }
 }
 .intro-premium .ri-num {
   display: inline-block;
-  font-family: var(--font-sans); font-weight: 800; line-height: 1;
-  font-size: clamp(2.1rem, 4.4vw, 3.1rem); letter-spacing: -.02em;
+  font-family: var(--font-display); font-weight: 500; line-height: .9;
+  font-size: clamp(2.5rem, 5vw, 3.6rem); letter-spacing: .01em;
   background: var(--grad-gold);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
-.intro-premium .ri-num-word { font-size: clamp(1.5rem, 2.6vw, 2rem); }
+.intro-premium .ri-num-word { font-size: clamp(1.7rem, 2.8vw, 2.2rem); }
 .intro-premium .ri-num-serif {
-  font-family: var(--font-serif); font-style: italic; font-weight: 600;
-  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-family: var(--font-head); font-style: normal; font-weight: 500;
+  font-size: clamp(1.7rem, 2.8vw, 2.2rem); text-transform: uppercase; letter-spacing: .04em;
 }
 .intro-premium .ri-stat > span:last-child {
-  font-size: .8rem; color: var(--muted); letter-spacing: .04em;
+  font-family: var(--font-head); text-transform: uppercase;
+  font-size: .92rem; color: var(--muted); letter-spacing: .1em;
 }
 .intro-premium .ri-dot {
   width: 7px; height: 7px; border-radius: 50%; flex: none;
@@ -2706,8 +2748,8 @@ html.intro-ready .hero-intro > .hero-trust   { animation: heroRise .85s var(--ea
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
 }
 .trust-stat-num {
-  font-family: var(--font-sans); font-weight: 900; line-height: .85;
-  font-size: clamp(2.5rem, 9vw, 3.6rem); letter-spacing: -.04em;
+  font-family: var(--font-display); font-weight: 500; line-height: .8;
+  font-size: clamp(2.8rem, 10vw, 4rem); letter-spacing: .01em;
   background: var(--grad-gold);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
@@ -2720,8 +2762,8 @@ html.intro-ready .trust-stat-num {
   100% { opacity: 1; transform: none; filter: blur(0); }
 }
 .trust-stat-label {
-  font: 800 .72rem var(--font-sans); text-transform: uppercase; letter-spacing: .15em;
-  color: rgba(255,255,255,.85); line-height: 1.18;
+  font: 500 .9rem var(--font-head); text-transform: uppercase; letter-spacing: .13em;
+  color: rgba(255,255,255,.85); line-height: 1.12;
 }
 
 .trust-amenities { display: inline-flex; flex-wrap: wrap; gap: 8px; align-items: center; }
@@ -2734,7 +2776,7 @@ html.intro-ready .trust-stat-num {
 }
 .ta-pill svg { width: 16px; height: 16px; color: var(--gold-2); flex: none; }
 .ta-pill b {
-  font: 800 .7rem var(--font-sans); text-transform: uppercase; letter-spacing: .1em;
+  font: 500 .86rem var(--font-head); text-transform: uppercase; letter-spacing: .09em;
   color: rgba(255,255,255,.92);
 }
 html.intro-ready .ta-pill { animation: taPop .55s var(--ease-premium) both; }
