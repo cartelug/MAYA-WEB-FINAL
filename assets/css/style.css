@@ -150,32 +150,32 @@ button { font: inherit; }
 .skip-link:focus { left: 14px; }
 
 /* =========================================================================
-   Typography  —  Knockout display (Sumo + Cruiserweight) + Syne body
+   Typography  —  Syne headings (wt 400–800); Knockout Sumo for display numerals
    ========================================================================= */
 h1, h2, h3, h4, h5 {
-  font-family: var(--font-head);
+  font-family: var(--font-sans);
   line-height: 1.04;
-  letter-spacing: .005em;
-  font-weight: 500;
+  letter-spacing: -.01em;
+  font-weight: 700;
   color: var(--text);
   text-wrap: balance;
 }
-h1 { font-family: var(--font-display); font-size: clamp(2.05rem, 5.6vw, 5.8rem); margin-bottom: 24px; }
-h2 { font-family: var(--font-head); font-size: clamp(2rem, 4.7vw, 3.95rem); letter-spacing: .008em; margin-bottom: 18px; }
-h3 { font-size: clamp(1.35rem, 1.9vw, 1.65rem); letter-spacing: .01em; line-height: 1.05; }
-h4 { font-size: 1.15rem; letter-spacing: .01em; }
+h1 { font-weight: 800; font-size: clamp(2.05rem, 5.6vw, 5.8rem); letter-spacing: -.02em; margin-bottom: 24px; }
+h2 { font-weight: 700; font-size: clamp(2rem, 4.7vw, 3.95rem); letter-spacing: -.015em; margin-bottom: 18px; }
+h3 { font-weight: 600; font-size: clamp(1.35rem, 1.9vw, 1.65rem); letter-spacing: -.005em; line-height: 1.1; }
+h4 { font-weight: 500; font-size: 1.15rem; letter-spacing: 0; }
+h5 { font-weight: 400; font-size: 1rem; letter-spacing: 0; }
 
-/* Gold accent words inside headings via <em> — Cruiserweight, no italic */
+/* Gold accent words inside headings via <em> — italic-free, inherits Syne weight */
 h1 em, h2 em, h3 em {
-  font-family: var(--font-head);
+  font-family: var(--font-sans);
   font-style: normal;
-  font-weight: 500;
+  font-weight: inherit;
   color: var(--gold);
-  letter-spacing: .01em;
+  letter-spacing: inherit;
   white-space: nowrap;
   position: relative;
 }
-h1 em { font-family: var(--font-display); }
 .hero h1 em, .hero h2 em, .page-hero h1 em { color: var(--gold-2); }
 
 p { text-wrap: pretty; }
@@ -364,9 +364,9 @@ body { padding-top: var(--header-h); }
 }
 .nav-menu a {
   position: relative;
-  font-family: var(--font-head);
-  font-size: .98rem;
-  font-weight: 500;
+  font-family: var(--font-sans);
+  font-size: .88rem;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: .07em;
   opacity: .9;
@@ -1537,6 +1537,10 @@ label { font-weight: 600; font-size: .9rem; }
   .stat-row { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .footer-brand-block { grid-column: 1 / -1; max-width: 540px; }
+}
+@media (min-width: 1021px) {
+  .brand .brand-text { display: none; }
+  .brand img { height: 52px; }
 }
 @media (max-width: 680px) {
   :root { --header-h: 72px; }
