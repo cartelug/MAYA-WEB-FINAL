@@ -618,40 +618,15 @@
 
 /* =========================================================================
    v10 "Artistic Identity" — JS enhancements
-   A: Preloader sunrise SVG  B: Nav micro-icons  ★: Star→leaf sitewide
+   A: Preloader uses the real logo (animated in CSS) — no swap here
+   B: Nav micro-icons removed  ★: Star→leaf sitewide
    ========================================================================= */
 (function () {
   "use strict";
 
-  /* ── A · Replace preloader logo with animated sunrise SVG ── */
-  const preloaderLogo = document.querySelector(".preloader-logo");
-  if (preloaderLogo) {
-    const sunriseSVG = `<svg class="preloader-sunrise" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <g class="sr-rays" stroke="#F1CA55" stroke-linecap="round" stroke-width="2.2">
-    <line class="sr-ray" x1="80" y1="22" x2="80" y2="8"/>
-    <line class="sr-ray" x1="100" y1="30" x2="110" y2="20"/>
-    <line class="sr-ray" x1="108" y1="50" x2="122" y2="50"/>
-    <line class="sr-ray" x1="100" y1="70" x2="110" y2="80"/>
-    <line class="sr-ray" x1="80" y1="78" x2="80" y2="92"/>
-    <line class="sr-ray" x1="60" y1="70" x2="50" y2="80"/>
-    <line class="sr-ray" x1="52" y1="50" x2="38" y2="50"/>
-    <line class="sr-ray" x1="60" y1="30" x2="50" y2="20"/>
-  </g>
-  <circle class="sr-sun" cx="80" cy="50" r="28" stroke="#F1CA55" stroke-width="2"/>
-  <g class="sr-petals" stroke="#F1CA55" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path class="sr-petal" d="M80 50 Q72 36 80 26 Q88 36 80 50Z"/>
-    <path class="sr-petal" d="M80 50 Q94 42 100 30 Q90 40 80 50Z"/>
-    <path class="sr-petal" d="M80 50 Q66 42 60 30 Q70 40 80 50Z"/>
-    <path class="sr-petal" d="M80 50 Q90 58 94 70 Q84 62 80 50Z"/>
-  </g>
-  <circle class="sr-center" cx="80" cy="50" r="5.5" fill="#F1CA55"/>
-  <line class="sr-horizon" x1="24" y1="82" x2="136" y2="82" stroke="#F1CA55" stroke-width="2" stroke-linecap="round"/>
-  <path d="M24 82 Q80 70 136 82" fill="none" stroke="#F1CA55" stroke-width="1" stroke-linecap="round" opacity="0.38"/>
-</svg>`;
-    preloaderLogo.outerHTML = sunriseSVG;
-    const bar = document.querySelector(".preloader-bar");
-    if (bar) bar.style.display = "none";
-  }
+  /* ── A · Preloader keeps the EXACT logo image; the premium reveal
+     (sunrise glow bloom, rise-into-focus, masked gold sheen sweep) is
+     done entirely in CSS so it stays crisp and works on every page. ── */
 
   /* ── B · (removed) Per-word nav micro-icons — nav is now clean
      editorial Marcellus type, no stacked glyphs. Clear any that a
