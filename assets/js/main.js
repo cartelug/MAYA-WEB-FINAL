@@ -341,6 +341,141 @@
     }
   }
 
+  /* =======================================================================
+     Maya Motion System (v9 "next level") — one rAF scroll bus drives:
+       · scroll progress bar
+       · hero multi-layer depth parallax (scroll + mouse + gyroscope)
+       · "A day at Maya" sky-scrub (time-of-day colour journey + travelling sun)
+       · 3D card tilt with specular gloss (mouse) / press-tilt (touch)
+     All composited (transform/opacity/clip-path only), capability-gated,
+     and fully disabled under prefers-reduced-motion.
+     ======================================================================= */
+  (function motionSystem() {
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
+
+    /* --- single rAF scroll bus (all scroll-linked effects share it) --- */
+    const subs = [];
+    let lastY = window.scrollY, queued = false;
+    const pump = () => {
+      const y = window.scrollY, v = y - lastY; lastY = y;
+      for (let i = 0; i < subs.length; i++) subs[i](y, v);
+      queued = false;
+    };
+    const kick = () => { if (!queued) { queued = true; requestAnimationFrame(pump); } };
+    const sub = (fn) => { subs.push(fn); fn(window.scrollY, 0); };
+    if (!reduceMotion) {
+      window.addEventListener("scroll", kick, { passive: true });
+      window.addEventListener("resize", kick, { passive: true });
+    }
+
+    /* ---- 1 · Scroll progress bar ---- */
+    if (!reduceMotion) {
+      const bar = document.createElement("div");
+      bar.className = "scroll-progress"; bar.setAttribute("aria-hidden", "true");
+      document.body.appendChild(bar);
+      sub(() => {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.transform = "scaleX(" + (h > 0 ? clamp(window.scrollY / h, 0, 1) : 0).toFixed(4) + ")";
+      });
+    }
+
+    /* ---- 2 · Hero depth parallax (scroll + pointer/gyro) + scroll hand-off ---- */
+    const heroBg = document.querySelector(".hero-home .hero-bg");
+    const heroContent = document.querySelector(".hero-home .hero-content");
+    if (heroBg && !reduceMotion) {
+      sub((y) => {
+        if (y > window.innerHeight * 1.3) return;
+        heroBg.style.setProperty("--py", (y * 0.18).toFixed(1) + "px");
+        if (heroContent) {
+          const p = clamp(y / (window.innerHeight * 0.85), 0, 1);
+          heroContent.style.setProperty("--ho", (1 - p).toFixed(3));
+          heroContent.style.setProperty("--hy", (y * 0.14).toFixed(1) + "px");
+          heroContent.style.setProperty("--hb", (p * 6).toFixed(1) + "px");
+        }
+      });
+      let mx = 0, my = 0, tmx = 0, tmy = 0;
+      const apply = (sf) => {
+        mx = lerp(mx, tmx, 0.06); my = lerp(my, tmy, 0.06);
+        heroBg.style.setProperty("--mx", (mx * sf).toFixed(2) + "px");
+        heroBg.style.setProperty("--my", (my * sf).toFixed(2) + "px");
+        requestAnimationFrame(() => apply(sf));
+      };
+      if (finePointer) {
+        window.addEventListener("mousemove", (e) => {
+          tmx = (e.clientX / window.innerWidth - 0.5) * 2;
+          tmy = (e.clientY / window.innerHeight - 0.5) * 2;
+        }, { passive: true });
+        apply(15);
+      } else if (coarse && window.DeviceOrientationEvent) {
+        const onOrient = (e) => {
+          tmx = clamp((e.gamma || 0) / 28, -1, 1);
+          tmy = clamp(((e.beta || 0) - 45) / 28, -1, 1);
+        };
+        const startGyro = () => { window.addEventListener("deviceorientation", onOrient); apply(11); };
+        if (typeof DeviceOrientationEvent.requestPermission === "function") {
+          const ask = () => {
+            DeviceOrientationEvent.requestPermission()
+              .then((s) => { if (s === "granted") startGyro(); }).catch(() => {});
+          };
+          window.addEventListener("touchend", ask, { once: true });
+        } else startGyro();
+      }
+    }
+
+    /* ---- 3 · "A day at Maya" sky-scrub (dawn → midday → golden → dusk → night) ---- */
+    const day = document.querySelector(".hp-day");
+    if (day) {
+      const sky = document.createElement("div");
+      sky.className = "day-sky"; sky.setAttribute("aria-hidden", "true");
+      day.prepend(sky);
+      // rgb keyframes: dawn, midday, golden, dusk, night
+      const top = [[26,58,107],[61,127,196],[31,95,168],[58,42,94],[8,16,40]];
+      const bot = [[243,182,90],[219,238,252],[247,210,122],[232,138,82],[36,58,84]];
+      const mc = (a, b, t) => "rgb(" + Math.round(lerp(a[0],b[0],t)) + "," + Math.round(lerp(a[1],b[1],t)) + "," + Math.round(lerp(a[2],b[2],t)) + ")";
+      const paint = (p) => {
+        const seg = p * (top.length - 1);
+        const i = Math.min(top.length - 2, Math.floor(seg));
+        const f = seg - i;
+        sky.style.background = "linear-gradient(165deg, " + mc(top[i], top[i+1], f) + " 0%, " + mc(bot[i], bot[i+1], f) + " 100%)";
+        day.style.setProperty("--sun-x", (10 + 80 * p).toFixed(1) + "%");
+        day.style.setProperty("--sun-y", (80 - Math.sin(Math.PI * p) * 62).toFixed(1) + "%");
+        day.style.setProperty("--sun-op", (p > 0.86 ? lerp(0.85, 0.1, (p - 0.86) / 0.14) : 0.85).toFixed(2));
+      };
+      if (reduceMotion) paint(0.5);
+      else sub(() => {
+        const r = day.getBoundingClientRect(), vh = window.innerHeight;
+        paint(clamp((vh - r.top) / (vh + r.height), 0, 1));
+      });
+    }
+
+    /* ---- 4 · 3D card tilt + specular gloss (mouse) / press (touch) ---- */
+    if (!reduceMotion) {
+      document.querySelectorAll(".card, .amenity-card, .hp-pillar").forEach((el) => {
+        el.classList.add("tilt3d");
+        if (finePointer) {
+          el.addEventListener("mousemove", (e) => {
+            const r = el.getBoundingClientRect();
+            const px = (e.clientX - r.left) / r.width - 0.5;
+            const py = (e.clientY - r.top) / r.height - 0.5;
+            el.style.setProperty("--rx", (py * -5).toFixed(2) + "deg");
+            el.style.setProperty("--ry", (px * 7).toFixed(2) + "deg");
+            el.style.setProperty("--gx", (px * 100 + 50).toFixed(1) + "%");
+            el.style.setProperty("--gy", (py * 100 + 50).toFixed(1) + "%");
+            el.classList.add("is-tilting");
+          });
+          el.addEventListener("mouseleave", () => {
+            el.style.setProperty("--rx", "0deg"); el.style.setProperty("--ry", "0deg");
+            el.classList.remove("is-tilting");
+          });
+        } else if (coarse) {
+          el.addEventListener("touchstart", () => el.classList.add("is-press"), { passive: true });
+          const up = () => el.classList.remove("is-press");
+          el.addEventListener("touchend", up); el.addEventListener("touchcancel", up);
+        }
+      });
+    }
+  })();
+
   /* ---------- Menu ordering cart ---------- */
   if (document.body.classList.contains("menu-page")) {
     const WA_NUMBER = "256773883760";

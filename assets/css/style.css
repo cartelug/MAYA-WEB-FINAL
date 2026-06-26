@@ -2885,3 +2885,115 @@ html.intro-ready .ta-pill:nth-child(5) { animation-delay: 2.20s; }
   .day-timeline.is-visible .day-node { transform: translateX(-50%) scale(1); }
   .day-card-body { transform: none !important; opacity: 1 !important; }
 }
+
+/* =========================================================================
+   MAYA MOTION SYSTEM v9  —  next-level scroll/pointer choreography
+   (all composited; JS-gated; reduced-motion safe at the bottom)
+   ========================================================================= */
+
+/* --- 1 · Scroll progress bar --- */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 9000;
+  transform: scaleX(0); transform-origin: 0 50%;
+  background: var(--grad-gold);
+  box-shadow: 0 0 14px rgba(241,202,85,.65);
+  pointer-events: none; will-change: transform;
+}
+
+/* --- 2 · Hero depth: image plane parallaxes on scroll(--py) + pointer/gyro(--mx,--my) --- */
+.hero-home .hero-bg { --py: 0px; --mx: 0px; --my: 0px; }
+.hero-home .hero-image {
+  transform: translate3d(var(--mx), calc(var(--py) + var(--my)), 0) scale(1.14);
+  animation: heroKen 28s var(--ease) infinite alternate;
+}
+@keyframes heroKen {
+  0%   { background-position: center 36%; }
+  100% { background-position: center 48%; }
+}
+/* hero content cinematic hand-off as you scroll away */
+.hero-home .hero-content { --ho: 1; --hy: 0px; --hb: 0px; }
+html.reveal-ready .hero-home .hero-content {
+  opacity: var(--ho);
+  transform: translateY(var(--hy));
+  filter: blur(var(--hb));
+  will-change: transform, opacity;
+}
+
+/* --- 3 · "A day at Maya" sky-scrub overlay + travelling sun --- */
+.hp-day { position: relative; isolation: isolate; --sun-x: 50%; --sun-y: 30%; --sun-op: .85; }
+.day-sky {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  opacity: .2; transition: opacity .5s var(--ease);
+  mix-blend-mode: multiply;
+}
+.hp-day::before {
+  content: ""; position: absolute; z-index: 0; pointer-events: none;
+  width: clamp(90px, 12vw, 156px); aspect-ratio: 1; border-radius: 50%;
+  left: var(--sun-x); top: var(--sun-y); transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255,238,176,.95), rgba(255,205,95,.4) 44%, transparent 70%);
+  opacity: var(--sun-op); filter: blur(2px); mix-blend-mode: screen;
+}
+.hp-day > .container { position: relative; z-index: 1; }
+
+/* --- 4 · 3D card tilt + specular gloss (desktop) / press (touch) --- */
+.tilt3d { --rx: 0deg; --ry: 0deg; transform-style: preserve-3d; }
+.card.tilt3d.is-tilting,
+.amenity-card.tilt3d.is-tilting,
+.hp-pillar.tilt3d.is-tilting {
+  transform: perspective(950px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-6px);
+  transition: transform .14s var(--ease);
+}
+.card.tilt3d::after, .amenity-card.tilt3d::after {
+  content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  border-radius: inherit; opacity: 0; transition: opacity .35s var(--ease);
+  background: radial-gradient(150px 150px at var(--gx,50%) var(--gy,50%), rgba(255,255,255,.22), transparent 62%);
+}
+.card.tilt3d.is-tilting::after, .amenity-card.tilt3d.is-tilting::after { opacity: 1; }
+.tilt3d.is-press { transform: scale(.972); transition: transform .22s var(--ease); }
+
+/* --- 5 · Clip-path "unveil" reveals (editorial wipe) --- */
+.reveal-ready [data-reveal="wipe"],
+.reveal-ready [data-reveal="wipe-r"] {
+  opacity: 1; transform: none; filter: none;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.05s var(--ease-premium);
+}
+.reveal-ready [data-reveal="wipe-r"] { clip-path: inset(0 0 0 100%); }
+.reveal-ready [data-reveal="wipe"].is-visible,
+.reveal-ready [data-reveal="wipe-r"].is-visible { clip-path: inset(0 0 0 0); }
+
+/* --- 6 · Pillar icon springs in on reveal --- */
+.reveal-ready .hp-pillar .hp-pillar-icon {
+  opacity: 0; transform: scale(.55) rotate(-14deg);
+  transition: opacity .6s var(--ease-premium) .12s, transform .7s var(--ease-spring) .12s;
+}
+.reveal-ready .hp-pillar.is-visible .hp-pillar-icon { opacity: 1; transform: none; }
+
+/* --- 7 · Ambient gradient mesh in dark sections --- */
+.section.dark { position: relative; overflow: hidden; }
+.section.dark::before {
+  content: ""; position: absolute; inset: -25%; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(38% 48% at 18% 28%, rgba(44,125,83,.55), transparent 60%),
+    radial-gradient(40% 50% at 82% 72%, rgba(212,166,42,.20), transparent 62%);
+  filter: blur(44px);
+  animation: meshDrift 26s var(--ease) infinite alternate;
+}
+.section.dark > * { position: relative; z-index: 1; }
+@keyframes meshDrift {
+  0%   { transform: translate(0,0) scale(1); }
+  100% { transform: translate(5%,4%) scale(1.12); }
+}
+
+/* --- 8 · Motion-safe fallbacks for everything above --- */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress { display: none; }
+  .hero-home .hero-image { animation: none; transform: scale(1.04); }
+  html.reveal-ready .hero-home .hero-content { opacity: 1 !important; transform: none !important; filter: none !important; }
+  .day-sky, .hp-day::before { display: none; }
+  .tilt3d.is-tilting, .tilt3d.is-press { transform: none !important; }
+  .card.tilt3d.is-tilting::after, .amenity-card.tilt3d.is-tilting::after { opacity: 0 !important; }
+  .reveal-ready [data-reveal="wipe"], .reveal-ready [data-reveal="wipe-r"] { clip-path: none !important; }
+  .reveal-ready .hp-pillar .hp-pillar-icon { opacity: 1 !important; transform: none !important; }
+  .section.dark::before { animation: none; }
+}
