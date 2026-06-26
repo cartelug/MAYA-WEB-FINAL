@@ -653,27 +653,10 @@
     if (bar) bar.style.display = "none";
   }
 
-  /* ── B · Nav micro-icons — inject above each nav word (desktop only) ── */
-  const NAV_ICONS = {
-    "index.html":       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2C7 7 3 11 3 15a9 9 0 0 0 18 0C21 11 17 7 12 2Z"/></svg>',
-    "rooms.html":       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9v9M22 9v9M2 13h20"/><rect x="5" y="5" width="14" height="8" rx="2"/></svg>',
-    "events.html":      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20 12 4 21 20H3Z"/><path d="M10 20v-4a2 2 0 1 1 4 0v4"/></svg>',
-    "experiences.html": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m16.2 7.8-5.5 8.1-2.9-4.1 8.4-4Z"/></svg>',
-    "menu.html":        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 2v7c0 1.7 1.3 3 3 3a3 3 0 0 0 3-3V2M6 12v10"/><path d="M16 2v20M16 2c2 2 3 4.5 3 7s-1 5-3 7"/></svg>',
-    "gallery.html":     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="6" width="22" height="15" rx="3"/><circle cx="12" cy="13" r="4"/><path d="M8 6 10 2h4l2 4"/></svg>',
-    "directions.html":  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5"/><path d="M7.8 15C5.5 17.4 4 20 4 22h16c0-2-1.5-4.6-3.8-7"/></svg>',
-    "contact.html":     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
-  };
-
-  document.querySelectorAll(".nav-menu a").forEach(function (link) {
-    const href = link.getAttribute("href") || "";
-    const key = Object.keys(NAV_ICONS).find(function (k) { return href.includes(k); });
-    if (!key) return;
-    const ic = document.createElement("span");
-    ic.className = "nav-ic";
-    ic.innerHTML = NAV_ICONS[key];
-    link.insertBefore(ic, link.firstChild);
-  });
+  /* ── B · (removed) Per-word nav micro-icons — nav is now clean
+     editorial Marcellus type, no stacked glyphs. Clear any that a
+     cached build may have injected. ── */
+  document.querySelectorAll(".nav-menu .nav-ic").forEach(function (el) { el.remove(); });
 
   /* ── ★ Sitewide: replace ★★★★★ text with brand-leaf SVG marks ── */
   const LEAF_SVG = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C7 7 3 11 3 15a9 9 0 0 0 18 0C21 11 17 7 12 2Z"/></svg>';

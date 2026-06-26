@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&family=Syne:wght@400;500;600;700;800&display=swap');
 
 /* =========================================================================
    MAYA NATURE RESORT — v8 design system
@@ -57,6 +57,7 @@
 
   /* --- Typography --- */
   --font-sans:    "Syne", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-nav:     "Marcellus", "Cormorant Garamond", "Times New Roman", Georgia, serif;
   --font-display: "Knockout Sumo", "Arial Narrow", "Helvetica Neue Condensed", "Oswald", var(--font-sans);
   --font-head:    "Knockout Cruiserweight", "Arial Narrow", "Oswald", var(--font-sans);
   --font-serif:   var(--font-head);  /* legacy alias — accent <em>s now render in Knockout */
@@ -361,31 +362,31 @@ body { padding-top: var(--header-h); }
 }
 
 .nav-menu {
-  display: flex; align-items: center; gap: 2px;
+  display: flex; align-items: center; gap: 4px;
 }
 .nav-menu a {
   position: relative;
-  font-family: var(--font-sans);
-  font-size: .88rem;
-  font-weight: 600;
+  font-family: var(--font-nav);
+  font-size: .95rem;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: .07em;
-  opacity: .9;
+  letter-spacing: .16em;
+  opacity: .82;
   color: var(--white);
-  padding: 10px 13px;
-  border-radius: 999px;
+  padding: 9px 12px 11px;
   transition: color var(--t-fast) var(--ease),
-              background var(--t-fast) var(--ease),
-              opacity var(--t-fast) var(--ease);
+              opacity var(--t-fast) var(--ease),
+              transform var(--t) var(--ease);
 }
+/* refined hairline underline that sweeps in from the left */
 .nav-menu a::after {
   content: "";
-  position: absolute; left: 14px; right: 14px; bottom: 4px;
-  height: 2px; background: var(--gold-2); border-radius: 2px;
+  position: absolute; left: 12px; right: 12px; bottom: 3px;
+  height: 1px; background: var(--gold-2);
   transform: scaleX(0); transform-origin: left;
   transition: transform var(--t) var(--ease);
 }
-.nav-menu a:hover { opacity: 1; background: rgba(255,255,255,.08); }
+.nav-menu a:hover { opacity: 1; transform: translateY(-1px); }
 .nav-menu a:hover::after,
 .nav-menu a.active::after { transform: scaleX(1); }
 .nav-menu a.active { color: var(--gold-2); opacity: 1; }
@@ -3062,23 +3063,20 @@ html.reveal-ready .hero-home .hero-content {
   to   { opacity: 1; transform: scale(1); }
 }
 
-/* ─── B · Nav word-art: micro icon above each word (desktop) ─────────── */
+/* ─── B · Desktop nav — editorial Marcellus masthead (icons removed) ───── */
 @media (min-width: 1021px) {
+  .nav-menu { gap: clamp(2px, 1.1vw, 14px); }
   .nav-menu a {
-    display: inline-flex; flex-direction: column;
-    align-items: center; gap: 3px;
-    padding: 8px 11px 10px;
+    font-size: 1rem;
+    letter-spacing: .18em;
+    padding: 9px 6px 11px;
   }
-  .nav-ic {
-    display: block; line-height: 0;
-    color: currentColor; opacity: .55;
-    transition: opacity .2s var(--ease), transform .25s var(--ease-spring);
-    pointer-events: none;
-  }
-  .nav-ic svg { width: 13px; height: 13px; }
-  .nav-menu a:hover .nav-ic { opacity: 1; transform: scale(1.22) translateY(-1px); }
-  .nav-menu a.active .nav-ic { opacity: 1; color: var(--gold-2); }
+  /* gentle gold tint creeps in on hover before the underline lands */
+  .nav-menu a:hover { color: var(--gold-soft); }
+  .nav-menu a.active:hover { color: var(--gold-2); }
 }
+/* legacy nav-art icon span — neutralised (no longer injected) */
+.nav-ic { display: none !important; }
 
 /* ─── C · CTA Buttons — Syne font + ticket-stub + foil shimmer ─────────── */
 /* Override base btn font → Syne */
