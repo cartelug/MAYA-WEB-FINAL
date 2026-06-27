@@ -3185,42 +3185,179 @@ html.reveal-ready .hero-home .hero-content {
   letter-spacing: .03em; opacity: .8; line-height: 1; white-space: nowrap;
 }
 
-/* ─── D · Amenity scene cards ─────────────────────────────────────────── */
+/* ===== D · Amenity cinematic scene cards (v11) =====
+   Each card is a living scene: animated scene layers + film-grain + vignette
+   + a frosted glass caption. The old per-scene rules further below target
+   removed legacy classes and are inert. ===== */
 .amenity-card {
-  position: relative;
-  overflow: hidden;
+  position: relative; display: block; overflow: hidden;
   aspect-ratio: 4/3;
-  display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 22px 20px 18px;
-  color: white;
-  background: var(--green-950); /* dark fallback so the scene + white text always read */
-  border: 0;
-  border-radius: var(--radius-sm);
-  transition: transform .4s var(--ease), box-shadow .4s var(--ease);
-  text-decoration: none;
-  box-shadow: 0 6px 24px rgba(7,26,17,.18);
+  align-self: start; /* don't let the grid stretch us flat — let aspect-ratio set height */
+  background: #06140d; border: 0;
+  border-radius: var(--radius);
+  text-decoration: none; color: #fff;
+  box-shadow: 0 22px 50px -26px rgba(0,0,0,.8);
+  transition: transform .5s var(--ease-premium), box-shadow .5s var(--ease-premium);
+  isolation: isolate;
 }
-.amenity-card:hover { transform: translateY(-6px) scale(1.015); box-shadow: 0 18px 45px rgba(7,26,17,.3); }
-.amenity-card h3 { color: #fff; margin-bottom: 4px; font-size: clamp(.95rem, 1.2vw, 1.15rem); }
-.amenity-card p { color: rgba(255,255,255,.82); font-size: .84rem; margin-bottom: 10px; }
-.amenity-cta {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-family: var(--font-sans); font-weight: 600; font-size: .78rem;
-  text-transform: uppercase; letter-spacing: .1em;
-  color: var(--gold-2); opacity: .9;
+.amenity-card:hover { transform: translateY(-6px); box-shadow: 0 34px 70px -28px rgba(0,0,0,.9); }
+.amenity-card::before { content: none; } /* kill legacy radial pseudo */
+
+/* — layers — (two-class selectors beat the legacy `.amenity-card > *`) */
+.amenity-card .am-scene { position: absolute; inset: 0; z-index: 0; overflow: hidden;
+  transition: transform .4s var(--ease-premium); will-change: transform; }
+.amenity-card .am-defs { position: absolute; width: 0; height: 0; }
+.amenity-card .am-caustics { position: absolute; inset: 0; width: 100%; height: 100%; }
+.amenity-card .am-grain {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: .05; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-.amenity-cta svg { width: 14px; height: 14px; }
-/* text content scrim */
-.amenity-card::before {
-  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: linear-gradient(0deg, rgba(4,18,11,.85) 0%, rgba(4,18,11,.3) 50%, transparent 100%);
+.amenity-card .am-vig {
+  position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  box-shadow: inset 0 0 70px 14px rgba(0,0,0,.5);
+  background: radial-gradient(120% 90% at 50% 12%, transparent 52%, rgba(0,0,0,.4) 100%);
 }
-/* scene/icon fill the whole card (higher specificity so the content
-   z-index rule below can't flatten them back into the flow) */
-.amenity-card > .amenity-icon,
-.amenity-card > .amenity-scene { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
-/* only the real content sits above the scene + scrim */
-.amenity-card > :not(.amenity-scene):not(.amenity-icon) { position: relative; z-index: 2; }
+.amenity-card .am-cap {
+  position: absolute; left: 14px; right: 14px; bottom: 14px; z-index: 5;
+  display: block; padding: 13px 16px; border-radius: 14px;
+  background: linear-gradient(180deg, rgba(10,20,14,.14), rgba(8,16,11,.66));
+  -webkit-backdrop-filter: blur(8px) saturate(140%); backdrop-filter: blur(8px) saturate(140%);
+  border: 1px solid rgba(255,255,255,.12); box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+  transition: border-color .4s var(--ease);
+}
+.amenity-card:hover .am-cap { border-color: rgba(241,202,85,.4); }
+.amenity-card .am-cap h3 {
+  color: #fff; font-family: var(--font-head); font-weight: 500;
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem); margin: 0 0 3px; letter-spacing: .01em;
+  text-shadow: 0 2px 10px rgba(0,0,0,.5);
+}
+.amenity-card .am-cap p { color: rgba(255,255,255,.8); font-size: .8rem; line-height: 1.35; margin: 0 0 9px; }
+.am-cta { display: inline-flex; align-items: center; gap: 7px; color: var(--gold-2);
+  font-family: var(--font-sans); font-weight: 600; font-size: .72rem; text-transform: uppercase; letter-spacing: .14em; }
+.am-cta svg { width: 14px; height: 14px; transition: transform var(--t) var(--ease); }
+.amenity-card:hover .am-cta svg { transform: translateX(4px); }
+
+/* ── Pool: caustics + god-rays + ripples ── */
+.amenity-pool .am-scene { background: linear-gradient(170deg,#063b66,#0a6fa6 48%,#1493c7); }
+.amenity-pool .am-rays { position: absolute; inset: -20% -10%; mix-blend-mode: screen; opacity: .7;
+  background: repeating-linear-gradient(108deg, transparent 0 38px, rgba(190,235,255,.10) 40px 52px, transparent 54px 92px);
+  animation: amRays 9s linear infinite; }
+.amenity-pool .am-caustics { mix-blend-mode: screen; opacity: .8; }
+.am-ripple { position: absolute; width: 30px; height: 18px; left: 50%; top: 40%;
+  border: 2px solid rgba(220,245,255,.5); border-radius: 50%; transform: translate(-50%,-50%);
+  mix-blend-mode: screen; animation: amRipple 4.5s ease-out infinite; }
+.am-ripple.b { animation-delay: 2.2s; left: 64%; top: 30%; }
+@keyframes amRays { to { transform: translateX(-92px); } }
+@keyframes amRipple { 0% { transform: translate(-50%,-50%) scale(.2); opacity: .9; } 100% { transform: translate(-50%,-50%) scale(4.2); opacity: 0; } }
+
+/* ── Gym: figure curl + energy rings + reps ── */
+.amenity-gym .am-scene { background: linear-gradient(165deg,#08220f,#10331c 55%,#1a4326); }
+.amenity-gym .am-ring { position: absolute; left: 50%; top: 42%; border: 1px solid rgba(120,230,160,.4);
+  border-radius: 50%; transform: translate(-50%,-50%); }
+.amenity-gym .am-ring.r1 { width: 86px; height: 86px; animation: amPulse 3s ease-in-out infinite; }
+.amenity-gym .am-ring.r2 { width: 134px; height: 134px; animation: amPulse 3s ease-in-out 1.4s infinite; }
+.amenity-gym .am-reps { position: absolute; left: 50%; top: 11%; transform: translateX(-50%);
+  color: rgba(150,240,180,.85); font-family: var(--font-head); font-size: 13px; letter-spacing: .2em; }
+.amenity-gym .am-figure { position: absolute; left: 50%; top: 44%; transform: translate(-50%,-50%); width: 60px; height: 84px; }
+.amenity-gym .am-arm { transform-box: fill-box; transform-origin: 0% 0%; animation: amCurl 1.5s ease-in-out infinite alternate; }
+@keyframes amPulse { 0%,100% { opacity: .2; transform: translate(-50%,-50%) scale(.95); } 50% { opacity: .6; transform: translate(-50%,-50%) scale(1.1); } }
+@keyframes amCurl { from { transform: rotate(8deg); } to { transform: rotate(-78deg); } }
+
+/* ── Sauna: embers + heat-haze + steam ── */
+.amenity-sauna .am-scene { background: linear-gradient(180deg,#2a1206,#3d1c08 60%,#23100a); }
+.amenity-sauna .am-haze { position: absolute; inset: 0; filter: url(#amHeat); }
+.amenity-sauna .am-wood { position: absolute; inset: 0; opacity: .5;
+  background: repeating-linear-gradient(90deg, rgba(120,60,20,0) 0 26px, rgba(90,44,14,.5) 26px 28px),
+              repeating-linear-gradient(0deg, rgba(60,28,8,.25) 0 40px, rgba(40,18,6,.4) 40px 42px); }
+.amenity-sauna .am-embers { position: absolute; left: 50%; bottom: 30%; transform: translateX(-50%);
+  width: 56%; height: 24px; border-radius: 50%; filter: blur(1px);
+  background: radial-gradient(ellipse, rgba(255,140,40,.9), rgba(200,60,10,.3) 60%, transparent 75%);
+  animation: amFlick 1.6s ease-in-out infinite alternate; }
+.amenity-sauna .am-steam { position: absolute; bottom: 36%; width: 6px; height: 56px; border-radius: 6px;
+  background: linear-gradient(0deg, rgba(255,255,255,0), rgba(255,255,255,.5)); filter: blur(2px); }
+.amenity-sauna .am-steam.a { left: 40%; animation: amRise 4.2s ease-out infinite; }
+.amenity-sauna .am-steam.b { left: 52%; animation: amRise 4.2s ease-out .8s infinite; }
+.amenity-sauna .am-steam.c { left: 60%; animation: amRise 4.2s ease-out 1.9s infinite; }
+@keyframes amFlick { 0% { opacity: .65; transform: translateX(-50%) scaleX(.92); } 100% { opacity: 1; transform: translateX(-50%) scaleX(1.08); } }
+@keyframes amRise { 0% { opacity: 0; transform: translateY(0) scaleX(1); } 20% { opacity: .8; } 100% { opacity: 0; transform: translateY(-86px) scaleX(.3); } }
+
+/* ── Breakfast: god-rays + coffee + curling steam ── */
+.amenity-breakfast .am-scene { background: linear-gradient(175deg,#6b3a08,#b3741c 52%,#e0a943); }
+.amenity-breakfast .am-rays { position: absolute; inset: -20%; mix-blend-mode: screen; opacity: .5;
+  background: repeating-linear-gradient(72deg, transparent 0 30px, rgba(255,240,200,.18) 32px 44px, transparent 46px 80px);
+  animation: amRays 11s linear infinite; }
+.amenity-breakfast .am-cup { position: absolute; left: 50%; bottom: 40%; transform: translateX(-50%);
+  width: 60px; height: 42px; background: linear-gradient(180deg,#2a1a0c,#160d05);
+  border-radius: 0 0 16px 16px; box-shadow: 0 8px 18px rgba(0,0,0,.4); }
+.amenity-breakfast .am-cup::after { content: ""; position: absolute; right: -13px; top: 8px; width: 15px; height: 19px;
+  border: 4px solid #2a1a0c; border-radius: 0 12px 12px 0; }
+.amenity-breakfast .am-cup::before { content: ""; position: absolute; left: 6px; right: 6px; top: -5px; height: 8px;
+  border-radius: 50%; background: #3a2410; }
+.amenity-breakfast .am-bsteam { position: absolute; left: 50%; bottom: 54%; width: 7px; height: 44px; border-radius: 6px;
+  background: linear-gradient(0deg, transparent, rgba(255,250,235,.6)); filter: blur(2px); }
+.amenity-breakfast .am-bsteam.a { margin-left: -11px; animation: amRise 3.6s ease-out infinite; }
+.amenity-breakfast .am-bsteam.b { margin-left: 4px; animation: amRise 3.6s ease-out 1.2s infinite; }
+
+/* ── Fountain: sequenced jets + droplets + light-wash ── */
+.amenity-fountain .am-scene { background: linear-gradient(180deg,#04122b,#082a55 55%,#0d3e72); }
+.amenity-fountain .am-wash { position: absolute; inset: 0; mix-blend-mode: screen; opacity: .5;
+  background: radial-gradient(60% 50% at 50% 88%, rgba(120,200,255,.6), transparent 70%); animation: amHue 6s linear infinite; }
+.amenity-fountain .am-jet { position: absolute; bottom: 30%; width: 5px; border-radius: 6px; transform-origin: bottom center;
+  background: linear-gradient(0deg, rgba(150,220,255,.85), rgba(220,245,255,.2)); filter: blur(.4px); }
+.amenity-fountain .am-jet.j1 { left: 34%; height: 34%; animation: amJet 2.2s ease-in-out infinite; }
+.amenity-fountain .am-jet.j2 { left: 50%; height: 48%; animation: amJet 2.2s ease-in-out .35s infinite; }
+.amenity-fountain .am-jet.j3 { left: 66%; height: 34%; animation: amJet 2.2s ease-in-out .7s infinite; }
+.amenity-fountain .am-drop { position: absolute; width: 4px; height: 4px; border-radius: 50%;
+  background: rgba(220,245,255,.9); box-shadow: 0 0 6px rgba(150,220,255,.8); }
+.amenity-fountain .am-drop.d1 { left: 50%; bottom: 80%; animation: amDrop 2.2s ease-out .35s infinite; }
+.amenity-fountain .am-drop.d2 { left: 34%; bottom: 66%; animation: amDrop 2.2s ease-out 0s infinite; }
+.amenity-fountain .am-drop.d3 { left: 66%; bottom: 66%; animation: amDrop 2.2s ease-out .7s infinite; }
+.amenity-fountain .am-poolbase { position: absolute; left: 8%; right: 8%; bottom: 26%; height: 10px; border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(120,200,255,.5), transparent 70%); animation: amGlow 2.4s ease-in-out infinite alternate; }
+@keyframes amHue { 0% { filter: hue-rotate(0); } 100% { filter: hue-rotate(360deg); } }
+@keyframes amJet { 0%,100% { transform: scaleY(.35); opacity: .5; } 50% { transform: scaleY(1); opacity: 1; } }
+@keyframes amDrop { 0% { opacity: 0; transform: translateY(8px); } 25% { opacity: 1; } 100% { opacity: 0; transform: translateY(36px); } }
+@keyframes amGlow { 0% { opacity: .5; transform: scaleX(.95); } 100% { opacity: .9; transform: scaleX(1.05); } }
+
+/* ── Zip-line: parallax jungle + rider with trail ── */
+.amenity-zip .am-scene { background: linear-gradient(180deg,#0a3a18,#0e2c16 50%,#071c0e); }
+.amenity-zip .am-far { position: absolute; left: 0; right: 0; bottom: 0; height: 55%; opacity: .7;
+  background: radial-gradient(60% 100% at 20% 100%, #123a1c, transparent 60%), radial-gradient(60% 100% at 80% 100%, #103418, transparent 60%);
+  animation: amSway 9s ease-in-out infinite alternate; }
+.amenity-zip .am-near { position: absolute; left: 0; right: 0; bottom: 0; height: 42%; background: #06160b;
+  clip-path: polygon(0 100%,8% 40%,16% 100%,26% 30%,36% 100%,48% 45%,60% 100%,72% 25%,84% 100%,94% 50%,100% 100%); }
+.amenity-zip .am-line { position: absolute; left: 6%; right: 4%; top: 30%; height: 2px; background: rgba(255,255,255,.4);
+  transform: rotate(11deg); transform-origin: left; }
+.amenity-zip .am-rider { position: absolute; top: 29%; left: 8%; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--gold-2); box-shadow: 0 0 14px rgba(241,202,85,.9); animation: amZip 2.6s cubic-bezier(.5,0,.6,1) infinite; }
+.amenity-zip .am-rider::after { content: ""; position: absolute; right: 10px; top: 5px; width: 40px; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(241,202,85,.8)); border-radius: 2px; }
+.amenity-zip .am-wind { position: absolute; top: 34%; left: 20%; width: 50px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent); animation: amWind 1.3s linear infinite; }
+.amenity-zip .am-wind.w2 { top: 50%; left: 46%; animation-delay: .5s; }
+@keyframes amSway { to { transform: translateX(-12px); } }
+@keyframes amZip { 0% { left: 8%; top: 29%; } 100% { left: 82%; top: 46%; } }
+@keyframes amWind { 0% { opacity: 0; transform: translateX(20px); } 40% { opacity: .7; } 100% { opacity: 0; transform: translateX(-60px); } }
+
+/* — perf: pause every scene's CSS motion while the card is off-screen — */
+.amenity-card.is-paused .am-scene *,
+.amenity-card.is-paused .am-rays { animation-play-state: paused !important; }
+
+/* — mobile: drop the heaviest filter, calm the caustics — */
+@media (max-width: 760px) {
+  .amenity-sauna .am-haze { filter: none; }
+  .amenity-pool .am-caustics { opacity: .6; }
+  .amenity-card .am-cap { -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); }
+}
+
+/* — reduced motion: keep the scene, lose the movement — */
+@media (prefers-reduced-motion: reduce) {
+  .amenity-card .am-scene *, .amenity-card .am-rays { animation: none !important; }
+  .amenity-sauna .am-haze { filter: none; }
+  .amenity-card .am-scene { transition: none; }
+}
+
+/* ── legacy v10 per-scene rules below are inert (classes removed) ── */
 
 /* ── Pool: deep-blue wave-glow ── */
 .amenity-pool .amenity-scene { background: linear-gradient(165deg, #04568a 0%, #0880b8 45%, #1aaad6 100%); }
