@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Marcellus&family=Syne:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap');
 
 /* =========================================================================
    MAYA NATURE RESORT — v8 design system
@@ -57,7 +57,7 @@
 
   /* --- Typography --- */
   --font-sans:    "Syne", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  --font-nav:     "Marcellus", "Cormorant Garamond", "Times New Roman", Georgia, serif;
+  --font-nav:     "Montserrat", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --font-display: "Knockout Sumo", "Arial Narrow", "Helvetica Neue Condensed", "Oswald", var(--font-sans);
   --font-head:    "Knockout Cruiserweight", "Arial Narrow", "Oswald", var(--font-sans);
   --font-serif:   var(--font-head);  /* legacy alias — accent <em>s now render in Knockout */
@@ -425,13 +425,13 @@ body { padding-top: var(--header-h); }
 .nav-menu a {
   position: relative;
   font-family: var(--font-nav);
-  font-size: .95rem;
-  font-weight: 400;
+  font-size: .8rem;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: .16em;
-  opacity: .82;
+  letter-spacing: .11em;
+  opacity: .86;
   color: var(--white);
-  padding: 9px 12px 11px;
+  padding: 9px 11px 11px;
   transition: color var(--t-fast) var(--ease),
               opacity var(--t-fast) var(--ease),
               transform var(--t) var(--ease);
@@ -447,21 +447,59 @@ body { padding-top: var(--header-h); }
 .nav-menu a:hover { opacity: 1; transform: translateY(-1px); }
 .nav-menu a:hover::after,
 .nav-menu a.active::after { transform: scaleX(1); }
-.nav-menu a.active { color: var(--gold-2); opacity: 1; }
-
-.nav-cta {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--grad-gold); color: var(--green-950);
-  font-family: var(--font-head);
-  font-weight: 500; font-size: 1rem; text-transform: uppercase; letter-spacing: .05em;
-  padding: 11px 22px; border-radius: 999px;
-  margin-left: 10px;
-  box-shadow: var(--shadow-gold);
-  transition: transform var(--t-fast) var(--ease), box-shadow var(--t) var(--ease);
-  white-space: nowrap;
+/* active word cast in gold foil */
+.nav-menu a.active {
+  opacity: 1;
+  background: var(--grad-gold);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
 }
-.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 24px 50px -12px rgba(212,166,42,.7); }
-.nav-cta svg { width: 14px; height: 14px; }
+
+/* ===== Book Now — gilded 3D pill (specular + bevel + shimmer) ===== */
+.nav-cta {
+  position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--font-nav);
+  font-weight: 700; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em;
+  color: #3e2c08;
+  padding: 12px 23px; border-radius: 999px;
+  margin-left: 12px; white-space: nowrap;
+  background: linear-gradient(180deg, #fff3cf 0%, #f3d271 17%, #e3b53e 44%, #c8971d 70%, #a87c14 100%);
+  box-shadow:
+    inset 0 2px 1px rgba(255,255,255,.9),
+    inset 0 -3px 7px rgba(110,72,0,.55),
+    inset 0 0 0 1px rgba(255,242,196,.7),
+    0 2px 0 #5e420c,
+    0 14px 28px rgba(212,166,42,.42),
+    0 0 42px rgba(241,202,85,.22);
+  transition: transform var(--t-fast) var(--ease), box-shadow var(--t) var(--ease), filter var(--t) var(--ease);
+}
+/* top specular highlight */
+.nav-cta::before {
+  content: ""; position: absolute; top: 2px; left: 5px; right: 5px; height: 44%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255,255,255,.72), transparent);
+  pointer-events: none;
+}
+/* travelling shimmer */
+.nav-cta::after {
+  content: ""; position: absolute; top: 0; left: -55%; width: 42%; height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,.85), transparent);
+  transform: skewX(-18deg); pointer-events: none;
+  animation: navCtaSweep 4.2s ease-in-out 2.2s infinite;
+}
+@keyframes navCtaSweep { 0%, 55% { left: -55%; } 82%, 100% { left: 130%; } }
+.nav-cta:hover {
+  transform: translateY(-2px); filter: brightness(1.05);
+  box-shadow:
+    inset 0 2px 1px rgba(255,255,255,.9),
+    inset 0 -3px 7px rgba(110,72,0,.55),
+    inset 0 0 0 1px rgba(255,242,196,.7),
+    0 4px 0 #5e420c,
+    0 22px 44px rgba(212,166,42,.6),
+    0 0 60px rgba(241,202,85,.4);
+}
+.nav-cta svg { position: relative; width: 14px; height: 14px; }
 
 /* Hamburger / close toggle */
 .menu-toggle {
@@ -1640,6 +1678,7 @@ label { font-weight: 600; font-size: .9rem; }
   }
   .preloader-logo, .preloader-ring, .preloader::before,
   .preloader-mark::before, .preloader-mark::after,
+  .nav-cta::after,
   .hero-glow, .marquee-track,
   .scroll-cue span, .floating-whatsapp::before, .journey-cue::after {
     animation: none !important;
@@ -3070,17 +3109,16 @@ html.reveal-ready .hero-home .hero-content {
    E: Stat art  F: Rooms polish  G: Menu photos  ★→leaf sitewide
    ========================================================================= */
 
-/* ─── B · Desktop nav — editorial Marcellus masthead (icons removed) ───── */
+/* ─── B · Desktop nav — Montserrat, refined (icons removed) ───── */
 @media (min-width: 1021px) {
-  .nav-menu { gap: clamp(2px, 1.1vw, 14px); }
+  .nav-menu { gap: clamp(2px, .7vw, 10px); }
   .nav-menu a {
-    font-size: 1rem;
-    letter-spacing: .18em;
-    padding: 9px 6px 11px;
+    font-size: .82rem;
+    letter-spacing: .12em;
+    padding: 9px 8px 11px;
   }
   /* gentle gold tint creeps in on hover before the underline lands */
   .nav-menu a:hover { color: var(--gold-soft); }
-  .nav-menu a.active:hover { color: var(--gold-2); }
 }
 /* legacy nav-art icon span — neutralised (no longer injected) */
 .nav-ic { display: none !important; }
