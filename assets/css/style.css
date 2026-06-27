@@ -3193,6 +3193,8 @@ html.reveal-ready .hero-home .hero-content {
   display: flex; flex-direction: column; justify-content: flex-end;
   padding: 22px 20px 18px;
   color: white;
+  background: var(--green-950); /* dark fallback so the scene + white text always read */
+  border: 0;
   border-radius: var(--radius-sm);
   transition: transform .4s var(--ease), box-shadow .4s var(--ease);
   text-decoration: none;
@@ -3213,8 +3215,12 @@ html.reveal-ready .hero-home .hero-content {
   content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background: linear-gradient(0deg, rgba(4,18,11,.85) 0%, rgba(4,18,11,.3) 50%, transparent 100%);
 }
-.amenity-icon, .amenity-scene { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
-.amenity-card > * { position: relative; z-index: 2; }
+/* scene/icon fill the whole card (higher specificity so the content
+   z-index rule below can't flatten them back into the flow) */
+.amenity-card > .amenity-icon,
+.amenity-card > .amenity-scene { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+/* only the real content sits above the scene + scrim */
+.amenity-card > :not(.amenity-scene):not(.amenity-icon) { position: relative; z-index: 2; }
 
 /* ── Pool: deep-blue wave-glow ── */
 .amenity-pool .amenity-scene { background: linear-gradient(165deg, #04568a 0%, #0880b8 45%, #1aaad6 100%); }
