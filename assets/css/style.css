@@ -2087,15 +2087,17 @@ label { font-weight: 600; font-size: .9rem; }
 }
 .day-ic { width: 14px; height: 14px; flex: none; }
 
-/* every line is a single neat line — nowrap with an ellipsis safety net */
+/* title may wrap to two lines (cards are bottom-anchored, so CTAs stay aligned) */
 .day-card-title {
   font-family: var(--font-head); font-weight: 500; color: #fff;
-  font-size: clamp(1.08rem,1.4vw,1.4rem); line-height: 1.06; letter-spacing: .01em;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-size: clamp(1.08rem,1.4vw,1.4rem); line-height: 1.12; letter-spacing: .01em;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 .day-card-line {
   font: 400 .8rem var(--font-sans); color: rgba(255,255,255,.78); line-height: 1.3;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1;
+  overflow: hidden;
 }
 .day-card-cta {
   display: inline-flex; align-items: center; gap: 7px; margin-top: 3px; white-space: nowrap;
