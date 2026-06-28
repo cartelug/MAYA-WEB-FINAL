@@ -3009,12 +3009,14 @@ html.intro-ready .ta-pill:nth-child(5) { animation-delay: 2.20s; }
 /* --- 2 · Hero depth: image plane parallaxes on scroll(--py) + pointer/gyro(--mx,--my) --- */
 .hero-home .hero-bg { --py: 0px; --mx: 0px; --my: 0px; }
 .hero-home .hero-image {
-  transform: translate3d(var(--mx), calc(var(--py) + var(--my)), 0) scale(1.14);
-  animation: heroKen 28s var(--ease) infinite alternate;
+  transform: translate3d(var(--mx), calc(var(--py) + var(--my)), 0) scale(1.06);
+  animation: heroKen 26s var(--ease) infinite alternate;
 }
+/* Ken-Burns as a composited transform (no per-frame repaint); the live
+   parallax vars ride along so both run on the GPU. */
 @keyframes heroKen {
-  0%   { background-position: center 36%; }
-  100% { background-position: center 48%; }
+  0%   { transform: translate3d(var(--mx), calc(var(--py) + var(--my)), 0) scale(1.06); }
+  100% { transform: translate3d(var(--mx), calc(var(--py) + var(--my)), 0) scale(1.18); }
 }
 /* hero content cinematic hand-off as you scroll away */
 .hero-home .hero-content { --ho: 1; --hy: 0px; --hb: 0px; }
@@ -3743,8 +3745,21 @@ html.reveal-ready .hero-home .hero-content {
 .rc-round svg { width: 17px; height: 17px; }
 
 @media (max-width: 560px) {
-  .rcard { aspect-ratio: 5/6; }
-  .rc-dots { bottom: clamp(196px, 56vw, 230px); }
+  /* taller card so the photo keeps real height above a compact panel */
+  .rcard { aspect-ratio: 3/4; }
+  .rc-idx { top: 18px; left: 18px; font-size: 24px; }
+  .rc-seal { top: 18px; right: 18px; }
+  .rc-dots { display: none; } /* placeholder gallery dots — hide until real galleries */
+  .rc-glass { left: 12px; right: 12px; bottom: 12px; padding: 13px 14px; }
+  .rcard h3 { font-size: 21px; margin-bottom: 5px; }
+  .rc-kick { margin-bottom: 5px; }
+  /* tagline + chips stay to one tidy line each — no wrap squeezing the photo */
+  .rc-tl { font-size: 13.5px; line-height: 1.2; margin-bottom: 10px;
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; overflow: hidden; }
+  .rc-chips { flex-wrap: nowrap; gap: 6px; margin-bottom: 12px; overflow: hidden; }
+  .rc-chip { font-size: 10px; padding: 5px 8px; white-space: nowrap; }
+  .rc-chip:nth-child(3) { display: none; } /* keep two key specs on one row */
+  .rc-reserve { padding: 12px 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .rc-img { animation: none !important; transform: scale(1.05); }

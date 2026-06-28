@@ -419,25 +419,33 @@
           heroContent.style.setProperty("--hb", (pbEased * 7).toFixed(1) + "px");
         }
       });
-      let mx = 0, my = 0, tmx = 0, tmy = 0;
-      const apply = (sf) => {
-        mx = lerp(mx, tmx, 0.06); my = lerp(my, tmy, 0.06);
-        heroBg.style.setProperty("--mx", (mx * sf).toFixed(2) + "px");
-        heroBg.style.setProperty("--my", (my * sf).toFixed(2) + "px");
-        requestAnimationFrame(() => apply(sf));
+      let mx = 0, my = 0, tmx = 0, tmy = 0, heroRaf = null, heroSf = 15;
+      const apply = () => {
+        mx = lerp(mx, tmx, 0.08); my = lerp(my, tmy, 0.08);
+        heroBg.style.setProperty("--mx", (mx * heroSf).toFixed(2) + "px");
+        heroBg.style.setProperty("--my", (my * heroSf).toFixed(2) + "px");
+        // idle the loop once movement has settled — no per-frame work at rest
+        if (Math.abs(mx - tmx) > 0.04 || Math.abs(my - tmy) > 0.04) {
+          heroRaf = requestAnimationFrame(apply);
+        } else {
+          heroRaf = null;
+        }
       };
+      const kickHero = () => { if (heroRaf == null) heroRaf = requestAnimationFrame(apply); };
       if (finePointer) {
         window.addEventListener("mousemove", (e) => {
           tmx = (e.clientX / window.innerWidth - 0.5) * 2;
           tmy = (e.clientY / window.innerHeight - 0.5) * 2;
+          kickHero();
         }, { passive: true });
-        apply(15);
       } else if (coarse && window.DeviceOrientationEvent) {
+        heroSf = 11;
         const onOrient = (e) => {
           tmx = clamp((e.gamma || 0) / 28, -1, 1);
           tmy = clamp(((e.beta || 0) - 45) / 28, -1, 1);
+          kickHero();
         };
-        const startGyro = () => { window.addEventListener("deviceorientation", onOrient); apply(11); };
+        const startGyro = () => { window.addEventListener("deviceorientation", onOrient); };
         if (typeof DeviceOrientationEvent.requestPermission === "function") {
           const ask = () => {
             DeviceOrientationEvent.requestPermission()
