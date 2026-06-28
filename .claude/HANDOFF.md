@@ -8,22 +8,34 @@
 - Push every change to **both** `claude/friendly-gates-fx05kl` **and** `main`.
 - Stack is **vanilla HTML/CSS/JS only** (no frameworks) — see `CLAUDE.md`.
 
-## ⏳ OPEN TASK (do this next)
-**Mobile room cards are still not liked — needs a redesign.** The user dislikes
-the current mobile setup; get specifics on *what* (proportions? glass panel?
-chips? photo size? overall layout?) before rebuilding.
+## ✅ DONE LAST — mobile room cards redesigned (neat stacked card)
+User feedback: the mobile cards were "disorganized" — make them neat, match the
+PC version's polish. Fixed (pure CSS, scoped to mobile; **desktop untouched**).
 
-Where it lives:
-- Markup: `rooms.html` — the room grid uses the flagship component
-  `<article class="rcard">` … `.rc-ph/.rc-img/.rc-grade/.rc-grain/.rc-vig/.rc-frame/.rc-idx/.rc-seal/.rc-dots/.rc-glass/.rc-kick/.rc-tl/.rc-chips/.rc-chip/.rc-act/.rc-reserve/.rc-round`.
-- Styles: `assets/css/style.css` — search `ROOMS — flagship cinematic room cards`.
-  Mobile rules are in `@media (max-width: 560px)` (compact glass, taller 3/4 card,
-  1-line tagline, chips one row + 3rd hidden, dots hidden) and the
-  `@media (max-width: 760px)` perf block (backdrop-filter off, Ken-Burns idle).
-- Already tried on mobile and STILL disliked: taller 3/4 card, compacted glass
-  (~183px), tagline clamp to 1 line, chips to one row. So consider a different
-  mobile layout direction (e.g. horizontal photo + info, or a cleaner stacked
-  card), not just tweaks.
+**Root cause of the mess:** a legacy `@media (max-width:680px)` block forced
+`.room-grid` to **2 columns with `!important`** all the way down to 420px, so the
+tall cinematic cards were crammed two-up on phones (and the ≤560px card tweaks
+were fighting that). Removed it → the room grid now follows the global `.grid-3`
+rule (**single column ≤680px**). Its dead `.card-media/.room-card/.room-spec`
+child rules were removed too (only `.btn-wa-card` rules kept in that block).
+
+**New mobile card** — in `assets/css/style.css`, the `ROOMS — flagship…` block,
+now `@media (max-width: 680px)` (was 560px). Same `.rcard` markup re-flows into a
+**stacked** layout: cinematic photo on top (`.rc-ph` → `position:relative;
+aspect-ratio:16/10`, keeps `.rc-idx` + `.rc-seal` + a soft grade; grain/vignette/
+frame hidden on mobile), then a **solid** info panel (`.rcard .rc-glass`,
+`#0c1712`, in-flow) below: kicker, Marcellus title + static gold underline, 16px
+Cormorant italic tagline (no clamp), all 3 spec chips wrapping, gold Reserve
+(≥50px) + round call (50px) buttons, 10px gap.
+Verified headless 360–768px: 1 column, no horizontal scroll, panel sits below the
+photo, 3 chips visible, touch targets ≥44px. Tablet/desktop overlay (≥681px) and
+the ≤760px perf block are unchanged.
+
+## ⏳ OPEN TASK (do this next)
+- Nothing blocking on room cards. If the user wants more, see "Still optional"
+  below (stat-ribbon redesign, featured Executive showcase, sticky Reserve bar).
+- When real room photography lands, drop it into `assets/images/rooms/` (the
+  stacked card's 16/10 photo block is ready for it).
 
 ## Done this session (all pushed, HEAD ~4c1f198)
 - Nav → Montserrat + gilded 3D "Book Now" CTA; active word gold-foil.

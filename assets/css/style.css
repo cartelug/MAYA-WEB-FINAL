@@ -2651,20 +2651,14 @@ label { font-weight: 600; font-size: .9rem; }
 .room-card { display: flex; flex-direction: column; }
 
 @media (max-width: 680px) {
-  .room-grid { grid-template-columns: repeat(2, minmax(0,1fr)) !important; gap: 12px; }
-  .room-grid .card-media { margin-bottom: 14px; }
-  .room-grid .card-media img { aspect-ratio: 3/2; }
-  .room-grid .room-card { padding: 14px; }
-  .room-grid .room-card h3 { font-size: 1.05rem; }
-  .room-grid .room-card > p { font-size: .82rem; }
-  .room-grid .room-spec { font-size: .68rem; padding: 5px 9px; }
+  /* The flagship room grid now follows the global .grid-3 rule (single column
+     on phones). The old 2-col !important override here squeezed the cinematic
+     .rcard cards two-up on phones; its .card-media/.room-card/.room-spec rules
+     were dead (the only .room-grid holds .rcard markup, not legacy cards). */
   .btn-wa-card { padding: 11px 12px; gap: 9px; }
   .btn-wa-card .wa-card-text b { font-size: .8rem; }
   .btn-wa-card .wa-card-text em { font-size: .64rem; }
   .btn-wa-card > svg:first-child { width: 22px; height: 22px; }
-}
-@media (max-width: 420px) {
-  .room-grid { grid-template-columns: 1fr !important; }
 }
 
 /* --- Follow Maya cards --- */
@@ -3744,22 +3738,48 @@ html.reveal-ready .hero-home .hero-content {
 .rc-round:hover { background: rgba(241,202,85,.16); transform: translateY(-1px); }
 .rc-round svg { width: 17px; height: 17px; }
 
-@media (max-width: 560px) {
-  /* taller card so the photo keeps real height above a compact panel */
-  .rcard { aspect-ratio: 3/4; }
-  .rc-idx { top: 18px; left: 18px; font-size: 24px; }
-  .rc-seal { top: 18px; right: 18px; }
-  .rc-dots { display: none; } /* placeholder gallery dots — hide until real galleries */
-  .rc-glass { left: 12px; right: 12px; bottom: 12px; padding: 13px 14px; }
-  .rcard h3 { font-size: 21px; margin-bottom: 5px; }
-  .rc-kick { margin-bottom: 5px; }
-  /* tagline + chips stay to one tidy line each — no wrap squeezing the photo */
-  .rc-tl { font-size: 13.5px; line-height: 1.2; margin-bottom: 10px;
-    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; overflow: hidden; }
-  .rc-chips { flex-wrap: nowrap; gap: 6px; margin-bottom: 12px; overflow: hidden; }
-  .rc-chip { font-size: 10px; padding: 5px 8px; white-space: nowrap; }
-  .rc-chip:nth-child(3) { display: none; } /* keep two key specs on one row */
-  .rc-reserve { padding: 12px 14px; }
+@media (max-width: 680px) {
+  /* ── Mobile: NEAT STACKED CARD ───────────────────────────────────────────
+     Desktop is a full-bleed cinematic photo with a glass panel floating over
+     it; on phones that overlay reads as cramped + low-contrast. Here the same
+     parts (shared markup) re-flow into a clean vertical stack: cinematic photo
+     on top (index + "Best rate" seal + a soft grade kept), then a tidy SOLID
+     info panel below. Reuses the desktop gold/type tokens to stay on-brand.   */
+  .rcard {
+    aspect-ratio: auto;                 /* grow with content instead of 4/5 */
+    display: flex; flex-direction: column;
+    border-radius: 20px; border: 1px solid rgba(241,202,85,.14);
+  }
+  .rcard:hover { transform: none; }     /* no lift on touch */
+
+  /* photo → real top block (was an absolute full-bleed background) */
+  .rc-ph  { position: relative; aspect-ratio: 16 / 10; flex: none; }
+  .rc-img { inset: 0; }
+  /* confine the soft grade to the photo; drop fine grain/vignette/frame here */
+  .rc-grade { bottom: auto; aspect-ratio: 16 / 10;
+    background: linear-gradient(180deg, rgba(4,12,8,0) 50%, rgba(3,9,6,.5) 100%); }
+  .rc-grain, .rc-vig, .rc-frame, .rc-dots { display: none; }
+  .rc-idx  { top: 14px; left: 16px; font-size: 22px; }
+  .rc-seal { top: 14px; right: 14px; }
+
+  /* info panel → in-flow, solid, tidy */
+  .rc-glass {
+    position: relative; left: 0; right: 0; bottom: 0; z-index: 2;
+    padding: 16px 17px 18px; border-radius: 0;
+    border: 0; border-top: 1px solid rgba(255,255,255,.08);
+    box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+  .rcard .rc-glass { background: #0c1712; }   /* solid — beats the ≤760 perf gradient */
+  .rc-kick    { margin-bottom: 6px; }
+  .rcard h3   { font-size: 22px; margin-bottom: 8px; }
+  .rcard h3::after { width: 34px; }           /* static gold underline (no hover on touch) */
+  .rc-tl      { font-size: 16px; line-height: 1.35; margin-bottom: 14px; color: rgba(255,255,255,.82); }
+  .rc-chips   { flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .rc-chip    { font-size: 11.5px; padding: 6px 10px; }
+  .rc-chip:nth-child(3) { display: inline-flex; }   /* room for all specs now */
+  .rc-act     { gap: 10px; }
+  .rc-reserve { padding: 14px 16px; font-size: 14.5px; }   /* ≥44px touch target */
+  .rc-round   { width: 50px; }                             /* ≥44px touch target */
 }
 @media (prefers-reduced-motion: reduce) {
   .rc-img { animation: none !important; transform: scale(1.05); }
