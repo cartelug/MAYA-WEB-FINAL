@@ -135,6 +135,27 @@
         });
       }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
       revealEls.forEach((el) => io.observe(el));
+
+      /* Safety net — if the main thread is busy the observer can miss an
+         element (it left it clipped/hidden). Backstop: reveal anything that
+         is actually within the viewport. Runs on load + as a debounced
+         scroll fallback, never undoing the normal staggered reveals. */
+      const revealInView = () => {
+        for (let i = 0; i < revealEls.length; i++) {
+          const el = revealEls[i];
+          if (el.classList.contains("is-visible")) continue;
+          const r = el.getBoundingClientRect();
+          if (r.top < window.innerHeight * 0.94 && r.bottom > 0) {
+            el.classList.add("is-visible");
+            if (io) io.unobserve(el);
+          }
+        }
+      };
+      window.addEventListener("load", () => setTimeout(revealInView, 200));
+      let revealTick;
+      window.addEventListener("scroll", () => {
+        clearTimeout(revealTick); revealTick = setTimeout(revealInView, 120);
+      }, { passive: true });
     }
   }
 
