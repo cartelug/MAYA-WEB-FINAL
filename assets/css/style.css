@@ -308,14 +308,14 @@ p + p { margin-top: 14px; }
   width: 0; border-radius: 999px;
   background: linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 62%, #fffdf4 100%);
   box-shadow: 0 0 12px rgba(241,202,85,.6), 0 0 26px rgba(212,166,42,.4);
-  animation: preloaderFill 2.1s var(--ease-premium) .35s forwards;
+  animation: preloaderFill 1.05s var(--ease-premium) .2s forwards;
 }
 .preloader-bar::before {
   content: ""; position: absolute; top: 50%; left: 0;
   width: 8px; height: 8px; border-radius: 50%; background: #fff;
   box-shadow: 0 0 10px 2px rgba(255,255,255,.9), 0 0 20px 6px rgba(241,202,85,.6);
   transform: translate(-50%, -50%); opacity: 0; z-index: 2;
-  animation: preloaderSpark 2.1s var(--ease-premium) .35s forwards;
+  animation: preloaderSpark 1.05s var(--ease-premium) .2s forwards;
 }
 @keyframes preDawn {
   0%   { opacity: 0; }
@@ -3765,3 +3765,15 @@ html.reveal-ready .hero-home .hero-content {
   .rc-img { animation: none !important; transform: scale(1.05); }
   .rc-frame, .rc-seal::after, .rc-reserve::after { animation: none !important; }
 }
+
+/* ── perf: cheap composited drift for the now-static pool caustics ── */
+.amenity-pool .am-caustics { animation: amCausticDrift 16s ease-in-out infinite alternate; }
+@keyframes amCausticDrift {
+  0%   { transform: translate3d(0, 0, 0) scale(1.06); }
+  100% { transform: translate3d(-4%, -3%, 0) scale(1.14); }
+}
+/* ── perf: pause room-card animations while the card is off-screen ── */
+.rcard.is-paused .rc-img,
+.rcard.is-paused .rc-frame { animation-play-state: paused !important; }
+.rcard.is-paused .rc-seal::after,
+.rcard.is-paused .rc-reserve::after { animation-play-state: paused !important; }

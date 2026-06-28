@@ -21,7 +21,7 @@
   const startIntro = () => { if (!reduceMotion) root.classList.add("intro-ready"); };
   const preloader = document.querySelector(".preloader");
   if (preloader) {
-    const minShow = reduceMotion ? 500 : 2400; // let the logo + fill bar finish
+    const minShow = reduceMotion ? 400 : 1400; // snappier open; logo reveal still completes
     const start = performance.now();
     const reveal = () => { preloader.classList.add("is-loaded"); startIntro(); };
     const hide = () => {
@@ -719,4 +719,16 @@
     }
   });
 
+})();
+
+/* perf: pause room-card animations (Ken-Burns, frame, shimmers) while off-screen */
+(function () {
+  "use strict";
+  const cards = document.querySelectorAll(".rcard");
+  if (!cards.length || !("IntersectionObserver" in window)) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { e.target.classList.toggle("is-paused", !e.isIntersecting); });
+  }, { rootMargin: "160px 0px", threshold: 0.02 });
+  cards.forEach(function (c) { c.classList.add("is-paused"); io.observe(c); });
 })();
