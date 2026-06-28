@@ -3777,3 +3777,17 @@ html.reveal-ready .hero-home .hero-content {
 .rcard.is-paused .rc-frame { animation-play-state: paused !important; }
 .rcard.is-paused .rc-seal::after,
 .rcard.is-paused .rc-reserve::after { animation-play-state: paused !important; }
+
+/* ── D · mobile performance: cheaper glass + no continuous zoom (phones) ── */
+@media (max-width: 760px) {
+  /* backdrop-filter is costly on mobile GPUs — swap for a solid fill */
+  .rc-glass, .amenity-card .am-cap {
+    -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+  }
+  .rc-glass { background: linear-gradient(180deg, rgba(7,18,12,.5), rgba(5,13,9,.88)); }
+  .amenity-card .am-cap { background: rgba(6,16,11,.74); }
+  /* stop the continuous Ken-Burns zoom on phones (still composited, but idle) */
+  .rc-img { animation: none !important; transform: scale(1.05); }
+  .hero-home .hero-image { animation: none !important; }
+  .amenity-pool .am-caustics { animation: none !important; }
+}
