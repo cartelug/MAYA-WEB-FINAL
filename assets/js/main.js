@@ -70,12 +70,21 @@
 
   /* ---------- WhatsApp inquiry form ---------- */
   document.querySelectorAll("[data-whatsapp-form]").forEach((form) => {
+    let status = form.querySelector(".form-status");
+    if (!status) {
+      status = document.createElement("p");
+      status.className = "form-status";
+      status.setAttribute("role", "status");
+      status.setAttribute("aria-live", "polite");
+      form.appendChild(status);
+    }
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       const name = form.querySelector("[name='name']")?.value.trim() || "";
       const interest = form.querySelector("[name='interest']")?.value.trim() || "reservation";
       const date = form.querySelector("[name='date']")?.value.trim() || "";
       const message = `Hello Maya Nature Resort, my name is ${name}. I would like to inquire about ${interest}${date ? " for " + date : ""}.`;
+      status.textContent = "Opening WhatsApp with your message…";
       window.open(`https://wa.me/256773883760?text=${encodeURIComponent(message)}`, "_blank", "noopener");
     });
   });
@@ -253,8 +262,9 @@
     document.body.appendChild(box);
     const imgEl = box.querySelector("img");
     const show = (i) => { idx = (i + sources.length) % sources.length; imgEl.src = sources[idx]; imgEl.alt = labels[idx]; };
-    const open = (i) => { show(i); box.classList.add("is-open"); document.body.style.overflow = "hidden"; };
-    const close = () => { box.classList.remove("is-open"); document.body.style.overflow = ""; };
+    let lastFocused = null;
+    const open = (i) => { lastFocused = document.activeElement; show(i); box.classList.add("is-open"); document.body.style.overflow = "hidden"; requestAnimationFrame(() => box.querySelector(".lightbox-close").focus()); };
+    const close = () => { box.classList.remove("is-open"); document.body.style.overflow = ""; if (lastFocused && lastFocused.focus) lastFocused.focus(); };
     galleryItems.forEach((el, i) => {
       el.setAttribute("tabindex", "0"); el.setAttribute("role", "button");
       el.addEventListener("click", () => open(i));
@@ -269,6 +279,12 @@
       if (e.key === "Escape") close();
       if (e.key === "ArrowLeft") show(idx - 1);
       if (e.key === "ArrowRight") show(idx + 1);
+      if (e.key === "Tab") {
+        const f = [".lightbox-close", ".lightbox-prev", ".lightbox-next"].map((s) => box.querySelector(s));
+        const i = f.indexOf(document.activeElement);
+        e.preventDefault();
+        f[e.shiftKey ? (i <= 0 ? f.length - 1 : i - 1) : (i >= f.length - 1 ? 0 : i + 1)].focus();
+      }
     });
   }
 
@@ -617,7 +633,17 @@
     function sendOrder() {
       const form = document.getElementById("orderForm"); if (!form) return;
       const name = form.name.value.trim();
-      if (!name) { form.name.focus(); form.name.style.borderColor = "#c0392b"; return; }
+      let err = document.getElementById("cartErr");
+      if (!err) {
+        err = document.createElement("p"); err.id = "cartErr"; err.className = "cart-error";
+        err.setAttribute("role", "alert"); err.setAttribute("aria-live", "assertive");
+        form.appendChild(err);
+      }
+      if (!name) {
+        form.name.setAttribute("aria-invalid", "true"); form.name.style.borderColor = "#c0392b";
+        err.textContent = "Please enter your name to send your order."; form.name.focus(); return;
+      }
+      form.name.removeAttribute("aria-invalid"); form.name.style.borderColor = ""; err.textContent = "";
       const otype = form.otype.value;
       const time = form.time.value;
       const notes = form.notes.value.trim();

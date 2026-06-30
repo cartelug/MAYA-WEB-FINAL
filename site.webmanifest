@@ -1,0 +1,15 @@
+{
+  "name": "Maya Nature Resort",
+  "short_name": "Maya Resort",
+  "description": "Lakeside rooms, weddings, amenities and nature experiences near Kampala, Uganda.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f3d25",
+  "theme_color": "#0f3d25",
+  "icons": [
+    { "src": "assets/images/logo/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "assets/images/logo/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "assets/images/logo/favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

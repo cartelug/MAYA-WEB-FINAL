@@ -189,6 +189,14 @@ h1 em, h2 em, h3 em {
   padding: 13px 20px; margin: 8px auto 0; max-width: 680px; }
 .stay-includes svg { width: 20px; height: 20px; flex: none; color: var(--gold-ink); }
 
+/* Accessible form feedback (contact form status + cart order error) */
+.form-status { margin: 8px 0 0; font-size: .9rem; font-weight: 600; color: var(--green-800); min-height: 1.2em; }
+.form-status:empty { margin: 0; min-height: 0; }
+.cart-error { margin: 10px 0 0; font-size: .88rem; font-weight: 600; color: #fff;
+  background: #c0392b; padding: 8px 12px; border-radius: 8px; }
+.cart-error:empty { display: none; }
+[aria-invalid="true"] { border-color: #c0392b !important; }
+
 p { text-wrap: pretty; }
 p + p { margin-top: 14px; }
 
