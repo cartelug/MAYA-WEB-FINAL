@@ -31,11 +31,39 @@ Verified headless 360–768px: 1 column, no horizontal scroll, panel sits below 
 photo, 3 chips visible, touch targets ≥44px. Tablet/desktop overlay (≥681px) and
 the ≤760px perf block are unchanged.
 
-## ⏳ OPEN TASK (do this next)
-- Nothing blocking on room cards. If the user wants more, see "Still optional"
-  below (stat-ribbon redesign, featured Executive showcase, sticky Reserve bar).
-- When real room photography lands, drop it into `assets/images/rooms/` (the
-  stacked card's 16/10 photo block is ready for it).
+## 🔎 COMPLETION AUDIT (done) — site is ~89% build-ready
+Full 20-page audit run (multi-agent). Headline **89%** build-readiness; launch
+acceptance checklist ~75%. Strengths: all pages real content, zero broken links,
+correct contact details, working WhatsApp deep-link "form", full inline menu,
+mature JS, solid SEO/a11y base, no horizontal overflow anywhere.
+
+### ✅ Fixed this batch (no-input items — pushed)
+- **P0 inclusion line**: exact "Includes access to swimming pool, gym, sauna and
+  breakfast" now on rooms (×2), index, and all 11 amenity pages (new
+  `.stay-includes` callout before `</main>`).
+- **P0 WCAG contrast**: added `--gold-ink #806011`; heading `<em>` accents +
+  `.menu-cat-kicker` now use it on light bgs (bright `--gold-2` kept on dark
+  heroes). Verified headless: 50 accent els checked, 0 failures.
+- **SEO**: index now has canonical + Resort JSON-LD; menu has canonical +
+  absolute og:image + og:url + twitter:card; all 11 amenity pages → absolute
+  og:image + og:url.
+- **a11y**: removed the stray `aria-current="page"` (wrongly on Experiences) from
+  all 11 amenity pages.
+- **copy**: menu.html "tradition"→"traditional" typo.
+
+### ⏳ STILL LEFT (next)
+- **Needs client input**: GA4 measurement ID (analytics absent); real
+  Instagram/Facebook/TikTok URLs (currently bare-domain placeholders); exact map
+  lat/lng or Place ID (directions + contact use a name-query); real menu PDFs
+  (current food/drink PDFs are ~680-byte stubs); confirm/soften the rooms
+  "Five-star guest rating" claim + verify pool "lifeguard on duty".
+- **No-input P2/P3 not yet done**: compress heavy menu JPEGs (indian-corner
+  639KB, shakes 660KB, salads 487KB, cocktails 493KB) + add webp; contact-form
+  a11y (aria-invalid/inline errors/aria-live); gallery lightbox focus trap;
+  amenity footer consistency (+directions/contact links, ?text= prefill); web
+  app manifest; verify index JSON-LD address/geo once coords arrive.
+- **Photography** (deferred): rooms/*.jpg are ~20KB placeholders; amenity heroes
+  reuse 3 stand-ins (pool page shows a garden hill, etc.). Shot list in chat.
 
 ## Done this session (all pushed, HEAD ~4c1f198)
 - Nav → Montserrat + gilded 3D "Book Now" CTA; active word gold-foil.

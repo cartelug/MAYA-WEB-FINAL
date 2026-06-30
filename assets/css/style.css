@@ -45,6 +45,7 @@
   --gold:      #d4a62a;
   --gold-2:    #f1ca55;
   --gold-soft: #f7e6b0;
+  --gold-ink:  #806011; /* readable gold for light backgrounds (WCAG AA: 5.8:1 on white) */
 
   /* --- Cream / surface neutrals --- */
   --cream:   #fff8e8;
@@ -173,12 +174,20 @@ h1 em, h2 em, h3 em {
   font-family: var(--font-sans);
   font-style: normal;
   font-weight: inherit;
-  color: var(--gold);
+  color: var(--gold-ink);
   letter-spacing: inherit;
   white-space: nowrap;
   position: relative;
 }
 .hero h1 em, .hero h2 em, .page-hero h1 em { color: var(--gold-2); }
+
+/* "Included with every stay" note — rooms & amenity pages */
+.stay-includes { display: flex; align-items: center; justify-content: center; gap: 10px;
+  text-align: center; font-family: var(--font-sans); font-weight: 600; font-size: .95rem;
+  color: var(--green-950); background: var(--gold-soft);
+  border: 1px solid rgba(128,96,17,.28); border-radius: 14px;
+  padding: 13px 20px; margin: 8px auto 0; max-width: 680px; }
+.stay-includes svg { width: 20px; height: 20px; flex: none; color: var(--gold-ink); }
 
 p { text-wrap: pretty; }
 p + p { margin-top: 14px; }
@@ -1805,7 +1814,7 @@ label { font-weight: 600; font-size: .9rem; }
 .menu-cat:first-child { border-top: 0; }
 .menu-cat-head { display: flex; align-items: center; gap: clamp(12px,2vw,20px); margin-bottom: clamp(22px,3vw,40px); }
 .menu-cat-kicker {
-  font: 700 .78rem var(--font-sans); color: var(--gold); letter-spacing: .22em;
+  font: 700 .78rem var(--font-sans); color: var(--gold-ink); letter-spacing: .22em;
   flex: 0 0 auto; padding-top: 6px;
 }
 .menu-cat-head h2 {
