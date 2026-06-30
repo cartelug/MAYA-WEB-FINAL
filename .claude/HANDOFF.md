@@ -57,11 +57,16 @@ mature JS, solid SEO/a11y base, no horizontal overflow anywhere.
   lat/lng or Place ID (directions + contact use a name-query); real menu PDFs
   (current food/drink PDFs are ~680-byte stubs); confirm/soften the rooms
   "Five-star guest rating" claim + verify pool "lifeguard on duty".
-- **No-input P2/P3 not yet done**: compress heavy menu JPEGs (indian-corner
-  639KB, shakes 660KB, salads 487KB, cocktails 493KB) + add webp; contact-form
-  a11y (aria-invalid/inline errors/aria-live); gallery lightbox focus trap;
-  amenity footer consistency (+directions/contact links, ?text= prefill); web
-  app manifest; verify index JSON-LD address/geo once coords arrive.
+- **No-input P2/P3 — DONE (batch 2, commit 62437f8)**: compressed 8 heavy menu
+  JPEGs via headless-Chromium canvas (3.7MB->1.7MB, -54%, max-width 1200 q0.80);
+  contact-form + cart-order a11y (aria-live status, aria-invalid, accessible
+  error chip); gallery lightbox focus trap + restore; amenity footers gained
+  Directions/Contact links + footer "Reserve" links got `?text=` prefill; added
+  `site.webmanifest` (linked on all 20 pages). Verified headless: 20/20 pages no
+  overflow, 0 JS errors, 0 broken images.
+- **Still no-input, optional**: add WebP/AVIF `<picture>` sources for menu images
+  (JPEG compression already done); verify index JSON-LD address/geo once map
+  coords arrive.
 - **Photography** (deferred): rooms/*.jpg are ~20KB placeholders; amenity heroes
   reuse 3 stand-ins (pool page shows a garden hill, etc.). Shot list in chat.
 
