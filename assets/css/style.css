@@ -559,24 +559,29 @@ body { padding-top: var(--header-h); }
               color var(--t) var(--ease);
 }
 .btn svg { width: 18px; height: 18px; }
-.btn::after {
-  content: ""; position: absolute; top: 0; left: -120%;
-  width: 60%; height: 100%;
-  background: linear-gradient(100deg, transparent, rgba(255,255,255,.45), transparent);
-  transform: skewX(-18deg); transition: left .7s var(--ease);
-  pointer-events: none;
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+/* Primary — deep-green "liquid glass" (universal: reads on light AND dark) */
+.btn-primary {
+  color: #fff;
+  background: linear-gradient(180deg, rgba(24,68,44,.82), rgba(11,33,21,.9));
+  -webkit-backdrop-filter: blur(12px) saturate(140%); backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.24), inset 0 -12px 24px rgba(0,0,0,.22), 0 16px 38px -18px rgba(0,0,0,.55);
 }
-.btn:hover { transform: translateY(-3px); }
-.btn:hover::after { left: 140%; }
-.btn:active { transform: translateY(-1px); }
-.btn-primary { background: var(--grad-gold); color: var(--green-950); box-shadow: var(--shadow-gold); }
-.btn-primary:hover { box-shadow: 0 28px 60px -16px rgba(212,166,42,.7); }
+.btn-primary:hover {
+  border-color: rgba(241,202,85,.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 22px 48px -18px rgba(0,0,0,.6), 0 0 26px -8px rgba(241,202,85,.45);
+}
+/* Secondary — lighter "liquid glass" (sits on dark sections) */
 .btn-light {
-  background: rgba(255,255,255,.12); color: white;
-  border: 1px solid rgba(255,255,255,.35);
-  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  color: #fff;
+  background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.05));
+  border: 1px solid rgba(255,255,255,.32);
+  -webkit-backdrop-filter: blur(10px) saturate(130%); backdrop-filter: blur(10px) saturate(130%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 12px 30px -18px rgba(0,0,0,.5);
 }
-.btn-light:hover { background: rgba(255,255,255,.2); border-color: rgba(255,255,255,.55); }
+.btn-light:hover { background: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.09)); border-color: rgba(241,202,85,.5); }
 .btn-dark { background: var(--green-900); color: white; }
 .btn-dark:hover { background: var(--green-800); }
 .btn-outline { border: 1.5px solid var(--green-800); color: var(--green-900); background: transparent; }
@@ -3142,52 +3147,37 @@ html.reveal-ready .hero-home .hero-content {
 /* Override base btn font → Syne */
 .btn { font-family: var(--font-sans); }
 
-/* btn-primary: gold ticket-stub shape with diagonal cut + foil shimmer */
+/* btn-primary: refined type + a gold accent bar (glass fill defined above) */
 .btn-primary {
   font-weight: 700; font-size: 1rem;
   border-radius: 14px;
-  letter-spacing: .04em;
-  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
-  /* box-shadow can't show through clip-path; use filter instead */
-  box-shadow: none;
-  filter: drop-shadow(0 12px 28px rgba(212,166,42,.55));
-  transition: filter .3s var(--ease), transform .18s var(--ease), clip-path 0s;
+  letter-spacing: .02em;
 }
-.btn-primary:hover {
-  filter: drop-shadow(0 20px 42px rgba(212,166,42,.75)) brightness(1.06);
-  transform: translateY(-3px);
-}
-/* foil shimmer on btn-primary (::before, since ::after is taken by light-sweep) */
+.btn-primary svg { color: var(--gold-2); }
+/* gold accent bar (replaces the old foil shimmer) */
 .btn-primary::before {
   content: "";
-  position: absolute; top: 0; left: -100%; width: 55%; height: 100%;
-  background: linear-gradient(105deg, transparent, rgba(255,255,255,.48), rgba(255,255,255,.6), transparent);
-  transform: skewX(-20deg);
-  animation: btnFoil 5s linear 3s infinite;
+  position: absolute; left: 0; top: 12px; bottom: 12px; width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(180deg, var(--gold-2), var(--gold));
   pointer-events: none;
 }
-@keyframes btnFoil {
-  0%,35%   { left: -100%; opacity: 0; }
-  36%      { opacity: 1; }
-  60%      { left: 160%; }
-  61%,100% { left: 160%; opacity: 0; }
-}
 
-/* btn-light "Explore Experiences": frosted asymmetric capsule */
+/* btn-light "Explore Experiences": refined glass */
 .btn-light {
   font-family: var(--font-sans);
   font-weight: 600;
   font-size: .97rem;
-  border-radius: 999px 16px 999px 16px;
+  border-radius: 14px;
   letter-spacing: .03em;
 }
-.btn-light:hover { background: rgba(255,255,255,.18); }
 
-/* btn-2line: two-tier layout */
+/* btn-2line: two-tier layout — left-aligned to pair with the gold accent bar */
 .btn-2line {
-  flex-direction: column; gap: 2px;
-  padding: 12px 26px;
+  flex-direction: column; gap: 3px;
+  padding: 13px 24px;
   text-transform: none; letter-spacing: 0;
+  align-items: flex-start; text-align: left;
 }
 .btn-2line b {
   font-family: var(--font-sans); font-weight: 700; font-size: .98rem;
