@@ -10,7 +10,7 @@
 
 ## 🎨 v9 IN PROGRESS — CTA redesign + WhatsApp step
 - **DONE (commit abdc2f0):** homepage/site CTAs restyled to **Liquid Glass** (client pick from 6 mockups). Universal via shared `.btn` classes: `.btn-primary` = deep-green translucent glass + gold accent bar (reads on light AND dark); `.btn-light` = lighter glass secondary; `.btn-2line` left-aligned; removed foil shimmer + clip-path chamfer + gold glow. Verified 20 pages @390/1280 — no overflow, 0 JS errors.
-- **NEXT (v9 Step 2, NOT built):** concierge "confirm details → WhatsApp" step modal (dates / guests / interest → composes the wa.me message). Reuse dialog conventions (role=dialog, aria-modal, focus trap, esc) + the `data-whatsapp-form` message-build pattern; ship as a reusable `data-reserve-modal`. Plan: /root/.claude/plans/wild-kindling-cascade.md.
+- **DONE (v9 Step 2, commit 334dc34):** reservation step modal built — primary Reserve/Book CTAs open a glass concierge dialog (dates / guests / interest chips / note) that composes the wa.me message. Accessible (role=dialog, aria-modal, focus trap, esc, focus restore) + no-JS fallback (CTAs keep their wa.me href). Injected by a main.js IIFE; styled `.reserve-modal`/`.rm-*` in style.css. Bound to `a.btn-primary / nav-cta / mm-cta / footer-bottom a [href*=wa.me]`. Verified 20 pages, 0 JS errors, desktop + mobile.
 - **Go-live:** user chose "go live after approval" → finish v9 → GitHub Pages test → approval → DreamHost.
 
 ## ✅ DONE LAST — mobile room cards redesigned (neat stacked card)
