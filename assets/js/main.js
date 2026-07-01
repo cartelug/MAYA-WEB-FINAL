@@ -246,34 +246,69 @@
     })();
   }
 
-  /* ---------- Gallery lightbox ---------- */
+  /* ---------- Gallery lightbox (v11) ----------
+     Filter-aware: the navigable list is rebuilt from currently-VISIBLE
+     [data-lightbox] items at open() time, so prev/next never step through
+     hidden plates and the NN/total counter is correct after filtering.
+     Caption + counter are non-focusable text, so the focus trap below is
+     unchanged. Neighbour images preload; touch swipe navigates. */
   const galleryItems = Array.from(document.querySelectorAll("[data-lightbox]"));
   if (galleryItems.length) {
-    const sources = galleryItems.map((el) => el.getAttribute("data-lightbox"));
-    const labels = galleryItems.map((el) => el.getAttribute("data-caption") || "");
+    let list = [];   // [{src, title}] rebuilt on open from visible items
     let idx = 0;
     const box = document.createElement("div");
-    box.className = "lightbox"; box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true");
+    box.className = "lightbox"; box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true"); box.setAttribute("aria-label", "Photo viewer");
     box.innerHTML =
       '<button class="lightbox-close" aria-label="Close gallery"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>' +
       '<button class="lightbox-nav lightbox-prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>' +
       '<img alt="" />' +
-      '<button class="lightbox-nav lightbox-next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>';
+      '<button class="lightbox-nav lightbox-next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>' +
+      '<div class="lightbox-figcap" aria-hidden="true"><span class="lightbox-count"></span><span class="lightbox-title"></span></div>';
     document.body.appendChild(box);
     const imgEl = box.querySelector("img");
-    const show = (i) => { idx = (i + sources.length) % sources.length; imgEl.src = sources[idx]; imgEl.alt = labels[idx]; };
+    const capCount = box.querySelector(".lightbox-count");
+    const capTitle = box.querySelector(".lightbox-title");
+    const pad2 = (n) => (n < 10 ? "0" + n : "" + n);
+    const preload = (i) => { const it = list[i]; if (it) { const im = new Image(); im.src = it.src; } };
+    const show = (i) => {
+      const n = list.length; if (!n) return;
+      idx = (i + n) % n;
+      const it = list[idx];
+      imgEl.classList.add("is-loading");
+      imgEl.onload = () => imgEl.classList.remove("is-loading");
+      imgEl.src = it.src; imgEl.alt = it.title;
+      capCount.textContent = pad2(idx + 1) + " / " + pad2(n);
+      capTitle.textContent = it.title;
+      preload(idx + 1); preload((idx - 1 + n) % n);
+    };
+    const visible = () => galleryItems.filter((el) => !el.hasAttribute("data-hidden") && el.offsetParent !== null);
     let lastFocused = null;
-    const open = (i) => { lastFocused = document.activeElement; show(i); box.classList.add("is-open"); document.body.style.overflow = "hidden"; requestAnimationFrame(() => box.querySelector(".lightbox-close").focus()); };
+    const open = (el) => {
+      const vis = visible();
+      list = vis.map((v) => ({ src: v.getAttribute("data-lightbox"), title: v.getAttribute("data-caption") || "" }));
+      let start = vis.indexOf(el); if (start < 0) start = 0;
+      lastFocused = document.activeElement;
+      show(start);
+      box.classList.add("is-open"); document.body.style.overflow = "hidden";
+      requestAnimationFrame(() => box.querySelector(".lightbox-close").focus());
+    };
     const close = () => { box.classList.remove("is-open"); document.body.style.overflow = ""; if (lastFocused && lastFocused.focus) lastFocused.focus(); };
-    galleryItems.forEach((el, i) => {
+    galleryItems.forEach((el) => {
       el.setAttribute("tabindex", "0"); el.setAttribute("role", "button");
-      el.addEventListener("click", () => open(i));
-      el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(i); } });
+      el.addEventListener("click", () => open(el));
+      el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(el); } });
     });
     box.querySelector(".lightbox-close").addEventListener("click", close);
     box.querySelector(".lightbox-prev").addEventListener("click", () => show(idx - 1));
     box.querySelector(".lightbox-next").addEventListener("click", () => show(idx + 1));
     box.addEventListener("click", (e) => { if (e.target === box) close(); });
+    // touch swipe (horizontal)
+    let sx = 0, sy = 0;
+    box.addEventListener("touchstart", (e) => { const t = e.changedTouches[0]; sx = t.clientX; sy = t.clientY; }, { passive: true });
+    box.addEventListener("touchend", (e) => {
+      const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) show(idx + (dx < 0 ? 1 : -1));
+    }, { passive: true });
     document.addEventListener("keydown", (e) => {
       if (!box.classList.contains("is-open")) return;
       if (e.key === "Escape") close();
@@ -871,4 +906,245 @@
     close();
   });
   Array.prototype.forEach.call(triggers, function (t) { t.addEventListener("click", open); });
+})();
+
+/* =========================================================================
+   v11 — Directions "The Approach"
+   Hydrates every geo-dependent element from window.MAYA_PLACE, wires the
+   transport tabs (roving tabindex), copy-to-clipboard (with fallbacks that
+   never fake success), and injects LodgingBusiness JSON-LD (geo OMITTED until
+   coordinates are confirmed). Fully usable with JS off: static strings + real
+   tel/mailto/wa.me links + a text-query map remain.
+   ========================================================================= */
+(function () {
+  "use strict";
+  var P = window.MAYA_PLACE;
+  if (!P) return;
+  var $ = function (s) { return document.querySelector(s); };
+  var enc = encodeURIComponent;
+  var hasGeo = !!(P.confirmed && P.lat != null && P.lng != null);
+  var ll = hasGeo ? P.lat + "," + P.lng : null;
+  var q = P.mapQuery || P.name;
+
+  /* --- deep links (precise when confirmed, else text-query fallback) --- */
+  var links = hasGeo ? {
+    navigate: "https://www.google.com/maps/dir/?api=1&destination=" + enc(ll),
+    google:   "https://www.google.com/maps/dir/?api=1&destination=" + enc(ll),
+    apple:    "https://maps.apple.com/?ll=" + enc(ll) + "&q=" + enc(P.name),
+    waze:     "https://waze.com/ul?ll=" + enc(ll) + "&navigate=yes",
+    geo:      "geo:" + ll + "?q=" + enc(ll + "(" + P.name + ")"),
+    embed:    "https://www.google.com/maps?q=" + enc(ll) + "&z=16&output=embed"
+  } : {
+    navigate: "https://www.google.com/maps/dir/?api=1&destination=" + enc(q),
+    google:   "https://www.google.com/maps/dir/?api=1&destination=" + enc(q),
+    apple:    "https://maps.apple.com/?q=" + enc(q),
+    waze:     "https://waze.com/ul?q=" + enc(q) + "&navigate=yes",
+    geo:      "https://www.google.com/maps/search/?api=1&query=" + enc(q),
+    embed:    null
+  };
+  var setHref = function (sel, url) { var el = $(sel); if (el && url) el.setAttribute("href", url); };
+  setHref("[data-place-navigate]", links.navigate);
+  setHref("[data-place-google]", links.google);
+  setHref("[data-place-apple]", links.apple);
+  setHref("[data-place-waze]", links.waze);
+  setHref("[data-place-geo]", links.geo);
+
+  /* --- text strings --- */
+  var tellEl = $("[data-place-tell]"); if (tellEl && P.tellDriver) tellEl.textContent = P.tellDriver;
+  var addrEl = $("[data-place-address]"); if (addrEl && P.address) addrEl.textContent = P.address;
+
+  /* --- confirmed vs provisional map state --- */
+  if (hasGeo) {
+    var frame = $("[data-place-mapframe]"); if (frame) frame.classList.add("is-confirmed");
+    var ribbon = $("[data-place-ribbon]"); if (ribbon) ribbon.hidden = true;
+    var map = $("[data-place-map]"); if (map && links.embed) map.setAttribute("src", links.embed);
+    var gps = $("[data-place-gps]"); if (gps) { gps.textContent = ll; gps.classList.remove("is-pending"); }
+    document.querySelectorAll('.dir-copy[data-copy="gps"]').forEach(function (b) { b.hidden = false; });
+    if (P.plusCode) {
+      var plus = $("[data-place-plus]"); if (plus) { plus.textContent = P.plusCode; plus.classList.remove("is-pending"); }
+      document.querySelectorAll('.dir-copy[data-copy="plus"]').forEach(function (b) { b.hidden = false; });
+    }
+  }
+
+  /* --- copy to clipboard: clipboard API → execCommand → select-text.
+         Never flips the check or announces "Copied" on failure. --- */
+  var liveRegion = document.createElement("p");
+  liveRegion.className = "sr-only"; liveRegion.setAttribute("role", "status"); liveRegion.setAttribute("aria-live", "polite");
+  document.body.appendChild(liveRegion);
+  var valueFor = function (key) {
+    if (key === "tell") return P.tellDriver || "";
+    if (key === "address") return P.address || "";
+    if (key === "gps") return hasGeo ? ll : "";
+    if (key === "plus") return P.plusCode || "";
+    return "";
+  };
+  var displaySel = { tell: "[data-place-tell]", address: "[data-place-address]", gps: "[data-place-gps]", plus: "[data-place-plus]" };
+  var flash = function (btn) {
+    btn.classList.add("is-copied");
+    var t = btn.querySelector(".dir-copy-txt"); var prev = t ? t.textContent : "";
+    if (t) t.textContent = "Copied";
+    liveRegion.textContent = "Copied to clipboard";
+    setTimeout(function () { btn.classList.remove("is-copied"); if (t) t.textContent = prev; }, 2000);
+  };
+  var legacyCopy = function (text) {
+    try {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.setAttribute("readonly", "");
+      ta.style.position = "absolute"; ta.style.left = "-9999px";
+      document.body.appendChild(ta); ta.select();
+      var ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    } catch (e) { return false; }
+  };
+  var fallbackSelect = function (key) {
+    var el = document.querySelector(displaySel[key]); if (!el) return;
+    try {
+      var r = document.createRange(); r.selectNodeContents(el);
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      liveRegion.textContent = "Highlighted — press Ctrl or Cmd + C to copy";
+    } catch (e) {}
+  };
+  document.querySelectorAll(".dir-copy").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var key = btn.getAttribute("data-copy");
+      var text = valueFor(key);
+      if (!text) return;
+      var succeed = function () { flash(btn); };
+      var fail = function () { if (legacyCopy(text)) succeed(); else fallbackSelect(key); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(succeed).catch(fail);
+      } else { fail(); }
+    });
+  });
+
+  /* --- transport tabs --- */
+  var tablist = document.querySelector('.dir-modetabs[role="tablist"]');
+  if (tablist) {
+    var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
+    var select = function (tab, focus) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute("aria-selected", on ? "true" : "false");
+        t.tabIndex = on ? 0 : -1;
+        var panel = document.getElementById(t.getAttribute("aria-controls"));
+        if (panel) panel.hidden = !on;
+      });
+      if (focus) tab.focus();
+    };
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener("click", function () { select(tab, false); });
+      tab.addEventListener("keydown", function (e) {
+        var j = -1;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") j = (i + 1) % tabs.length;
+        else if (e.key === "ArrowLeft" || e.key === "ArrowUp") j = (i - 1 + tabs.length) % tabs.length;
+        else if (e.key === "Home") j = 0;
+        else if (e.key === "End") j = tabs.length - 1;
+        if (j >= 0) { e.preventDefault(); select(tabs[j], true); }
+      });
+    });
+  }
+
+  /* --- JSON-LD (geo omitted until confirmed; never emit placeholder coords) --- */
+  try {
+    var data = {
+      "@context": "https://schema.org",
+      "@type": "LodgingBusiness",
+      "name": P.name,
+      "description": "A peaceful nature resort near Kajjansi, Uganda — stays, weddings, events, dining and garden experiences.",
+      "url": "https://mayanatureresort.com/",
+      "telephone": P.phone || "+256773883760",
+      "image": "https://mayanatureresort.com/assets/images/resort/wedding-rose-arch.jpg",
+      "address": { "@type": "PostalAddress", "addressLocality": "Kajjansi", "addressRegion": "Wakiso District", "addressCountry": "UG" }
+    };
+    if (hasGeo) {
+      data.geo = { "@type": "GeoCoordinates", "latitude": P.lat, "longitude": P.lng };
+      data.hasMap = "https://www.google.com/maps/search/?api=1&query=" + enc(ll);
+    }
+    var s = document.createElement("script");
+    s.type = "application/ld+json";
+    s.textContent = JSON.stringify(data);
+    document.head.appendChild(s);
+  } catch (e) {}
+})();
+
+/* =========================================================================
+   v11 — Gallery "The Maya Folio"
+   Progressive enhancement over static <figure> plates: derives the Contents
+   counts, filters by category (deep-linkable via #category), re-numbers the
+   visible plates live, and blurs images up from their token LQIP. Works fully
+   with JS off (plates + chapters are real, crawlable markup).
+   ========================================================================= */
+(function () {
+  "use strict";
+  var folio = document.querySelector("[data-folio]");
+  var contents = document.querySelector("[data-folio-contents]");
+  if (!folio || !contents) return;
+  var rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var plates = Array.prototype.slice.call(folio.querySelectorAll(".plate"));
+  var photoPlates = plates.filter(function (p) { return p.hasAttribute("data-lightbox"); });
+  var interleaf = folio.querySelector("[data-folio-interleaf]");
+  var chips = Array.prototype.slice.call(contents.querySelectorAll(".fc-item"));
+  var live = document.querySelector("[data-folio-live]");
+
+  /* blur-up (JS-only, so images stay visible with JS off) */
+  if (!rm) {
+    folio.querySelectorAll(".plate-media img").forEach(function (img) {
+      if (img.complete && img.naturalWidth) return;
+      img.classList.add("pre");
+      var done = function () { img.classList.remove("pre"); img.classList.add("is-loaded"); };
+      img.addEventListener("load", done);
+      img.addEventListener("error", done);
+    });
+  }
+
+  /* Contents counts from the DOM */
+  var counts = {};
+  plates.forEach(function (p) { var c = p.getAttribute("data-category"); counts[c] = (counts[c] || 0) + 1; });
+  chips.forEach(function (chip) {
+    var f = chip.getAttribute("data-filter");
+    var el = chip.querySelector(".fc-count");
+    if (el) el.textContent = f === "all" ? photoPlates.length : (counts[f] || 0);
+  });
+
+  var pad2 = function (n) { return n < 10 ? "0" + n : "" + n; };
+  var renumber = function () {
+    var n = 0;
+    photoPlates.forEach(function (p) {
+      if (p.hasAttribute("data-hidden")) return;
+      n++;
+      var num = p.querySelector(".plate-num");
+      if (num) num.textContent = pad2(n);
+    });
+  };
+
+  var apply = function (filter, announce) {
+    plates.forEach(function (p) {
+      var show = filter === "all" || p.getAttribute("data-category") === filter;
+      if (show) p.removeAttribute("data-hidden"); else p.setAttribute("data-hidden", "");
+    });
+    if (interleaf) { if (filter === "all") interleaf.removeAttribute("data-hidden"); else interleaf.setAttribute("data-hidden", ""); }
+    chips.forEach(function (chip) {
+      chip.setAttribute("aria-pressed", chip.getAttribute("data-filter") === filter ? "true" : "false");
+    });
+    renumber();
+    if (announce && live) {
+      var shown = photoPlates.filter(function (p) { return !p.hasAttribute("data-hidden"); }).length;
+      live.textContent = filter === "all" ? "Showing all photos"
+        : (filter === "rooms" ? "Rooms photography coming soon"
+        : "Showing " + shown + " photo" + (shown === 1 ? "" : "s"));
+    }
+    try {
+      if (filter === "all") history.replaceState(null, "", location.pathname + location.search);
+      else history.replaceState(null, "", "#" + filter);
+    } catch (e) {}
+  };
+
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () { apply(chip.getAttribute("data-filter"), true); });
+  });
+
+  var initial = (location.hash || "").replace("#", "");
+  var known = chips.some(function (c) { return c.getAttribute("data-filter") === initial; });
+  apply(known ? initial : "all", false);
 })();
