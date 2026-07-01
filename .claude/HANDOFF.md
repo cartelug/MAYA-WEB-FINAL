@@ -8,6 +8,11 @@
 - Push every change to **both** `claude/friendly-gates-fx05kl` **and** `main`.
 - Stack is **vanilla HTML/CSS/JS only** (no frameworks) — see `CLAUDE.md`.
 
+## 🎨 v9 IN PROGRESS — CTA redesign + WhatsApp step
+- **DONE (commit abdc2f0):** homepage/site CTAs restyled to **Liquid Glass** (client pick from 6 mockups). Universal via shared `.btn` classes: `.btn-primary` = deep-green translucent glass + gold accent bar (reads on light AND dark); `.btn-light` = lighter glass secondary; `.btn-2line` left-aligned; removed foil shimmer + clip-path chamfer + gold glow. Verified 20 pages @390/1280 — no overflow, 0 JS errors.
+- **NEXT (v9 Step 2, NOT built):** concierge "confirm details → WhatsApp" step modal (dates / guests / interest → composes the wa.me message). Reuse dialog conventions (role=dialog, aria-modal, focus trap, esc) + the `data-whatsapp-form` message-build pattern; ship as a reusable `data-reserve-modal`. Plan: /root/.claude/plans/wild-kindling-cascade.md.
+- **Go-live:** user chose "go live after approval" → finish v9 → GitHub Pages test → approval → DreamHost.
+
 ## ✅ DONE LAST — mobile room cards redesigned (neat stacked card)
 User feedback: the mobile cards were "disorganized" — make them neat, match the
 PC version's polish. Fixed (pure CSS, scoped to mobile; **desktop untouched**).
