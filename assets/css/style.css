@@ -4235,29 +4235,39 @@ html.reveal-ready .hero-home .hero-content {
    ========================================================================= */
 body.home-canvas { background: var(--cream-2); }
 
-/* --- Hero melts into the canvas: mask the photo/scrim stack so it
-       dissolves into the hero's own solid --green-950 floor --- */
+/* --- Hero melts into the canvas: a LONG dissolve — the photo starts
+       dying halfway down the hero and only fully disappears at its foot,
+       so section 2 begins while the image is still breathing behind it --- */
 .home-canvas .hero-home .hero-bg {
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 100%);
-          mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 46%, rgba(0,0,0,.55) 72%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0%, #000 46%, rgba(0,0,0,.55) 72%, transparent 100%);
 }
+/* the scroll cue would float mid-blend now — retire it on the canvas home */
+.home-canvas .scroll-cue { display: none; }
 
-/* --- Triptych = the bridge. It rises up into the hero's fade zone
-       (transparent over the photo), turns solid emerald behind its own
-       content, then exhales into the ivory canvas at its foot. --- */
+/* reserve a bottom band inside the hero for the crossfade, so the incoming
+   section-2 heading never collides with the hero's trust chips */
+.home-canvas .hero-home { padding-bottom: clamp(220px, 26vh, 380px); }
+
+/* --- Triptych = the crossfade. It rises DEEP into the hero so its
+       eyebrow + heading render over the fading photo itself; its own
+       emerald only completes below the heading, then exhales into the
+       ivory canvas at its foot. No point where one surface "ends". --- */
 .home-canvas .hp-triptych {
   position: relative; z-index: 2;
-  margin-top: clamp(-120px, -9vw, -64px);
-  padding-top: clamp(96px, 12vw, 160px);
+  /* the overlap band must not swallow clicks on hero content beneath it */
+  pointer-events: none;
+  margin-top: clamp(-240px, -18vw, -130px);
+  padding-top: clamp(56px, 8vw, 110px);
   padding-bottom: clamp(130px, 15vw, 210px);
-  /* fully opaque BEFORE the hero's bottom edge (overlap is 9vw, this stop
-     is 7vw) so the semi-transparent zone never straddles the seam */
   background: linear-gradient(180deg,
     rgba(7,26,17,0) 0px,
-    var(--green-950) clamp(48px, 7vw, 100px),
+    rgba(7,26,17,.45) clamp(110px, 10vw, 180px),
+    var(--green-950) clamp(260px, 22vw, 380px),
     var(--green-900) calc(100% - 340px),
     var(--cream-2) 100%);
 }
+.home-canvas .hp-triptych .container { pointer-events: auto; }
 
 /* --- Body sections float on the canvas --- */
 .home-canvas .section.alt,
