@@ -1694,8 +1694,11 @@ label { font-weight: 600; font-size: .9rem; }
     transition-duration: .001ms !important;
     scroll-behavior: auto !important;
   }
-  .reveal-ready [data-reveal],
-  .reveal-ready [data-text-reveal] .word {
+  /* reveal-ready is never added under reduced motion, so these must not
+     depend on it — otherwise split headings stay hidden entirely */
+  [data-reveal],
+  [data-text-reveal] .word,
+  .word {
     opacity: 1 !important; transform: none !important; filter: none !important;
   }
   .preloader-logo, .preloader-ring, .preloader::before,
@@ -4218,4 +4221,150 @@ html.reveal-ready .hero-home .hero-content {
 }
 @media (prefers-reduced-motion: reduce) {
   .dir-route-spine::after { transition: none; }
+}
+
+/* =========================================================================
+   HOME v12 — "One Canvas" seamless scroll
+   One continuous background field behind the whole home page: deep emerald
+   at the top (the hero photo mask-dissolves into it), a warm ivory body for
+   ~90% of the page, and an emerald/gold dusk close at the CTA + footer.
+   Sections go transparent and are separated by air + hairlines, not color
+   bands. Scoped to body.home-canvas — no other page is affected. All
+   transitions use pixel stops tied to element edges, so the blends hold at
+   every viewport. Accents kept: "A day at Maya" sky, soft quote band, CTA.
+   ========================================================================= */
+body.home-canvas { background: var(--cream-2); }
+
+/* --- Hero melts into the canvas: mask the photo/scrim stack so it
+       dissolves into the hero's own solid --green-950 floor --- */
+.home-canvas .hero-home .hero-bg {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 100%);
+}
+
+/* --- Triptych = the bridge. It rises up into the hero's fade zone
+       (transparent over the photo), turns solid emerald behind its own
+       content, then exhales into the ivory canvas at its foot. --- */
+.home-canvas .hp-triptych {
+  position: relative; z-index: 2;
+  margin-top: clamp(-120px, -9vw, -64px);
+  padding-top: clamp(96px, 12vw, 160px);
+  padding-bottom: clamp(130px, 15vw, 210px);
+  /* fully opaque BEFORE the hero's bottom edge (overlap is 9vw, this stop
+     is 7vw) so the semi-transparent zone never straddles the seam */
+  background: linear-gradient(180deg,
+    rgba(7,26,17,0) 0px,
+    var(--green-950) clamp(48px, 7vw, 100px),
+    var(--green-900) calc(100% - 340px),
+    var(--cream-2) 100%);
+}
+
+/* --- Body sections float on the canvas --- */
+.home-canvas .section.alt,
+.home-canvas .hp-day { background: transparent; }
+
+/* Stats band: dark → ink-on-ivory (mirrors the existing light .stat variant) */
+.home-canvas .section.dark { background: transparent; color: var(--text); }
+.home-canvas .section.dark h1,
+.home-canvas .section.dark h2,
+.home-canvas .section.dark h3 { color: var(--green-900); }
+.home-canvas .section.dark p,
+.home-canvas .section.dark .muted { color: var(--muted); }
+.home-canvas .section.dark .eyebrow,
+.home-canvas .section.dark .eyebrow::before { color: var(--gold-ink); }
+.home-canvas .section.dark .eyebrow::before { background: var(--gold-ink); }
+.home-canvas .section.dark .stat {
+  background: var(--white); border-color: var(--line);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  box-shadow: var(--shadow-sm);
+}
+.home-canvas .section.dark .stat strong { color: var(--green-800); }
+.home-canvas .section.dark .stat span { color: var(--muted); }
+
+/* --- Testimonials: a soft emerald wash with dissolved edges (no band seam) --- */
+.home-canvas .home-quotes {
+  background: linear-gradient(180deg,
+    rgba(237,245,238,0) 0%,
+    var(--green-100) 18%,
+    var(--green-100) 82%,
+    rgba(237,245,238,0) 100%);
+}
+
+/* --- Dusk close: the canvas descends into the CTA's emerald night;
+       the CTA then meets the footer at the same --green-950. --- */
+.home-canvas .hp-cta-full {
+  padding-top: clamp(170px, 20vw, 250px);
+  background: linear-gradient(180deg,
+    var(--cream-2) 0px,
+    var(--green-850) clamp(130px, 16vw, 200px),
+    var(--green-950) 100%);
+}
+/* the gold radial glow must fade in, not start on a hard section edge */
+.home-canvas .hp-cta-full::before {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0px, #000 clamp(160px, 19vw, 240px));
+          mask-image: linear-gradient(180deg, transparent 0px, #000 clamp(160px, 19vw, 240px));
+}
+
+/* =========================================================================
+   NAV v12 — cinematic wordmark menu
+   The 8 gold wordmark images ARE the navigation. The text .nav-menu retires
+   from the header (kept in DOM for crawlers); the menu toggle is promoted to
+   every breakpoint and opens the existing .mobile-menu overlay on desktop
+   too — now laid out as a two-column stage for the wordmarks. Images are
+   hydrated from data-src on first interaction (see main.js), so no page
+   pays their weight on first paint.
+   ========================================================================= */
+.nav-menu { display: none !important; }
+.menu-toggle { display: inline-flex; }
+@media (min-width: 1021px) {
+  .nav-cta { margin-left: auto; } /* brand left · CTA + toggle right */
+}
+
+/* overlay can scroll if a short viewport can't fit all eight wordmarks */
+.mobile-menu { overflow-y: auto; }
+
+.mm-nav { display: flex; flex-direction: column; gap: clamp(10px, 2vh, 20px); }
+
+/* wordmark links (replaces the old text rows) */
+.mobile-menu a.mm-link { justify-content: flex-start; padding: 2px 0; }
+.mobile-menu a.mm-link::after { content: none; } /* retire the "→" — the art is the row */
+.mm-link picture { display: block; line-height: 0; }
+.mm-link img {
+  display: block; width: auto; max-width: 100%;
+  height: clamp(44px, 6vh, 62px);
+  object-fit: contain; object-position: left center;
+  filter: drop-shadow(0 12px 28px rgba(4,18,11,.6));
+  transition: transform var(--t) var(--ease), filter var(--t) var(--ease);
+}
+.mobile-menu a.mm-link:hover img,
+.mobile-menu a.mm-link:focus-visible img {
+  transform: translateX(8px) scale(1.02);
+  filter: drop-shadow(0 14px 34px rgba(241,202,85,.4)) brightness(1.1);
+}
+.mobile-menu a.mm-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; border-radius: 10px; }
+
+/* current page: a steady gold aura + a small gold hallmark bar */
+.mobile-menu a.mm-link.active { position: relative; }
+.mobile-menu a.mm-link.active img { filter: drop-shadow(0 0 24px rgba(241,202,85,.55)); }
+.mobile-menu a.mm-link.active::before {
+  content: ""; position: absolute; left: 2px; bottom: -3px;
+  width: 46px; height: 2px; border-radius: 2px;
+  background: var(--grad-gold);
+}
+
+/* desktop: the overlay becomes a two-column stage */
+@media (min-width: 1021px) {
+  .mobile-menu { padding: clamp(90px, 12vh, 140px) 8% 48px; }
+  .mobile-menu-inner { max-width: 1100px; }
+  .mm-nav {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(16px, 3.4vh, 34px) clamp(48px, 6vw, 96px);
+    align-items: center;
+  }
+  .mm-link img { height: clamp(56px, 8vh, 84px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-link img { transition: none; }
+  .mobile-menu a.mm-link:hover img { transform: none; }
 }

@@ -1148,3 +1148,32 @@
   var known = chips.some(function (c) { return c.getAttribute("data-filter") === initial; });
   apply(known ? initial : "all", false);
 })();
+
+/* =========================================================================
+   v12 — Wordmark nav hydration
+   The overlay's wordmark images ship with data-src/data-srcset so their
+   ~620KB never loads on first paint. They hydrate the first time the user
+   reaches for the menu (hover, focus, or tap on the toggle).
+   ========================================================================= */
+(function () {
+  "use strict";
+  var toggle = document.getElementById("menuToggle");
+  var menu = document.getElementById("mobileMenu");
+  if (!toggle || !menu) return;
+  if (!menu.querySelector("img[data-src], source[data-srcset]")) return;
+  var done = false;
+  var hydrate = function () {
+    if (done) return; done = true;
+    menu.querySelectorAll("source[data-srcset]").forEach(function (s) {
+      s.setAttribute("srcset", s.getAttribute("data-srcset"));
+      s.removeAttribute("data-srcset");
+    });
+    menu.querySelectorAll("img[data-src]").forEach(function (img) {
+      img.setAttribute("src", img.getAttribute("data-src"));
+      img.removeAttribute("data-src");
+    });
+  };
+  ["pointerenter", "focus", "touchstart", "click"].forEach(function (ev) {
+    toggle.addEventListener(ev, hydrate, { once: false, passive: true });
+  });
+})();
