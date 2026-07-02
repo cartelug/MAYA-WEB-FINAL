@@ -4273,8 +4273,22 @@ body.home-canvas { background: var(--cream-2); }
 .home-canvas .section.alt,
 .home-canvas .hp-day { background: transparent; }
 
+/* the JS-injected day-sky tint must dissolve at its edges like every other
+   canvas transition — unmasked it snaps on as a hard full-width rectangle */
+.home-canvas .day-sky {
+  -webkit-mask-image: linear-gradient(180deg,
+    transparent 0, #000 clamp(120px, 14vw, 180px),
+    #000 calc(100% - clamp(120px, 14vw, 180px)), transparent 100%);
+          mask-image: linear-gradient(180deg,
+    transparent 0, #000 clamp(120px, 14vw, 180px),
+    #000 calc(100% - clamp(120px, 14vw, 180px)), transparent 100%);
+}
+
 /* Stats band: dark → ink-on-ivory (mirrors the existing light .stat variant) */
 .home-canvas .section.dark { background: transparent; color: var(--text); }
+/* the dark-section ambient mesh was invisible on emerald but shows as a
+   hard-clipped drifting blob on ivory — retire it here */
+.home-canvas .section.dark::before { display: none; }
 .home-canvas .section.dark h1,
 .home-canvas .section.dark h2,
 .home-canvas .section.dark h3 { color: var(--green-900); }
@@ -4291,8 +4305,9 @@ body.home-canvas { background: var(--cream-2); }
 .home-canvas .section.dark .stat strong { color: var(--green-800); }
 .home-canvas .section.dark .stat span { color: var(--muted); }
 
-/* --- Testimonials: a soft emerald wash with dissolved edges (no band seam) --- */
-.home-canvas .home-quotes {
+/* --- Testimonials: a soft emerald wash with dissolved edges (no band seam).
+       Must out-rank .home-canvas .section.alt's transparent background. --- */
+.home-canvas .section.alt.home-quotes {
   background: linear-gradient(180deg,
     rgba(237,245,238,0) 0%,
     var(--green-100) 18%,
@@ -4325,23 +4340,61 @@ body.home-canvas { background: var(--cream-2); }
    pays their weight on first paint.
    ========================================================================= */
 .nav-menu { display: none !important; }
-.menu-toggle { display: inline-flex; }
+.menu-toggle {
+  display: inline-flex;
+  /* the toggle is now the ONLY nav affordance — it must hold its own on
+     any backdrop (WCAG 3:1 non-text UI) */
+  border-color: rgba(255,255,255,.45);
+  background: rgba(7,26,17,.35);
+}
 @media (min-width: 1021px) {
   .nav-cta { margin-left: auto; } /* brand left · CTA + toggle right */
 }
 
+/* interior pages (no full-bleed hero behind the bar): the translucent glass
+   header rendered as a washed-out pale band over the ivory body — give it a
+   reliably dark first-paint state instead */
+body:not(.hero-page) .site-header {
+  background: linear-gradient(180deg, rgba(7,26,17,.94), rgba(7,26,17,.85));
+}
+
+/* while the overlay is open, the header's tint/border read as a 1px seam
+   across the stage — dissolve the chrome so the two read as one plane */
+.site-header:has(#menuToggle[aria-expanded="true"]) {
+  background: transparent; border-bottom-color: transparent; box-shadow: none;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+
+/* menu page: the sticky category bar must kiss the SCROLLED header height
+   (68px + 1px border), not the resting --header-h — closes the see-through
+   slit food photos scrolled through */
+.menu-bar { top: 68px; }
+
 /* overlay can scroll if a short viewport can't fit all eight wordmarks */
-.mobile-menu { overflow-y: auto; }
+.mobile-menu {
+  overflow-y: auto;
+  padding-bottom: max(32px, env(safe-area-inset-bottom, 32px));
+}
 
 .mm-nav { display: flex; flex-direction: column; gap: clamp(10px, 2vh, 20px); }
 
-/* wordmark links (replaces the old text rows) */
+/* wordmark links (replaces the old text rows).
+   --mms compensates per-image decoration so the LETTERFORMS read at one
+   optical size (each PNG carries a different share of foliage/icon art). */
+.mm-link[href$="index.html"]       { --mms: .8;  }
+.mm-link[href$="rooms.html"]       { --mms: 1.12; }
+.mm-link[href$="events.html"]      { --mms: 1.06; }
+.mm-link[href$="experiences.html"] { --mms: 1.16; }
+.mm-link[href$="menu.html"]        { --mms: 1.04; }
+.mm-link[href$="gallery.html"]     { --mms: .78; }
+.mm-link[href$="directions.html"]  { --mms: 1.12; }
+.mm-link[href$="contact.html"]     { --mms: 1.12; }
 .mobile-menu a.mm-link { justify-content: flex-start; padding: 2px 0; }
 .mobile-menu a.mm-link::after { content: none; } /* retire the "→" — the art is the row */
 .mm-link picture { display: block; line-height: 0; }
 .mm-link img {
   display: block; width: auto; max-width: 100%;
-  height: clamp(44px, 6vh, 62px);
+  height: calc(clamp(44px, 6vh, 62px) * var(--mms, 1));
   object-fit: contain; object-position: left center;
   filter: drop-shadow(0 12px 28px rgba(4,18,11,.6));
   transition: transform var(--t) var(--ease), filter var(--t) var(--ease);
@@ -4353,25 +4406,46 @@ body.home-canvas { background: var(--cream-2); }
 }
 .mobile-menu a.mm-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; border-radius: 10px; }
 
-/* current page: a steady gold aura + a small gold hallmark bar */
+/* current page: steady gold aura + a vertical gold rule on the left edge
+   (a proportional marker — the old 46px dash read as a stray tick) */
 .mobile-menu a.mm-link.active { position: relative; }
 .mobile-menu a.mm-link.active img { filter: drop-shadow(0 0 24px rgba(241,202,85,.55)); }
 .mobile-menu a.mm-link.active::before {
-  content: ""; position: absolute; left: 2px; bottom: -3px;
-  width: 46px; height: 2px; border-radius: 2px;
+  content: ""; position: absolute; left: -14px; top: 10%; bottom: 10%;
+  width: 3px; border-radius: 3px;
   background: var(--grad-gold);
 }
 
-/* desktop: the overlay becomes a two-column stage */
+/* short phones: tighten the budget so CTA + contact meta fit on screen */
+@media (max-width: 1020px) and (max-height: 840px) {
+  .mobile-menu { padding-top: clamp(72px, 10vh, 104px); }
+  .mm-nav { gap: clamp(7px, 1.4vh, 13px); }
+  .mm-link img { height: calc(clamp(34px, 4.7vh, 48px) * var(--mms, 1)); }
+  .mobile-menu .mm-cta { margin-top: 20px; }
+  .mobile-menu .mm-meta { padding-top: 20px; }
+}
+
+/* desktop: the overlay becomes a two-column stage, vertically centred,
+   closed by a full-width base row (CTA left · contact meta right) */
 @media (min-width: 1021px) {
-  .mobile-menu { padding: clamp(90px, 12vh, 140px) 8% 48px; }
-  .mobile-menu-inner { max-width: 1100px; }
+  .mobile-menu { padding: clamp(90px, 12vh, 140px) 8% 48px; justify-content: center; }
+  .mobile-menu-inner {
+    max-width: 1100px;
+    display: grid; grid-template-columns: 1fr auto; align-items: center;
+  }
+  .mobile-menu .mm-eyebrow, .mobile-menu .mm-nav { grid-column: 1 / -1; }
   .mm-nav {
     display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(16px, 3.4vh, 34px) clamp(48px, 6vw, 96px);
     align-items: center;
   }
-  .mm-link img { height: clamp(56px, 8vh, 84px); }
+  .mm-link img { height: calc(clamp(56px, 8vh, 84px) * var(--mms, 1)); }
+  .mobile-menu .mm-cta { grid-column: 1; justify-self: start; align-self: center; margin-top: 44px; }
+  .mobile-menu .mm-meta {
+    grid-column: 2; justify-self: end; align-self: center;
+    margin-top: 44px; padding-top: 0;
+    align-items: flex-end; text-align: right;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
