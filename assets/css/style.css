@@ -4351,13 +4351,29 @@ body.home-canvas { background: var(--cream-2); }
 .home-canvas .section.dark .eyebrow,
 .home-canvas .section.dark .eyebrow::before { color: var(--gold-ink); }
 .home-canvas .section.dark .eyebrow::before { background: var(--gold-ink); }
+/* editorial figures in the Hallmark register: hairline-separated ink
+   numerals, no card boxes (boxed stats read as dashboard, not provenance) */
 .home-canvas .section.dark .stat {
-  background: var(--white); border-color: var(--line);
+  background: transparent; border: 0; border-radius: 0; box-shadow: none;
   -webkit-backdrop-filter: none; backdrop-filter: none;
-  box-shadow: var(--shadow-sm);
+  padding: 6px 22px;
+  border-left: 1px solid rgba(212,166,42,.35);
 }
-.home-canvas .section.dark .stat strong { color: var(--green-800); }
-.home-canvas .section.dark .stat span { color: var(--muted); }
+.home-canvas .section.dark .stat:first-child { border-left: 0; padding-left: 0; }
+.home-canvas .section.dark .stat strong { color: var(--green-900); font-variant-numeric: tabular-nums; }
+.home-canvas .section.dark .stat span {
+  color: var(--muted); font-family: var(--font-head);
+  text-transform: uppercase; letter-spacing: .1em; font-size: .8rem;
+}
+@media (max-width: 1020px) {
+  /* 2-col grid: no hairline on each row's first column */
+  .home-canvas .section.dark .stat:nth-child(odd) { border-left: 0; padding-left: 0; }
+}
+@media (max-width: 760px) {
+  /* single column: horizontal hairlines instead */
+  .home-canvas .section.dark .stat { border-left: 0; padding: 14px 0; }
+  .home-canvas .section.dark .stat:not(:first-child) { border-top: 1px solid rgba(212,166,42,.3); }
+}
 
 /* --- Testimonials: a soft emerald wash with dissolved edges (no band seam).
        Must out-rank .home-canvas .section.alt's transparent background. --- */
@@ -4505,4 +4521,55 @@ body:not(.hero-page) .site-header {
 @media (prefers-reduced-motion: reduce) {
   .mm-link img { transition: none; }
   .mobile-menu a.mm-link:hover img { transform: none; }
+}
+
+/* =========================================================================
+   v13 — Elevation pass (site-wide polish from the design panel)
+   ========================================================================= */
+
+/* Interior page-heroes dissolve into the page instead of ending on a hard
+   edge — the One Canvas grammar extended to every page. The fade sits above
+   the photo but below the hero's own content (which carries z-index 1). */
+.page-hero::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; z-index: 0;
+  height: clamp(60px, 8vw, 110px);
+  background: linear-gradient(180deg, rgba(255,255,255,0), var(--white));
+  pointer-events: none;
+}
+
+/* Home amenity grid: chapter numerals 01–06, echoing the Folio plates and
+   the Hallmark ordinals (one numbering voice across the whole estate). */
+.amenity-grid { counter-reset: amenity; }
+.amenity-grid .amenity-card { counter-increment: amenity; }
+.amenity-grid .amenity-card::before {
+  content: counter(amenity, decimal-leading-zero);
+  /* inset: 12px auto auto 16px — must fully reset the legacy inset:0 or the
+     numeral becomes a full-width centered box */
+  position: absolute; inset: 12px auto auto 16px; z-index: 3;
+  background: none; opacity: .85; transition: none;
+  font-family: var(--font-display); font-weight: 500; font-size: 1rem;
+  letter-spacing: .06em; color: var(--gold-2);
+  text-shadow: 0 1px 8px rgba(4,18,11,.55);
+  pointer-events: none;
+}
+/* the first stat's gold-foil pop joins the ink register on the canvas
+   (its base rule carries !important, so this must too) */
+.home-canvas .section.dark .stat-pop {
+  background: none;
+  -webkit-background-clip: initial; background-clip: initial;
+  color: var(--green-900) !important;
+}
+
+/* Menu category chips: edge fade signals horizontal scrollability on mobile */
+@media (max-width: 760px) {
+  .menu-chips {
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+  }
+}
+
+/* Floating WhatsApp: brand-concierge ring + safe-area-aware placement */
+.floating-whatsapp {
+  border: 1.5px solid rgba(241,202,85,.65);
+  bottom: max(24px, env(safe-area-inset-bottom, 24px));
 }
