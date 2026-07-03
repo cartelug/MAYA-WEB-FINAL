@@ -4012,6 +4012,28 @@ html.reveal-ready .hero-home .hero-content {
 }
 .fc-item[aria-pressed="true"] .fc-count { color: var(--gold-2); }
 .fc-item:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+/* Narrow screens: seven wrapped chips inflated the 999px-radius masthead
+   into a ~300px-tall cream blob of borderless floating text (owner
+   screenshot IMG_6075). Collapse it to the same one-row scroll rail the
+   menu chips use — chips gain button chrome, the pill is honest again at
+   one row tall, and the mid-pill cut of the last visible chip is the
+   scroll affordance (an edge-fade mask would erode the sticky pill's own
+   background, so the menu's mask trick doesn't transfer here). */
+@media (max-width: 900px) {
+  .folio-contents {
+    flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain;
+    gap: 8px; padding: 10px 12px;
+    scrollbar-width: none; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
+  }
+  .folio-contents::-webkit-scrollbar { display: none; }
+  .fc-label { display: none; }
+  .fc-item {
+    flex: 0 0 auto; scroll-snap-align: start; white-space: nowrap;
+    padding: 10px 16px;
+    border-color: var(--line-2); background: #fff;
+  }
+  .fc-item[aria-pressed="true"] { background: var(--green-900); border-color: var(--green-900); }
+}
 
 /* --- The folio grid --- */
 .folio {
