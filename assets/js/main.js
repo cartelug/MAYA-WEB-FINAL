@@ -804,9 +804,10 @@
   "use strict";
   var WA = "256773883760";
   var triggers = document.querySelectorAll(
-    'a.btn-primary[href*="wa.me"], a.nav-cta[href*="wa.me"], a.mm-cta[href*="wa.me"], .footer-bottom a[href*="wa.me"]'
+    'a.btn-primary[href*="wa.me"], a.nav-cta[href*="wa.me"], a.mm-cta[href*="wa.me"], .footer-bottom a[href*="wa.me"], a.rc-reserve[href*="wa.me"]'
   );
   if (!triggers.length) return;
+  var activeRoom = null;
 
   var lastFocused = null;
   var overlay = document.createElement("div");
@@ -831,6 +832,7 @@
       '<p class="rm-eyebrow">Reservation</p>' +
       '<h2 id="rm-title">Tell us a little more</h2>' +
       '<p class="rm-sub">We\'ll open WhatsApp with your details ready to send.</p>' +
+      '<p class="rm-room" id="rm-room" hidden></p>' +
       '<form class="rm-form" novalidate>' +
         '<div class="rm-field"><label for="rm-dates">Dates / nights</label>' +
           '<input id="rm-dates" name="dates" type="text" autocomplete="off" placeholder="e.g. 12-14 Aug, or this weekend"></div>' +
@@ -856,9 +858,23 @@
       overlay.querySelectorAll('button, [href], input, textarea, [tabindex]:not([tabindex="-1"])')
     ).filter(function (el) { return !el.disabled && el.offsetParent !== null; });
   }
+  var roomEl = overlay.querySelector("#rm-room");
   function open(e) {
     if (e && e.preventDefault) e.preventDefault();
     lastFocused = document.activeElement;
+    var trigger = e && e.currentTarget;
+    activeRoom = (trigger && trigger.getAttribute && trigger.getAttribute("data-room")) || null;
+    if (activeRoom && roomEl) {
+      roomEl.textContent = "For the " + activeRoom + ".";
+      roomEl.hidden = false;
+      var roomChip = overlay.querySelector('.rm-chip[data-val="Room"]');
+      if (roomChip) {
+        chips.forEach(function (c) { c.classList.remove("is-on"); c.setAttribute("aria-checked", "false"); });
+        roomChip.classList.add("is-on"); roomChip.setAttribute("aria-checked", "true");
+      }
+    } else if (roomEl) {
+      roomEl.hidden = true; roomEl.textContent = "";
+    }
     overlay.hidden = false;
     overlay.offsetWidth; // reflow so the transition runs
     overlay.classList.add("is-open");
@@ -869,7 +885,7 @@
   function close() {
     overlay.classList.remove("is-open");
     document.body.style.overflow = "";
-    setTimeout(function () { overlay.hidden = true; }, 280);
+    setTimeout(function () { overlay.hidden = true; activeRoom = null; }, 280);
     if (lastFocused && lastFocused.focus) lastFocused.focus();
   }
   chips.forEach(function (chip) {
@@ -899,6 +915,7 @@
     var note = (form.note.value || "").trim();
     var msg = "Hello Maya Nature Resort, I'd like to reserve.";
     msg += "\n- For: " + forWhat;
+    if (activeRoom) msg += "\n- Room: " + activeRoom;
     if (guests) msg += "\n- Guests: " + guests;
     if (dates) msg += "\n- Dates: " + dates;
     if (note) msg += "\n- Note: " + note;
@@ -1051,11 +1068,11 @@
       "@context": "https://schema.org",
       "@type": "LodgingBusiness",
       "name": P.name,
-      "description": "A peaceful nature resort near Kajjansi, Uganda — stays, weddings, events, dining and garden experiences.",
+      "description": "A peaceful nature resort atop Sun Hill, off the Kampala–Masaka Road in Maya, Uganda — stays, weddings, events, dining and garden experiences.",
       "url": "https://mayanatureresort.com/",
       "telephone": P.phone || "+256773883760",
       "image": "https://mayanatureresort.com/assets/images/resort/wedding-rose-arch.jpg",
-      "address": { "@type": "PostalAddress", "addressLocality": "Kajjansi", "addressRegion": "Wakiso District", "addressCountry": "UG" }
+      "address": { "@type": "PostalAddress", "addressLocality": "Maya, Kyengera", "addressRegion": "Wakiso District", "addressCountry": "UG" }
     };
     if (hasGeo) {
       data.geo = { "@type": "GeoCoordinates", "latitude": P.lat, "longitude": P.lng };
@@ -1104,7 +1121,10 @@
   chips.forEach(function (chip) {
     var f = chip.getAttribute("data-filter");
     var el = chip.querySelector(".fc-count");
-    if (el) el.textContent = f === "all" ? photoPlates.length : (counts[f] || 0);
+    if (!el) return;
+    var n = f === "all" ? photoPlates.length : (counts[f] || 0);
+    if (n > 0) { el.textContent = n; el.classList.remove("is-soon"); }
+    else { el.textContent = "Soon"; el.classList.add("is-soon"); }
   });
 
   var pad2 = function (n) { return n < 10 ? "0" + n : "" + n; };

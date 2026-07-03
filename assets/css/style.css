@@ -2278,6 +2278,16 @@ label { font-weight: 600; font-size: .9rem; }
     background: var(--white); padding: 18px 10px; min-width: 0;
     justify-content: center;
   }
+  /* the actual overflow bug: .ri-stat > :first-child is a flex row, and a
+     flex ITEM's default min-width is auto (= its unwrapped content width),
+     which overrides overflow-wrap and lets long words like "SIMULTANEOUS"
+     or "WELCOME" push past the grid cell and bleed across the gridline.
+     min-width:0 lets the item actually shrink and wrap. */
+  .rooms-intro .ri-stat > :first-child { min-width: 0; }
+  .rooms-intro .ri-num, .rooms-intro .ri-num-serif {
+    min-width: 0; max-width: 100%;
+    overflow-wrap: break-word; word-break: break-word; hyphens: auto;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .rooms-intro::after { display: none; }
@@ -2674,7 +2684,10 @@ label { font-weight: 600; font-size: .9rem; }
   font-size: .92rem; color: var(--muted); letter-spacing: .1em;
 }
 @media (max-width: 600px) {
-  .intro-premium .ri-num-serif { font-size: clamp(1.35rem, 5.5vw, 1.7rem); overflow-wrap: break-word; }
+  .intro-premium .ri-num-serif {
+    font-size: clamp(1.05rem, 4.6vw, 1.35rem); line-height: 1.08;
+    overflow-wrap: break-word; word-break: break-word; hyphens: auto;
+  }
 }
 
 /* five gold stars, fill in sequence on reveal */
@@ -3910,7 +3923,12 @@ html.reveal-ready .hero-home .hero-content {
   color: var(--gold-ink); margin: 0 0 9px;
 }
 #rm-title { font-family: "Marcellus", serif; font-weight: 400; font-size: 1.7rem; line-height: 1.1; color: var(--green-950); margin: 0 0 6px; }
-.rm-sub { font-family: "Montserrat", sans-serif; color: #5c6b60; font-size: .9rem; margin: 0 0 20px; }
+.rm-sub { font-family: "Montserrat", sans-serif; color: #5c6b60; font-size: .9rem; margin: 0 0 14px; }
+.rm-room {
+  display: inline-block; font: 700 .78rem "Montserrat", sans-serif;
+  color: var(--green-900); background: var(--green-100);
+  padding: 5px 12px; border-radius: 999px; margin: 0 0 14px;
+}
 .rm-form { display: grid; gap: 14px; }
 .rm-field { display: grid; gap: 6px; }
 .rm-field label, .rm-legend { font: 700 .78rem "Montserrat", sans-serif; color: var(--green-800); }
@@ -3979,8 +3997,15 @@ html.reveal-ready .hero-home .hero-content {
 }
 .fc-item:hover { background: var(--green-100); }
 .fc-item .fc-count {
-  font: 700 .68rem var(--font-head); letter-spacing: .04em;
-  color: var(--gold-ink); transform: translateY(-1px);
+  /* --font-head (Knockout) renders digits with tall, ambiguous strokes —
+     "18/13/1" reads as Roman numerals ("I8/I3/I"). Syne's digits are
+     unambiguous, and tabular-nums keeps counts from jittering in width. */
+  font: 700 .72rem var(--font-sans); font-variant-numeric: tabular-nums;
+  letter-spacing: .01em; color: var(--gold-ink); transform: translateY(-1px);
+}
+.fc-item .fc-count:empty { display: none; }
+.fc-item .fc-count.is-soon {
+  font: 700 .6rem var(--font-head); letter-spacing: .1em; text-transform: uppercase;
 }
 .fc-item[aria-pressed="true"] {
   background: var(--green-900); color: #fff; border-color: var(--green-900);
@@ -4292,16 +4317,37 @@ body.home-canvas { background: var(--cream-2); }
 /* --- Hero melts into the canvas: a LONG dissolve — the photo starts
        dying halfway down the hero and only fully disappears at its foot,
        so section 2 begins while the image is still breathing behind it --- */
-.home-canvas .hero-home .hero-bg {
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 46%, rgba(0,0,0,.55) 72%, transparent 100%);
-          mask-image: linear-gradient(to bottom, #000 0%, #000 46%, rgba(0,0,0,.55) 72%, transparent 100%);
+/* Root cause of the original ghosting bug: the JS scroll-parallax fade
+   (--ho custom property, drives .hero-content's opacity) only runs when
+   `.reveal-ready` is on <html>, which JS withholds under
+   prefers-reduced-motion — by design, correctly. But the photo's dissolve
+   below was an UNCONDITIONAL static mask with no such gate, so on a
+   reduce-motion device the photo vanished while the trust chips/buttons
+   stayed at full opacity, "ghosting" through the incoming heading.
+   Fix: gate the photo's fancy dissolve to the SAME condition as the
+   content's fade (motion allowed). Under reduce-motion, the photo simply
+   stays visible (no dissolve) — content also stays visible (no fade) —
+   nothing can ever mismatch, and a static hero is the correct accessible
+   fallback anyway. (An earlier attempt masked hero-content directly as a
+   "safety net," but that clipped the trust row on ordinary page load
+   because it sits low enough in hero-content's own box to fall inside
+   the fade zone — removed.) */
+@media (prefers-reduced-motion: no-preference) {
+  .home-canvas .hero-home .hero-bg {
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 46%, rgba(0,0,0,.55) 72%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 46%, rgba(0,0,0,.55) 72%, transparent 100%);
+  }
 }
 /* the scroll cue would float mid-blend now — retire it on the canvas home */
 .home-canvas .scroll-cue { display: none; }
 
 /* reserve a bottom band inside the hero for the crossfade, so the incoming
-   section-2 heading never collides with the hero's trust chips */
-.home-canvas .hero-home { padding-bottom: clamp(220px, 26vh, 380px); }
+   section-2 heading never collides with the hero's trust chips. Generous on
+   purpose: real devices wrap the h1/trust-row taller than any fixed test
+   viewport, so this must survive worst-case content height, not just the
+   average case. */
+.home-canvas .hero-home { padding-bottom: clamp(260px, 34vh, 440px); }
+.home-canvas .hero-home .hero-trust { margin-bottom: clamp(20px, 4vh, 44px); }
 
 /* --- Triptych = the crossfade. It rises DEEP into the hero so its
        eyebrow + heading render over the fading photo itself; its own
