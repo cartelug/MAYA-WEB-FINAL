@@ -4349,6 +4349,32 @@ body.home-canvas { background: var(--cream-2); }
 .home-canvas .hero-home { padding-bottom: clamp(260px, 34vh, 440px); }
 .home-canvas .hero-home .hero-trust { margin-bottom: clamp(20px, 4vh, 44px); }
 
+/* --- v15 · Generated hero artwork. The image is painted to dissolve into
+       var(--green-950) across its lowest fifth (baked into the file), so the
+       hero→triptych melt no longer depends on the mask alone: reduce-motion
+       (mask off) now gets the same painted fade. --- */
+.home-canvas .hero-home .hero-image {
+  background-image: url("../images/hero/home-hero-mobile.webp");
+  /* pin the baked dissolve to the hero's foot: no bottom overscan, and the
+     Ken-Burns scale grows up/sideways only, never past the painted fade */
+  inset: -10% -2% 0 -2%;
+  background-position: center bottom;
+  transform-origin: 50% 100%;
+}
+@media (min-width: 761px) {
+  .home-canvas .hero-home .hero-image {
+    background-image: url("../images/hero/home-hero-desktop.webp");
+  }
+}
+/* the artwork carries its own dusk-dark left flank and painted foot — ease
+   the cinematic scrim so the painting reads; keep enough left-side weight
+   for the headline and drop the bottom darkener (the file paints its own) */
+.home-canvas .hero-home .hero-scrim {
+  background:
+    linear-gradient(115deg, rgba(4,18,11,.62) 0%, rgba(7,26,17,.30) 50%, rgba(7,26,17,.10) 100%),
+    linear-gradient(180deg, rgba(7,26,17,.50) 0%, rgba(7,26,17,0) 32%, rgba(7,26,17,0) 100%);
+}
+
 /* --- Triptych = the crossfade. It rises DEEP into the hero so its
        eyebrow + heading render over the fading photo itself; its own
        emerald only completes below the heading, then exhales into the
@@ -4360,14 +4386,38 @@ body.home-canvas { background: var(--cream-2); }
   margin-top: clamp(-240px, -18vw, -130px);
   padding-top: clamp(56px, 8vw, 110px);
   padding-bottom: clamp(130px, 15vw, 210px);
-  background: linear-gradient(180deg,
-    rgba(7,26,17,0) 0px,
-    rgba(7,26,17,.45) clamp(110px, 10vw, 180px),
-    var(--green-950) clamp(260px, 22vw, 380px),
-    var(--green-900) calc(100% - 340px),
-    var(--cream-2) 100%);
+  background:
+    linear-gradient(180deg,
+      rgba(7,26,17,0) 0px,
+      rgba(7,26,17,.45) clamp(110px, 10vw, 180px),
+      var(--green-950) clamp(260px, 22vw, 380px),
+      var(--green-900) calc(100% - 340px),
+      var(--cream-2) 100%),
+    /* backstop layer: body.home-canvas is CREAM, and the crossfade gradient
+       above only completes at 260-380px in, while the hero (the only emerald
+       paint behind us) ends at the overlap line, clamp(130px,18vw,240px) —
+       the exact inverse of our margin-top. Between those two lines cream
+       leaked through the half-opaque emerald as a grey band across the melt.
+       This layer goes solid green-950 from the hero-bottom line down; the
+       2px ramp absorbs sub-pixel rounding drift between margin and stop. */
+    linear-gradient(180deg,
+      rgba(7,26,17,0) 0px,
+      rgba(7,26,17,0) calc(clamp(130px, 18vw, 240px) - 2px),
+      var(--green-950) clamp(130px, 18vw, 240px),
+      var(--green-950) 100%);
 }
 .home-canvas .hp-triptych .container { pointer-events: auto; }
+
+/* the zone-A gold halo (::before) is anchored at the element's top edge, so
+   at full strength from row zero it draws a faint full-width hairline right
+   across the photo melt. Fade it in below the hero-bottom line instead —
+   the cards keep their halo, the melt keeps its continuity. */
+.home-canvas .hp-triptych::before {
+  -webkit-mask-image: linear-gradient(to bottom,
+    transparent clamp(130px, 18vw, 240px), #000 clamp(300px, 26vw, 430px));
+          mask-image: linear-gradient(to bottom,
+    transparent clamp(130px, 18vw, 240px), #000 clamp(300px, 26vw, 430px));
+}
 
 /* --- Body sections float on the canvas --- */
 .home-canvas .section.alt,
