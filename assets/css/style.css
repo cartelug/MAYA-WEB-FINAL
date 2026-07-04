@@ -235,8 +235,13 @@ p + p { margin-top: 14px; }
 .muted { color: var(--muted); }
 
 /* =========================================================================
-   Preloader  —  draw-in mark + rotating gold ring + progress bar
+   Preloader  —  "Golden Orbit": a bead of light orbits the sun's arc,
+   painting the mark from moonlit silhouette to full gold, then the
+   lockup blooms in.  (v17)
    ========================================================================= */
+@property --arc {
+  syntax: "<angle>"; inherits: false; initial-value: 0deg;
+}
 .preloader {
   position: fixed; inset: 0; z-index: 9999;
   background:
@@ -245,74 +250,92 @@ p + p { margin-top: 14px; }
   display: grid; place-items: center;
   transition: opacity .9s var(--ease-premium), visibility .9s;
 }
-/* dawn light that warms the whole screen as the logo settles */
-.preloader::before {
-  content: ""; position: absolute; left: 50%; bottom: -30%;
-  width: 140vmax; height: 90vmax; transform: translateX(-50%);
-  background: radial-gradient(ellipse at 50% 100%, rgba(241,202,85,.22), rgba(212,166,42,.08) 38%, transparent 66%);
-  opacity: 0; pointer-events: none;
-  animation: preDawn 2.6s var(--ease-premium) .3s forwards;
-}
 .preloader.is-loaded { opacity: 0; visibility: hidden; pointer-events: none; }
 .preloader.is-loaded .preloader-inner { transform: translateY(-14px) scale(.97); opacity: 0; }
 .preloader-inner {
   position: relative; z-index: 1;
-  display: grid; place-items: center; gap: clamp(40px, 6.5vw, 60px);
+  display: grid; place-items: center; gap: clamp(34px, 5.5vw, 54px);
   text-align: center;
   transition: opacity .7s var(--ease-premium), transform .7s var(--ease-premium);
 }
-.preloader-mark {
+.preloader-stage {
   position: relative;
-  width: clamp(200px, 26vw, 290px);
+  width: clamp(220px, 30vw, 320px);
   aspect-ratio: 1;
   display: grid; place-items: center;
 }
-/* warm sunrise glow that blooms behind the logo, then gently breathes */
-.preloader-mark::before {
-  content: ""; position: absolute; inset: -8%;
+/* dawn halo that blooms behind the sun as it ignites, then gently breathes */
+.pl-halo {
+  position: absolute; left: 50%; top: 46%; z-index: 1;
+  width: 86%; aspect-ratio: 1; transform: translate(-50%, -50%) scale(.55);
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 54%, rgba(241,202,85,.5), rgba(212,166,42,.16) 40%, transparent 68%);
-  filter: blur(6px);
-  opacity: 0; transform: scale(.55);
-  animation: preGlowIn 1.2s var(--ease-premium) .15s forwards,
-             preGlowBreathe 4.2s ease-in-out 1.4s infinite;
+  background: radial-gradient(circle at 50% 54%,
+    rgba(255,243,207,.92) 0%, rgba(241,202,85,.55) 30%,
+    rgba(212,166,42,.22) 52%, transparent 70%);
+  filter: blur(7px); opacity: 0;
+  animation: plHalo 1.5s var(--ease-premium) .15s forwards,
+             plHaloBreathe 4.2s ease-in-out 1.7s infinite;
 }
-/* rotating conic gold halo ring behind the mark */
-.preloader-ring {
-  position: absolute; inset: -13%;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg,
-    rgba(241,202,85,0) 0deg, rgba(241,202,85,.55) 60deg,
-    rgba(212,166,42,0) 140deg, rgba(241,202,85,0) 220deg,
-    rgba(241,202,85,.35) 290deg, rgba(241,202,85,0) 360deg);
-  -webkit-mask: radial-gradient(circle, transparent 57%, #000 59%, #000 67%, transparent 69%);
-          mask: radial-gradient(circle, transparent 57%, #000 59%, #000 67%, transparent 69%);
+/* first light lifting off the horizon at the base of the mark */
+.pl-horizon {
+  position: absolute; left: -8%; right: -8%; bottom: 4%; z-index: 1; height: 42%;
+  background: radial-gradient(60% 100% at 50% 100%,
+    rgba(255,243,207,.5), rgba(241,202,85,.18) 42%, transparent 72%);
   opacity: 0;
-  animation: preRingIn .8s var(--ease-premium) .6s forwards,
-             preloaderRing 7s linear .6s infinite;
+  animation: plHorizon 1.7s var(--ease-premium) .2s forwards;
 }
-/* the EXACT logo — rises into focus, then floats */
-.preloader-logo {
-  position: relative; z-index: 2;
-  width: 80%; height: auto;
+/* the sun-over-leaves icon: moonlit silhouette + gold layer painted by the arc */
+.pl-icon {
+  position: absolute; left: 50%; top: 47%; z-index: 3;
+  width: 58%; aspect-ratio: 512 / 475;
+  transform: translate(-50%, -50%);
+  animation: plIconFade .5s var(--ease-premium) 1.55s forwards;
+}
+.pl-base, .pl-warm {
+  position: absolute; inset: 0;
+  background-position: center; background-repeat: no-repeat; background-size: contain;
+}
+.pl-base {
+  background-image: url("../images/logo/logo-icon-white.png");
+  opacity: .32; filter: drop-shadow(0 0 10px rgba(255,255,255,.12));
+}
+.pl-warm {
+  background-image: url("../images/logo/logo-icon.png");
+  filter: drop-shadow(0 10px 26px rgba(212,166,42,.4));
+  -webkit-mask: conic-gradient(from -112deg at 50% 58%, #000 var(--arc), transparent 0);
+          mask: conic-gradient(from -112deg at 50% 58%, #000 var(--arc), transparent 0);
+  animation: plPaint 1.25s cubic-bezier(.4, 0, .2, 1) .15s forwards;
+}
+/* the travelling bead of light + comet tail that paints the sun */
+.pl-orbit {
+  position: absolute; left: 50%; top: 58%; z-index: 4;
+  width: 0; height: 0; transform: rotate(-112deg);
+  animation: plOrbit 1.25s cubic-bezier(.4, 0, .2, 1) .15s forwards;
+}
+.pl-arm {
+  position: absolute; left: 0; top: 0; height: 3px; width: clamp(68px, 9.4vw, 98px);
+  transform-origin: 0 50%; border-radius: 3px; opacity: 0;
+  background: linear-gradient(90deg, transparent 0, rgba(241,202,85,0) 40%,
+    rgba(241,202,85,.55) 86%, transparent 100%);
+  animation: plBead 1.25s var(--ease-premium) .15s forwards;
+}
+.pl-bead {
+  position: absolute; left: clamp(64px, 9vw, 94px); top: -4px;
+  width: 11px; height: 11px; border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fff, var(--gold-2) 55%, var(--gold) 100%);
+  box-shadow: 0 0 12px 3px rgba(241,202,85,.85), 0 0 26px 8px rgba(212,166,42,.5);
+  opacity: 0;
+  animation: plBead 1.25s var(--ease-premium) .15s forwards;
+}
+/* the full lockup blooms in once the sun is lit, then floats */
+.pl-lockup {
+  position: absolute; left: 50%; top: 50%; z-index: 5;
+  width: 90%; height: auto;
+  transform: translate(-50%, -50%) scale(.98);
   filter: drop-shadow(0 16px 38px rgba(212,166,42,.28));
-  animation: preloaderRise 1.25s var(--ease-premium) both,
-             preloaderFloat 4s ease-in-out 1.25s infinite;
-}
-/* gold sheen sweep — masked to the logo's own shape so the sun + tagline
-   catch the light. Sits exactly over the 80%-wide centred logo image. */
-.preloader-mark::after {
-  content: ""; position: absolute; inset: 0; margin: auto; z-index: 3;
-  width: 80%; aspect-ratio: 880 / 461;
-  background: linear-gradient(108deg,
-    transparent 40%, rgba(255,255,255,.85) 49%, rgba(255,250,235,.95) 52%,
-    rgba(255,255,255,.7) 55%, transparent 64%);
-  background-size: 240% 100%; background-repeat: no-repeat;
-  background-position: 230% 0;
-  mix-blend-mode: screen; pointer-events: none; opacity: 0;
-  -webkit-mask: url("../images/logo/logo-full.png") center / contain no-repeat;
-          mask: url("../images/logo/logo-full.png") center / contain no-repeat;
-  animation: preSheen 2.6s var(--ease-premium) 1.5s infinite;
+  opacity: 0;
+  animation: plLockup .8s var(--ease-premium) 1.5s forwards,
+             plLockupFloat 4s ease-in-out 2.5s infinite;
 }
 /* refined hairline progress track */
 .preloader-bar {
@@ -334,36 +357,30 @@ p + p { margin-top: 14px; }
   transform: translate(-50%, -50%); opacity: 0; z-index: 2;
   animation: preloaderSpark 1.05s var(--ease-premium) .2s forwards;
 }
-@keyframes preDawn {
-  0%   { opacity: 0; }
+@keyframes plHalo {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(.55); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes plHaloBreathe {
+  0%, 100% { opacity: .85; transform: translate(-50%, -50%) scale(1); }
+  50%      { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+}
+@keyframes plHorizon { 0% { opacity: 0; } 100% { opacity: .9; } }
+@keyframes plPaint  { 0% { --arc: 0deg; } 100% { --arc: 312deg; } }
+@keyframes plOrbit  { 0% { transform: rotate(-112deg); } 100% { transform: rotate(200deg); } }
+@keyframes plBead {
+  0% { opacity: 0; } 12% { opacity: 1; } 84% { opacity: 1; } 100% { opacity: 0; }
+}
+@keyframes plIconFade { to { opacity: 0; } }
+@keyframes plLockup {
+  0%   { opacity: 0; transform: translate(-50%, -44%) scale(.94); filter: blur(6px) drop-shadow(0 16px 38px rgba(212,166,42,.28)); }
   60%  { opacity: 1; }
-  100% { opacity: .9; }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1);    filter: blur(0)  drop-shadow(0 16px 38px rgba(212,166,42,.28)); }
 }
-@keyframes preGlowIn {
-  0%   { opacity: 0; transform: scale(.55); }
-  100% { opacity: 1; transform: scale(1); }
+@keyframes plLockupFloat {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50%      { transform: translate(-50%, calc(-50% - 6px)) scale(1.008); }
 }
-@keyframes preGlowBreathe {
-  0%, 100% { opacity: .85; transform: scale(1); }
-  50%      { opacity: 1; transform: scale(1.06); }
-}
-@keyframes preRingIn { to { opacity: .9; } }
-@keyframes preloaderRise {
-  0%   { opacity: 0; transform: scale(.86) translateY(16px); filter: blur(9px) brightness(.7); clip-path: inset(0 0 100% 0); }
-  55%  { opacity: 1; }
-  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0) brightness(1); clip-path: inset(0 0 0 0); }
-}
-@keyframes preloaderFloat {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50%      { transform: translateY(-7px) scale(1.012); }
-}
-@keyframes preSheen {
-  0%       { background-position: 230% 0; opacity: 0; }
-  8%       { opacity: 1; }
-  34%      { background-position: -130% 0; opacity: 1; }
-  40%, 100% { background-position: -130% 0; opacity: 0; }
-}
-@keyframes preloaderRing { to { transform: rotate(360deg); } }
 @keyframes preloaderFill {
   0%   { width: 0; }
   88%  { width: 100%; }
@@ -1701,16 +1718,17 @@ label { font-weight: 600; font-size: .9rem; }
   .word {
     opacity: 1 !important; transform: none !important; filter: none !important;
   }
-  .preloader-logo, .preloader-ring, .preloader::before,
-  .preloader-mark::before, .preloader-mark::after,
+  .pl-halo, .pl-horizon, .pl-icon, .pl-warm, .pl-orbit, .pl-arm, .pl-bead, .pl-lockup,
   .nav-cta::after,
   .hero-glow, .marquee-track,
   .scroll-cue span, .floating-whatsapp::before, .journey-cue::after {
     animation: none !important;
   }
-  /* keep the real logo fully visible & sharp with no motion */
-  .preloader-logo { opacity: 1 !important; transform: none !important; filter: drop-shadow(0 16px 38px rgba(212,166,42,.28)) !important; clip-path: none !important; }
-  .preloader-mark::after { opacity: 0 !important; }
+  /* keep the full lockup visible & sharp with no motion */
+  .pl-icon { opacity: 0 !important; }
+  .pl-lockup { opacity: 1 !important; transform: translate(-50%, -50%) scale(1) !important; filter: drop-shadow(0 16px 38px rgba(212,166,42,.28)) !important; }
+  .pl-halo { opacity: 1 !important; transform: translate(-50%, -50%) scale(1) !important; }
+  .pl-horizon { opacity: .8 !important; }
   .preloader-bar::after { width: 100% !important; }
   .chapter { opacity: 1 !important; transform: none !important; filter: none !important; }
 }
