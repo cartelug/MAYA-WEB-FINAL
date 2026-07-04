@@ -732,48 +732,6 @@
   const LEAF_SVG = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C7 7 3 11 3 15a9 9 0 0 0 18 0C21 11 17 7 12 2Z"/></svg>';
   const FIVE_LEAVES = '<span class="leaf-stars">' + Array(5).fill(LEAF_SVG).join("") + '</span>';
 
-  /* ── Amenity cinematic scenes — pause off-screen + light parallax ── */
-  (function () {
-    const cards = document.querySelectorAll(".amenity-card[data-scene]");
-    if (!cards.length) return;
-    const rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    const pauseSvgs = (card, paused) => {
-      card.querySelectorAll("svg").forEach(function (svg) {
-        if (typeof svg.pauseAnimations === "function") {
-          paused ? svg.pauseAnimations() : svg.unpauseAnimations();
-        }
-      });
-    };
-    if (rm) { cards.forEach(function (c) { pauseSvgs(c, true); }); return; }
-
-    if ("IntersectionObserver" in window) {
-      const io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          const off = !e.isIntersecting;
-          e.target.classList.toggle("is-paused", off);
-          pauseSvgs(e.target, off);
-        });
-      }, { rootMargin: "140px 0px", threshold: 0.04 });
-      cards.forEach(function (c) { io.observe(c); });
-    }
-
-    /* subtle inner parallax on the scene layer (desktop pointer only) */
-    if (fine) {
-      cards.forEach(function (card) {
-        const scene = card.querySelector(".am-scene");
-        if (!scene) return;
-        card.addEventListener("pointermove", function (ev) {
-          const r = card.getBoundingClientRect();
-          const dx = (ev.clientX - r.left) / r.width - 0.5;
-          const dy = (ev.clientY - r.top) / r.height - 0.5;
-          scene.style.transform = "translate(" + (dx * -9).toFixed(1) + "px," + (dy * -7).toFixed(1) + "px) scale(1.06)";
-        });
-        card.addEventListener("pointerleave", function () { scene.style.transform = ""; });
-      });
-    }
-  })();
-
   document.querySelectorAll(".stars").forEach(function (el) {
     if (el.textContent.trim().match(/^★+$/)) {
       el.innerHTML = FIVE_LEAVES;
