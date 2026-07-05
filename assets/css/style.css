@@ -4605,3 +4605,84 @@ body:not(.hero-page) .site-header {
   border: 1.5px solid rgba(241,202,85,.65);
   bottom: max(24px, env(safe-area-inset-bottom, 24px));
 }
+/* =========================================================================
+   BOOKING SHEET  —  v18 "fill in details" prompt before WhatsApp handoff.
+   One JS-injected dialog for every booking CTA (data-book). Bottom sheet on
+   mobile, centred card on desktop. Reuses .input / .btn-primary / .form-status.
+   ========================================================================= */
+.booksheet {
+  position: fixed; inset: 0; z-index: 9600; /* above lightbox (9500), below preloader */
+  display: grid; place-items: end center;
+  visibility: hidden; pointer-events: none;
+}
+.booksheet.is-open { visibility: visible; pointer-events: auto; }
+.bs-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(4,12,8,.6);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  opacity: 0; transition: opacity .35s var(--ease-premium);
+}
+.booksheet.is-open .bs-backdrop { opacity: 1; }
+.bs-panel {
+  position: relative; width: 100%; max-width: 520px;
+  max-height: min(92dvh, 92vh); overflow-y: auto; overscroll-behavior: contain;
+  background: linear-gradient(180deg, #fffdf6 0%, #faf6ea 100%);
+  border-radius: 26px 26px 0 0;
+  padding: 26px 22px calc(22px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -18px 60px -20px rgba(0,0,0,.55);
+  transform: translateY(102%);
+  transition: transform .5s var(--ease-premium);
+}
+.booksheet.is-open .bs-panel { transform: translateY(0); }
+/* gold sunrise hairline across the top of the sheet */
+.bs-panel::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px;
+  background: linear-gradient(90deg, transparent, var(--gold-2) 30%, var(--gold) 70%, transparent);
+  border-radius: 26px 26px 0 0;
+}
+.bs-close {
+  position: absolute; top: 16px; right: 16px; z-index: 2;
+  width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid var(--line);
+  background: #fff; color: var(--green-900); cursor: pointer;
+  display: grid; place-items: center;
+  transition: background var(--t) var(--ease), transform var(--t) var(--ease);
+}
+.bs-close:hover { background: var(--green-900); color: #fff; transform: rotate(90deg); }
+.bs-close svg { width: 18px; height: 18px; }
+.bs-eyebrow {
+  margin: 0 0 6px; font-size: .68rem; font-weight: 800;
+  letter-spacing: .3em; text-transform: uppercase; color: var(--gold);
+}
+.bs-title { margin: 0 0 4px; font-size: clamp(1.35rem, 4.5vw, 1.7rem); color: var(--green-900); line-height: 1.1; padding-right: 48px; }
+.bs-sub { margin: 0 0 18px; font-size: .92rem; color: #5c6b60; }
+.bs-form { display: grid; gap: 14px; }
+.bs-field label {
+  display: block; margin-bottom: 5px;
+  font-size: .78rem; font-weight: 700; letter-spacing: .04em; color: var(--green-800);
+}
+.bs-field label span { font-weight: 500; color: #8a978d; letter-spacing: 0; }
+.bs-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.bs-form .input { min-height: 50px; padding: 12px 14px; }
+.bs-form input[type="date"].input { -webkit-appearance: none; appearance: none; }
+.bs-form .input.bs-invalid { border-color: #c0392b; box-shadow: 0 0 0 4px rgba(192,57,43,.10); }
+.bs-submit { width: 100%; justify-content: center; margin-top: 4px; }
+.bs-note {
+  margin: 2px 0 0; text-align: center;
+  font-size: .78rem; color: #8a978d;
+}
+/* desktop: centred card */
+@media (min-width: 761px) {
+  .booksheet { place-items: center; padding: 4vh 20px; }
+  .bs-panel {
+    border-radius: 26px; padding: 30px 30px 26px;
+    transform: translateY(18px) scale(.96); opacity: 0;
+    transition: transform .45s var(--ease-premium), opacity .45s var(--ease-premium);
+    box-shadow: 0 40px 90px -30px rgba(0,0,0,.65);
+  }
+  .bs-panel::before { border-radius: 26px 26px 0 0; }
+  .booksheet.is-open .bs-panel { transform: translateY(0) scale(1); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bs-backdrop, .bs-panel { transition: none !important; }
+  .bs-panel { transform: none !important; opacity: 1 !important; }
+}

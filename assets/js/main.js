@@ -1155,3 +1155,239 @@
     toggle.addEventListener(ev, hydrate, { once: false, passive: true });
   });
 })();
+/* =========================================================================
+   BOOKING SHEET (v18) — "fill in details" prompt before the WhatsApp handoff.
+   Progressive enhancement over every [data-book] CTA: the original wa.me href
+   is kept as a no-JS fallback; with JS we intercept the click, collect stay /
+   activity / event / table details, and open WhatsApp with a structured
+   message. Vanilla JS; focus-trapped dialog; respects reduced motion.
+   ========================================================================= */
+(function () {
+  "use strict";
+  var triggers = document.querySelectorAll("[data-book]");
+  if (!triggers.length) return;
+
+  var WA = "https://wa.me/256773883760?text=";
+  var ROOMS = ["Executive Cottage", "Deluxe Room", "Twin Room", "Family Room",
+               "Standard Room", "Garden Cottage", "Group / Long Stay", "Not sure yet"];
+  var TIMES = ["Morning (8–11am)", "Midday (11am–2pm)", "Afternoon (2–5pm)", "Evening (5–8pm)"];
+  var TABLE_TIMES = ["Lunch (12–2pm)", "Afternoon (2–5pm)", "Dinner (5–9pm)"];
+  var OCCASIONS = ["Wedding", "Introduction Ceremony", "Graduation Party", "Conference",
+                   "Party", "Corporate Retreat", "Other celebration"];
+  var VENUES = ["Bulangiti Hall", "Oasis Gardens", "Not sure yet"];
+
+  var sheet = document.createElement("div");
+  sheet.className = "booksheet";
+  sheet.setAttribute("role", "dialog");
+  sheet.setAttribute("aria-modal", "true");
+  sheet.setAttribute("aria-labelledby", "bsTitle");
+  sheet.innerHTML =
+    '<div class="bs-backdrop" data-bs-close></div>' +
+    '<div class="bs-panel">' +
+    '  <button class="bs-close" type="button" aria-label="Close booking form" data-bs-close>' +
+    '    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>' +
+    '  </button>' +
+    '  <p class="bs-eyebrow">Maya Nature Resort</p>' +
+    '  <h3 class="bs-title" id="bsTitle"></h3>' +
+    '  <p class="bs-sub"></p>' +
+    '  <form class="bs-form" novalidate>' +
+    '    <div class="bs-fields"></div>' +
+    '    <p class="form-status" role="status" aria-live="polite"></p>' +
+    '    <button class="btn btn-primary bs-submit" type="submit">Continue on WhatsApp' +
+    '      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:18px;height:18px"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Z"/></svg>' +
+    '    </button>' +
+    '    <p class="bs-note">No payment now — availability is confirmed in the chat.</p>' +
+    '  </form>' +
+    '</div>';
+  document.body.appendChild(sheet);
+
+  var panel = sheet.querySelector(".bs-panel");
+  var titleEl = sheet.querySelector(".bs-title");
+  var subEl = sheet.querySelector(".bs-sub");
+  var fieldsEl = sheet.querySelector(".bs-fields");
+  var form = sheet.querySelector(".bs-form");
+  var statusEl = sheet.querySelector(".form-status");
+
+  var fid = 0;
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function field(label, inner, optional) {
+    return '<div class="bs-field"><label for="bsf' + fid + '">' + label +
+      (optional ? ' <span>(optional)</span>' : '') + '</label>' +
+      inner.replace("%ID%", "bsf" + (fid++)) + '</div>';
+  }
+  function dateInput(name, required) {
+    return '<input class="input" id="%ID%" type="date" name="' + name + '"' + (required ? " required" : "") + ' />';
+  }
+  function numInput(name, val, min, max) {
+    return '<input class="input" id="%ID%" type="number" inputmode="numeric" name="' + name +
+      '" value="' + val + '" min="' + min + '" max="' + max + '" required />';
+  }
+  function selectInput(name, options, chosen) {
+    return '<select class="input" id="%ID%" name="' + name + '">' +
+      options.map(function (o) {
+        return '<option' + (o === chosen ? " selected" : "") + '>' + esc(o) + '</option>';
+      }).join("") + '</select>';
+  }
+  function textInput(name, placeholder) {
+    return '<input class="input" id="%ID%" type="text" name="' + name + '" placeholder="' + esc(placeholder) + '" autocomplete="name" />';
+  }
+  function row(a, b) { return '<div class="bs-row">' + a + b + '</div>'; }
+
+  function render(d) {
+    fid = 0;
+    var book = d.book, html = "";
+    if (book === "stay") {
+      titleEl.textContent = "Reserve your stay";
+      subEl.textContent = d.room ? d.room + " — takes 20 seconds, confirmed in chat."
+                                 : "Takes 20 seconds — we confirm availability on WhatsApp.";
+      var room = d.room || "Not sure yet";
+      if (room.indexOf("Group") === 0 || room.indexOf("group") > -1) room = "Group / Long Stay";
+      html += field("Room type", selectInput("room", ROOMS, ROOMS.indexOf(room) > -1 ? room : "Not sure yet"));
+      html += row(field("Check-in", dateInput("checkin", true)), field("Check-out", dateInput("checkout", true)));
+      html += row(field("Adults", numInput("adults", 2, 1, 30)), field("Children", numInput("children", 0, 0, 20)));
+      html += field("Your name", textInput("name", "e.g. Sarah N."), true);
+    } else if (book === "activity") {
+      titleEl.textContent = d.activity || "Book an experience";
+      subEl.textContent = "Tell us when — we confirm details on WhatsApp.";
+      html += field("Date", dateInput("date", true));
+      if (d.time) html += field("Preferred time", selectInput("time", TIMES, TIMES[2]));
+      if (d.kids) html += row(field("Adults", numInput("adults", 2, 1, 50)), field("Children", numInput("children", 0, 0, 30)));
+      else html += field("Number of people", numInput("people", 2, 1, 100));
+      html += field("Your name", textInput("name", "e.g. Sarah N."), true);
+    } else if (book === "event") {
+      titleEl.textContent = "Plan your event";
+      subEl.textContent = "A few details and our events team takes it from there.";
+      html += field("Occasion", selectInput("occasion", OCCASIONS, d.occasion || "Wedding"));
+      html += field("Venue", selectInput("venue", VENUES, d.venue || "Not sure yet"));
+      html += row(field("Preferred date", dateInput("date", true)), field("Approx. guests", numInput("guests", 50, 1, 2000)));
+      html += field("Your name", textInput("name", "e.g. Sarah N."), true);
+    } else {
+      titleEl.textContent = "Book a table";
+      subEl.textContent = "Restaurant & bar — we hold your table on WhatsApp.";
+      html += row(field("Date", dateInput("date", true)), field("Time", selectInput("time", TABLE_TIMES, TABLE_TIMES[2])));
+      html += field("Number of people", numInput("people", 2, 1, 60));
+      html += field("Your name", textInput("name", "e.g. Sarah N."), true);
+    }
+    fieldsEl.innerHTML = html;
+
+    var today = new Date(); today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+    var iso = today.toISOString().slice(0, 10);
+    fieldsEl.querySelectorAll("input[type=date]").forEach(function (el) { el.min = iso; });
+    var ci = form.querySelector("[name=checkin]"), co = form.querySelector("[name=checkout]");
+    if (ci && co) ci.addEventListener("change", function () {
+      if (!ci.value) return;
+      var next = new Date(ci.value); next.setDate(next.getDate() + 1);
+      var nIso = next.toISOString().slice(0, 10);
+      co.min = nIso;
+      if (!co.value || co.value <= ci.value) co.value = nIso;
+    });
+  }
+
+  function fmtDate(v) {
+    var d = new Date(v + "T12:00:00");
+    return d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+  }
+  function guestsLine(a, c) {
+    var s = a + " adult" + (a === "1" ? "" : "s");
+    if (c && c !== "0") s += ", " + c + " " + (c === "1" ? "child" : "children");
+    return s;
+  }
+  function compose(d, v) {
+    var L = [];
+    if (d.book === "stay") {
+      L.push("Hello Maya Nature Resort! I'd like to reserve a stay. 🌿");
+      L.push("🛏 Room: *" + v.room + "*");
+      L.push("📅 Check-in: " + fmtDate(v.checkin));
+      var nights = Math.round((new Date(v.checkout) - new Date(v.checkin)) / 864e5);
+      L.push("📅 Check-out: " + fmtDate(v.checkout) + " (" + nights + " night" + (nights === 1 ? "" : "s") + ")");
+      L.push("👥 Guests: " + guestsLine(v.adults, v.children));
+    } else if (d.book === "activity") {
+      L.push("Hello Maya Nature Resort! I'd like to book: *" + (d.activity || "an experience") + "* 🌿");
+      L.push("📅 Date: " + fmtDate(v.date));
+      if (v.time) L.push("⏰ Time: " + v.time);
+      L.push("👥 " + (v.people ? v.people + " people" : guestsLine(v.adults, v.children)));
+    } else if (d.book === "event") {
+      L.push("Hello Maya Nature Resort! I'd like to plan an event. 🎉");
+      L.push("🎪 Occasion: *" + v.occasion + "*");
+      if (v.venue !== "Not sure yet") L.push("📍 Venue: " + v.venue);
+      L.push("📅 Preferred date: " + fmtDate(v.date));
+      L.push("👥 Approx. guests: " + v.guests);
+    } else {
+      L.push("Hello Maya Nature Resort! I'd like to book a table at the restaurant. 🍽");
+      L.push("📅 Date: " + fmtDate(v.date));
+      L.push("⏰ Time: " + v.time);
+      L.push("👥 People: " + v.people);
+    }
+    if (v.name) L.push("— " + v.name);
+    return L.join("\n");
+  }
+
+  var lastFocused = null, current = null;
+  function open(trigger) {
+    current = {
+      book: trigger.getAttribute("data-book"),
+      room: trigger.getAttribute("data-room") || "",
+      activity: trigger.getAttribute("data-activity") || "",
+      time: trigger.hasAttribute("data-time"),
+      kids: trigger.hasAttribute("data-kids"),
+      occasion: trigger.getAttribute("data-occasion") || "",
+      venue: trigger.getAttribute("data-venue") || ""
+    };
+    render(current);
+    statusEl.textContent = "";
+    lastFocused = trigger;
+    sheet.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+    setTimeout(function () {
+      var f = panel.querySelector("select, input");
+      if (f) f.focus({ preventScroll: true });
+    }, 80);
+  }
+  function close() {
+    sheet.classList.remove("is-open");
+    document.body.style.overflow = "";
+    current = null;
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
+  }
+
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest ? e.target.closest("[data-book]") : null;
+    if (t) { e.preventDefault(); open(t); return; }
+    if (e.target.closest && e.target.closest("[data-bs-close]")) close();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (!sheet.classList.contains("is-open")) return;
+    if (e.key === "Escape") { close(); return; }
+    if (e.key !== "Tab") return;
+    var f = panel.querySelectorAll("button, select, input, [href]");
+    if (!f.length) return;
+    var list = Array.prototype.slice.call(f);
+    var i = list.indexOf(document.activeElement);
+    e.preventDefault();
+    list[e.shiftKey ? (i <= 0 ? list.length - 1 : i - 1) : (i >= list.length - 1 ? 0 : i + 1)].focus();
+  });
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!current) return;
+    var bad = null;
+    form.querySelectorAll("[required]").forEach(function (el) {
+      el.classList.remove("bs-invalid");
+      if (!el.value) { el.classList.add("bs-invalid"); if (!bad) bad = el; }
+    });
+    if (bad) {
+      statusEl.textContent = "Please fill in the highlighted field" + (form.querySelectorAll(".bs-invalid").length > 1 ? "s" : "") + ".";
+      bad.focus();
+      return;
+    }
+    var v = {};
+    new FormData(form).forEach(function (val, key) { v[key] = String(val).trim(); });
+    statusEl.textContent = "Opening WhatsApp with your details…";
+    window.open(WA + encodeURIComponent(compose(current, v)), "_blank", "noopener");
+    setTimeout(close, 900);
+  });
+})();
