@@ -264,25 +264,26 @@ p + p { margin-top: 14px; }
   aspect-ratio: 1;
   display: grid; place-items: center;
 }
-/* dawn halo that blooms behind the sun as it ignites, then gently breathes */
+/* dawn halo — a soft, perfectly round glow with an eased falloff that
+   dissolves into the background green with no visible edge */
 .pl-halo {
-  position: absolute; left: 50%; top: 46%; z-index: 1;
-  width: 86%; aspect-ratio: 1; transform: translate(-50%, -50%) scale(.55);
+  position: absolute; left: 50%; top: 47%; z-index: 1;
+  width: 112%; aspect-ratio: 1; transform: translate(-50%, -50%) scale(.55);
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 54%,
-    rgba(255,243,207,.92) 0%, rgba(241,202,85,.55) 30%,
-    rgba(212,166,42,.22) 52%, transparent 70%);
-  filter: blur(7px); opacity: 0;
+  background: radial-gradient(closest-side circle,
+    rgba(255,236,190,.30) 0%,
+    rgba(246,215,120,.26) 12%,
+    rgba(241,202,85,.21)  24%,
+    rgba(236,192,72,.16)  35%,
+    rgba(228,182,60,.115) 45%,
+    rgba(220,174,52,.075) 54%,
+    rgba(214,168,45,.045) 62%,
+    rgba(212,166,42,.022) 70%,
+    rgba(212,166,42,.008) 78%,
+    transparent 88%);
+  filter: blur(16px); opacity: 0;
   animation: plHalo 1.5s var(--ease-premium) .15s forwards,
              plHaloBreathe 4.2s ease-in-out 1.7s infinite;
-}
-/* first light lifting off the horizon at the base of the mark */
-.pl-horizon {
-  position: absolute; left: -8%; right: -8%; bottom: 4%; z-index: 1; height: 42%;
-  background: radial-gradient(60% 100% at 50% 100%,
-    rgba(255,243,207,.5), rgba(241,202,85,.18) 42%, transparent 72%);
-  opacity: 0;
-  animation: plHorizon 1.7s var(--ease-premium) .2s forwards;
 }
 /* the sun-over-leaves icon: moonlit silhouette + gold layer painted by the arc */
 .pl-icon {
@@ -365,7 +366,6 @@ p + p { margin-top: 14px; }
   0%, 100% { opacity: .85; transform: translate(-50%, -50%) scale(1); }
   50%      { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
 }
-@keyframes plHorizon { 0% { opacity: 0; } 100% { opacity: .9; } }
 @keyframes plPaint  { 0% { --arc: 0deg; } 100% { --arc: 312deg; } }
 @keyframes plOrbit  { 0% { transform: rotate(-112deg); } 100% { transform: rotate(200deg); } }
 @keyframes plBead {
@@ -1718,7 +1718,7 @@ label { font-weight: 600; font-size: .9rem; }
   .word {
     opacity: 1 !important; transform: none !important; filter: none !important;
   }
-  .pl-halo, .pl-horizon, .pl-icon, .pl-warm, .pl-orbit, .pl-arm, .pl-bead, .pl-lockup,
+  .pl-halo, .pl-icon, .pl-warm, .pl-orbit, .pl-arm, .pl-bead, .pl-lockup,
   .nav-cta::after,
   .hero-glow, .marquee-track,
   .scroll-cue span, .floating-whatsapp::before, .journey-cue::after {
@@ -1728,7 +1728,6 @@ label { font-weight: 600; font-size: .9rem; }
   .pl-icon { opacity: 0 !important; }
   .pl-lockup { opacity: 1 !important; transform: translate(-50%, -50%) scale(1) !important; filter: drop-shadow(0 16px 38px rgba(212,166,42,.28)) !important; }
   .pl-halo { opacity: 1 !important; transform: translate(-50%, -50%) scale(1) !important; }
-  .pl-horizon { opacity: .8 !important; }
   .preloader-bar::after { width: 100% !important; }
   .chapter { opacity: 1 !important; transform: none !important; filter: none !important; }
 }
