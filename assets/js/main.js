@@ -62,9 +62,14 @@
       a.addEventListener("click", closeMenu)
     );
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && mobileMenu.classList.contains("is-open")) {
-        closeMenu(); menuToggle.focus();
-      }
+      if (!mobileMenu.classList.contains("is-open")) return;
+      if (e.key === "Escape") { closeMenu(); menuToggle.focus(); return; }
+      if (e.key !== "Tab") return;
+      const f = Array.from(mobileMenu.querySelectorAll("a, button")).filter((el) => el.offsetParent !== null);
+      if (!f.length) return;
+      const i = f.indexOf(document.activeElement);
+      if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); }
+      else if (!e.shiftKey && (i === -1 || i === f.length - 1)) { e.preventDefault(); f[0].focus(); }
     });
   }
 
@@ -648,12 +653,12 @@
       bodyEl.innerHTML =
         '<button class="cart-back" data-back>&larr; Back to items</button>' +
         '<form class="order-form" id="orderForm">' +
-        '<div><label>Your name</label><input type="text" name="name" required placeholder="e.g. Sarah M." /></div>' +
+        '<div><label for="co-name">Your name</label><input id="co-name" type="text" name="name" required placeholder="e.g. Sarah M." /></div>' +
         '<div><label>Order type</label><div class="order-type">' +
         '<input type="radio" id="ot-dine" name="otype" value="Dine-in" checked><label for="ot-dine">Dine-in</label>' +
         '<input type="radio" id="ot-take" name="otype" value="Takeaway"><label for="ot-take">Takeaway</label></div></div>' +
-        '<div><label id="timeLabel">Expected arrival time</label><input type="time" name="time" /></div>' +
-        '<div><label>Special requests (optional)</label><textarea name="notes" placeholder="Allergies, no onions, table preference…"></textarea></div>' +
+        '<div><label id="timeLabel" for="co-time">Expected arrival time</label><input id="co-time" type="time" name="time" /></div>' +
+        '<div><label for="co-notes">Special requests (optional)</label><textarea id="co-notes" name="notes" placeholder="Allergies, no onions, table preference…"></textarea></div>' +
         '</form>';
       footEl.innerHTML =
         '<div class="cart-total"><span>' + count() + ' item' + (count() > 1 ? 's' : '') + '</span><b>' + fmtPrice(total()) + '</b></div>' +
@@ -750,137 +755,6 @@
     entries.forEach(function (e) { e.target.classList.toggle("is-paused", !e.isIntersecting); });
   }, { rootMargin: "160px 0px", threshold: 0.02 });
   cards.forEach(function (c) { c.classList.add("is-paused"); io.observe(c); });
-})();
-
-/* =========================================================================
-   v9 — Reservation step: "confirm details -> WhatsApp" modal
-   Intercepts primary Reserve/Book CTAs so guests confirm dates / guests /
-   intent before WhatsApp opens with a composed message. Progressive
-   enhancement: the CTA keeps its wa.me href, so it still works with JS off.
-   ========================================================================= */
-(function () {
-  "use strict";
-  var WA = "256773883760";
-  var triggers = document.querySelectorAll(
-    'a.btn-primary[href*="wa.me"], a.nav-cta[href*="wa.me"], a.mm-cta[href*="wa.me"], .footer-bottom a[href*="wa.me"], a.rc-reserve[href*="wa.me"]'
-  );
-  if (!triggers.length) return;
-  var activeRoom = null;
-
-  var lastFocused = null;
-  var overlay = document.createElement("div");
-  overlay.className = "reserve-modal";
-  overlay.setAttribute("role", "dialog");
-  overlay.setAttribute("aria-modal", "true");
-  overlay.setAttribute("aria-labelledby", "rm-title");
-  overlay.hidden = true;
-
-  var options = ["Room", "Wedding", "Event", "Day visit"];
-  var chipsHTML = options.map(function (o, i) {
-    return '<button type="button" class="rm-chip' + (i === 0 ? " is-on" : "") +
-      '" role="radio" aria-checked="' + (i === 0 ? "true" : "false") +
-      '" data-val="' + o + '">' + o + "</button>";
-  }).join("");
-
-  overlay.innerHTML =
-    '<div class="rm-panel">' +
-      '<button type="button" class="rm-close" aria-label="Close">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>' +
-      "</button>" +
-      '<p class="rm-eyebrow">Reservation</p>' +
-      '<h2 id="rm-title">Tell us a little more</h2>' +
-      '<p class="rm-sub">We\'ll open WhatsApp with your details ready to send.</p>' +
-      '<p class="rm-room" id="rm-room" hidden></p>' +
-      '<form class="rm-form" novalidate>' +
-        '<div class="rm-field"><label for="rm-dates">Dates / nights</label>' +
-          '<input id="rm-dates" name="dates" type="text" autocomplete="off" placeholder="e.g. 12-14 Aug, or this weekend"></div>' +
-        '<div class="rm-field"><label for="rm-guests">Guests</label>' +
-          '<input id="rm-guests" name="guests" type="number" min="1" inputmode="numeric" placeholder="2"></div>' +
-        '<div class="rm-field"><span class="rm-legend" id="rm-forlabel">What for?</span>' +
-          '<div class="rm-chips" role="radiogroup" aria-labelledby="rm-forlabel">' + chipsHTML + "</div></div>" +
-        '<div class="rm-field"><label for="rm-note">Anything else <span class="rm-opt">(optional)</span></label>' +
-          '<textarea id="rm-note" name="note" rows="2" placeholder="Special requests, questions..."></textarea></div>' +
-        '<button type="submit" class="btn btn-primary rm-go">Continue on WhatsApp' +
-          '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.6 1 1.3 1.7.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.2.1.6 0 .9Z"/></svg>' +
-        "</button>" +
-        '<p class="rm-fallback">or <a href="https://wa.me/' + WA + '" target="_blank" rel="noopener">just message us</a></p>' +
-      "</form>" +
-    "</div>";
-  document.body.appendChild(overlay);
-
-  var form = overlay.querySelector(".rm-form");
-  var chips = Array.prototype.slice.call(overlay.querySelectorAll(".rm-chip"));
-
-  function focusables() {
-    return Array.prototype.slice.call(
-      overlay.querySelectorAll('button, [href], input, textarea, [tabindex]:not([tabindex="-1"])')
-    ).filter(function (el) { return !el.disabled && el.offsetParent !== null; });
-  }
-  var roomEl = overlay.querySelector("#rm-room");
-  function open(e) {
-    if (e && e.preventDefault) e.preventDefault();
-    lastFocused = document.activeElement;
-    var trigger = e && e.currentTarget;
-    activeRoom = (trigger && trigger.getAttribute && trigger.getAttribute("data-room")) || null;
-    if (activeRoom && roomEl) {
-      roomEl.textContent = "For the " + activeRoom + ".";
-      roomEl.hidden = false;
-      var roomChip = overlay.querySelector('.rm-chip[data-val="Room"]');
-      if (roomChip) {
-        chips.forEach(function (c) { c.classList.remove("is-on"); c.setAttribute("aria-checked", "false"); });
-        roomChip.classList.add("is-on"); roomChip.setAttribute("aria-checked", "true");
-      }
-    } else if (roomEl) {
-      roomEl.hidden = true; roomEl.textContent = "";
-    }
-    overlay.hidden = false;
-    overlay.offsetWidth; // reflow so the transition runs
-    overlay.classList.add("is-open");
-    document.body.style.overflow = "hidden";
-    var first = overlay.querySelector("#rm-dates");
-    setTimeout(function () { if (first) first.focus(); }, 60);
-  }
-  function close() {
-    overlay.classList.remove("is-open");
-    document.body.style.overflow = "";
-    setTimeout(function () { overlay.hidden = true; activeRoom = null; }, 280);
-    if (lastFocused && lastFocused.focus) lastFocused.focus();
-  }
-  chips.forEach(function (chip) {
-    chip.addEventListener("click", function () {
-      chips.forEach(function (c) { c.classList.remove("is-on"); c.setAttribute("aria-checked", "false"); });
-      chip.classList.add("is-on"); chip.setAttribute("aria-checked", "true");
-    });
-  });
-  overlay.querySelector(".rm-close").addEventListener("click", close);
-  overlay.addEventListener("click", function (e) { if (e.target === overlay) close(); });
-  document.addEventListener("keydown", function (e) {
-    if (overlay.hidden) return;
-    if (e.key === "Escape") { close(); return; }
-    if (e.key === "Tab") {
-      var f = focusables(); if (!f.length) return;
-      var i = f.indexOf(document.activeElement);
-      if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); }
-      else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); }
-    }
-  });
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    var dates = (form.dates.value || "").trim();
-    var guests = (form.guests.value || "").trim();
-    var on = overlay.querySelector(".rm-chip.is-on");
-    var forWhat = on ? on.getAttribute("data-val") : "Room";
-    var note = (form.note.value || "").trim();
-    var msg = "Hello Maya Nature Resort, I'd like to reserve.";
-    msg += "\n- For: " + forWhat;
-    if (activeRoom) msg += "\n- Room: " + activeRoom;
-    if (guests) msg += "\n- Guests: " + guests;
-    if (dates) msg += "\n- Dates: " + dates;
-    if (note) msg += "\n- Note: " + note;
-    window.open("https://wa.me/" + WA + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
-    close();
-  });
-  Array.prototype.forEach.call(triggers, function (t) { t.addEventListener("click", open); });
 })();
 
 /* =========================================================================
