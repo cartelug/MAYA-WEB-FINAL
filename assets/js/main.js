@@ -1054,8 +1054,9 @@
   if (!triggers.length) return;
 
   var WA = "https://wa.me/256773883760?text=";
-  var ROOMS = ["Executive Cottage", "Deluxe Room", "Twin Room", "Family Room",
-               "Standard Room", "Garden Cottage", "Group / Long Stay", "Not sure yet"];
+  var ROOMS = ["Luxury Suite", "Premium Double Suite", "Premium Single Suite",
+               "DnD Standard Room", "Msizi Honeymoon Cottage", "Msizi Cottage",
+               "Group / Long Stay", "Not sure yet"];
   var TIMES = ["Morning (8–11am)", "Midday (11am–2pm)", "Afternoon (2–5pm)", "Evening (5–8pm)"];
   var TABLE_TIMES = ["Lunch (12–2pm)", "Afternoon (2–5pm)", "Dinner (5–9pm)"];
   var OCCASIONS = ["Wedding", "Introduction Ceremony", "Graduation Party", "Conference",
