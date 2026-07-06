@@ -218,37 +218,49 @@
   }
 
   /* ---------- Magnetic buttons ---------- */
+  // perf: the bounding rect is cached once on mouseenter (element position
+  // doesn't change mid-hover) instead of being recomputed - a synchronous
+  // layout read - on every single mousemove tick.
   if (!reduceMotion && finePointer) {
     document.querySelectorAll(".magnet, .nav-cta, .btn-primary").forEach((el) => {
+      let r = null;
+      el.addEventListener("mouseenter", () => { r = el.getBoundingClientRect(); });
       el.addEventListener("mousemove", (e) => {
-        const r = el.getBoundingClientRect();
+        if (!r) r = el.getBoundingClientRect();
         const x = e.clientX - r.left - r.width / 2;
         const y = e.clientY - r.top - r.height / 2;
         el.style.transform = `translate(${x * 0.18}px, ${y * 0.18 - 3}px)`;
       });
-      el.addEventListener("mouseleave", () => { el.style.transform = ""; });
+      el.addEventListener("mouseleave", () => { el.style.transform = ""; r = null; });
     });
   }
 
   /* ---------- Cursor glow ---------- */
+  // perf: the follow loop used to requestAnimationFrame forever from page
+  // load, whether or not the mouse was moving. It now stops itself as soon
+  // as the eased position catches up to the cursor (typically a few frames
+  // after the mouse stops) and only restarts on the next mousemove, so an
+  // idle tab isn't burning a compositor frame every ~16ms for nothing.
   if (!reduceMotion && finePointer) {
     const glow = document.createElement("div");
     glow.className = "cursor-glow";
     document.body.appendChild(glow);
-    let gx = 0, gy = 0, cx = 0, cy = 0, active = false;
+    let gx = 0, gy = 0, cx = 0, cy = 0, active = false, running = false;
+    function loop() {
+      cx = lerp(cx, gx, 0.18); cy = lerp(cy, gy, 0.18);
+      glow.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+      if (Math.abs(cx - gx) < 0.05 && Math.abs(cy - gy) < 0.05) { running = false; return; }
+      requestAnimationFrame(loop);
+    }
     window.addEventListener("mousemove", (e) => {
       gx = e.clientX; gy = e.clientY;
       if (!active) { active = true; glow.classList.add("is-active"); }
-    });
+      if (!running) { running = true; requestAnimationFrame(loop); }
+    }, { passive: true });
     document.addEventListener("mouseover", (e) => {
       const hot = e.target.closest("a, button, .card, .gallery-item, .quote-card");
       glow.classList.toggle("is-hot", !!hot);
     });
-    (function loop() {
-      cx = lerp(cx, gx, 0.18); cy = lerp(cy, gy, 0.18);
-      glow.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
-      requestAnimationFrame(loop);
-    })();
   }
 
   /* ---------- Gallery lightbox (v11) ----------

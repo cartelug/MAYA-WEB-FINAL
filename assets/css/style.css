@@ -732,7 +732,23 @@ body { padding-top: var(--header-h); }
    Sections + dividers
    ========================================================================= */
 .section { padding: var(--section-y) 0; position: relative; }
-.section.alt { background: var(--grad-section); }
+/* fade v97 (site-wide): .section has no background of its own (inherits the
+   page's flat white), so every .section.alt used to meet it as a genuine
+   hard cut at both edges — worst at the cream-2 foot, where warm cream met
+   pure white with no transition at all. Since .section/.section.alt are
+   shared globally, fixing it here (once) resolves the seam on every page
+   that uses them: rooms, events, experiences, gallery, directions, contact,
+   and all 11 amenities pages. The colors here (white/green-50/cream-2) are
+   all close in lightness, so — unlike the much bigger green-900->cream-2
+   jump fixed for the homepage triptych — a short 2-stop bookend fade at each
+   edge is enough; no intermediate stops needed to avoid banding. */
+.section.alt {
+  background: linear-gradient(180deg,
+    #fff 0%,
+    var(--green-50) clamp(56px, 6vw, 96px),
+    var(--cream-2) calc(100% - clamp(56px, 6vw, 96px)),
+    #fff 100%);
+}
 .section.dark {
   background: var(--grad-dark-section);
   color: white;
@@ -2022,7 +2038,24 @@ label { font-weight: 600; font-size: .9rem; }
 .hp-pillar a.link::after { background: var(--gold-2); }
 
 /* A Day at Maya  —  photo-driven strip (replaces journey) */
-.hp-day { padding: clamp(60px,8vw,100px) 0; background: var(--cream); }
+/* fade v97: same bookend treatment as .section.alt above - experiences.html
+   uses this flat-cream section between a white .page-hero-faded-to-white
+   and a plain white .section below, so it needs its own white-in/white-out
+   edges rather than a flat cut. */
+.hp-day {
+  padding: clamp(60px,8vw,100px) 0;
+  /* the .day-sky child (below) is its own inset:0 gradient at mix-blend-mode:
+     multiply, tinting this fade slightly as it plays out; an extra near-
+     white stop right before the edge absorbs that interaction so the last
+     few pixels don't jump — verified by sampling actual rendered pixels,
+     not just eyeballing the swatch. */
+  background: linear-gradient(180deg,
+    #fff 0%,
+    var(--cream) clamp(72px, 8vw, 130px),
+    var(--cream) calc(100% - clamp(72px, 8vw, 130px)),
+    #fdfbf7 calc(100% - 14px),
+    #fff 100%);
+}
 
 /* === A DAY AT MAYA — "Golden Thread" day-timeline === */
 .day-timeline {
@@ -2222,6 +2255,39 @@ label { font-weight: 600; font-size: .9rem; }
 /* =========================================================================
    ROOMS V5  —  featured split · spec chips · enhanced cards · stay grid
    ========================================================================= */
+
+/* Full-bleed backdrop for the rooms.html stat strip — "image 2". Mirrors
+   the .page-hero pattern (full-width <section>, .container child) rather
+   than living inside .rooms-intro, so it can sit flush against the hero
+   above without the max-width gutter. --stat-banner-img is a CSS custom
+   property, not a plain background-image, so a real generated photo can be
+   dropped in later via an inline `style="--stat-banner-img: url(...)"` on
+   the section without touching this rule — until then the gradient layer
+   underneath renders alone as a tasteful placeholder, never a missing-image
+   gap. Kept deliberately light/warm (not deep emerald) so it fades cleanly
+   into the white .page-hero above and the white .section below with no new
+   hard seam to solve, and so the existing dark-green .ri-stat text needs no
+   color-scheme fork to stay readable. */
+.stat-banner {
+  position: relative;
+  --stat-banner-img: none;
+  background-image: var(--stat-banner-img),
+    radial-gradient(120% 140% at 50% 30%, rgba(241,202,85,.22), transparent 60%),
+    linear-gradient(180deg, #fff 0%, var(--cream) 32%, var(--cream) 68%, #fff 100%);
+  background-size: cover, cover, cover;
+  background-position: center, center, center;
+}
+/* scrim: guarantees the stat row's dark-green text stays readable no matter
+   what the real generated photo turns out to look like once supplied, and
+   is where that photo's own baked-in top/bottom fade gets a CSS backstop. */
+.stat-banner::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(180deg,
+    #fff 0%, rgba(255,255,255,.35) clamp(48px,6vw,84px),
+    rgba(255,255,255,.1) 50%,
+    rgba(255,255,255,.35) calc(100% - clamp(48px,6vw,84px)), #fff 100%);
+}
+.stat-banner > .container { position: relative; z-index: 1; }
 
 /* Intro stat strip under the hero — v13 "Hallmark Rail"
    An engraved plate: emerald-ink values, gold demoted to the frame only
@@ -2724,14 +2790,6 @@ label { font-weight: 600; font-size: .9rem; }
 /* ripple retired in v13 — an infinite pulse fights the plate's calm */
 .ri-num-ripple { position: relative; }
 .ri-num-ripple::before { display: none; }
-/* engraved hairline ring, not a glowing coin */
-.ri-icon {
-  display: grid; place-items: center; width: 46px; height: 46px;
-  border-radius: 50%; background: var(--cream);
-  border: 1px solid var(--gold-ink); color: var(--green-800);
-}
-.ri-icon svg { width: 22px; height: 22px; }
-
 /* --- Room spec icons + per-card WhatsApp CTA + mobile grid --- */
 .room-spec .rs-ic {
   width: 15px; height: 15px; color: var(--gold); flex: none;
@@ -3133,6 +3191,17 @@ html.reveal-ready .hero-home .hero-content {
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
   opacity: .2; transition: opacity .5s var(--ease);
   mix-blend-mode: multiply;
+  /* fade v97: this tint has no edges of its own - unmasked, it multiplies
+     evenly right up to the element boundary, so no matter how carefully the
+     background gradient above fades to white, the composited result never
+     actually reaches white and a seam reappears against the plain section
+     below. Fade it out in lockstep with the same band the background uses. */
+  -webkit-mask-image: linear-gradient(180deg,
+    transparent 0, #000 clamp(72px, 8vw, 130px),
+    #000 calc(100% - clamp(72px, 8vw, 130px)), transparent 100%);
+          mask-image: linear-gradient(180deg,
+    transparent 0, #000 clamp(72px, 8vw, 130px),
+    #000 calc(100% - clamp(72px, 8vw, 130px)), transparent 100%);
 }
 .hp-day::before {
   content: ""; position: absolute; z-index: 0; pointer-events: none;
@@ -3520,29 +3589,48 @@ html.reveal-ready .hero-home .hero-content {
   background: linear-gradient(0deg, rgba(10,40,16,.9) 0%, transparent 100%);
 }
 
-/* ─── E · Stat illustrated containers ──────────────────────────────────── */
-/* Hall capacity art (events page) */
-.ri-stat-hall-art {
-  display: block; margin-bottom: 8px; line-height: 0;
+/* ===== events.html "image 3" — fresh Syne-led typographic showcase,
+   replacing the illustrated hall-art/tent-icon containers formerly here
+   (.ri-stat-hall-art / .hall-bg / .hall-floor / .hall-num / .stat-tents /
+   .stat-compass — all removed, none had any remaining HTML references).
+   Distinct from rooms/experiences' .rooms-intro plate on purpose: bigger
+   scale, a warm gold-tinted panel, Syne pushed harder since this is the
+   events page's own showcase moment rather than a shared component. ===== */
+.ev-showcase {
+  position: relative;
+  padding: clamp(48px, 7vw, 76px) 0;
+  background: linear-gradient(180deg,
+    #fff 0%, rgba(247,230,176,.34) clamp(48px, 6vw, 84px),
+    rgba(247,230,176,.34) calc(100% - clamp(48px, 6vw, 84px)), #fff 100%);
 }
-.ri-stat-hall-art svg { width: 80px; height: 52px; }
-/* v13 Hallmark Rail: the stat art joins the emerald-ink register (the 18px
-   "3,000" was also a gold-on-light AA fail as SVG text) */
-.hall-bg { fill: rgba(15,61,37,.08); stroke: rgba(15,61,37,.35); stroke-width: 1.5; }
-.hall-floor { stroke: rgba(15,61,37,.5); stroke-width: 2; }
-.hall-num {
-  font-family: var(--font-sans); font-weight: 800; font-size: 18px;
-  fill: var(--green-900); letter-spacing: -.02em;
+.ev-stats {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(16px, 3vw, 28px);
 }
-/* Tent glyphs for garden spaces — emerald ink; the 10th keeps its inline
-   gold tip as the single sanctioned accent */
-.stat-tents {
-  display: flex; flex-wrap: wrap; gap: 4px; width: 86px; margin-bottom: 8px;
-  color: var(--green-800);
+.ev-stat { position: relative; text-align: center; padding: 0 clamp(8px, 1.5vw, 18px); }
+.ev-stat + .ev-stat::before {
+  content: ""; position: absolute; left: 0; top: 10%; bottom: 10%; width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(212,166,42,.55), transparent);
 }
-.stat-tents svg { width: 14px; height: 14px; }
-/* Experience count art */
-.stat-compass svg { width: 48px; height: 48px; margin-bottom: 8px; }
+.ev-stat strong {
+  display: block; font-family: "Syne", sans-serif; font-weight: 800;
+  font-size: clamp(2.6rem, 6vw, 4.2rem); letter-spacing: -.01em;
+  color: var(--green-900); line-height: .95;
+}
+.ev-stat span {
+  display: block; margin-top: 10px; font-family: var(--font-head);
+  text-transform: uppercase; font-size: .82rem; letter-spacing: .12em;
+  color: var(--muted);
+}
+/* the two word-based stats (vs. numeral-based) read at a calmer size -
+   "Simultaneous" set at the numeral scale would either overflow a quarter-
+   width column or force an awkward 2-line wrap under a line-height tuned
+   for single-line numerals. */
+.ev-stat-word strong { font-size: clamp(1.5rem, 3.2vw, 2.3rem); letter-spacing: -.005em; }
+@media (max-width: 760px) {
+  .ev-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: clamp(28px, 6vw, 40px); }
+  .ev-stat:nth-child(odd)::before { display: none; }
+}
 
 /* ─── F · Rooms page: btn-wa-card fix + leaf stars ──────────────────────── */
 /* Fix stretched wording on room reserve buttons */
@@ -3679,7 +3767,11 @@ html.reveal-ready .hero-home .hero-content {
               radial-gradient(120% 80% at 50% 0%, rgba(241,202,85,.10), transparent 55%); }
 .rc-grain { position: absolute; inset: 0; z-index: 2; opacity: .06; mix-blend-mode: overlay; pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
-.rc-vig { position: absolute; inset: 0; z-index: 2; pointer-events: none; box-shadow: inset 0 0 120px 24px rgba(0,0,0,.55); }
+/* perf: a radial-gradient scrim reads the same as the vignette it replaced
+   (darkened corners framing the photo) but is far cheaper to rasterize than
+   a 120px-blur inset box-shadow repeated across 6 cards. */
+.rc-vig { position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: radial-gradient(120% 100% at 50% 45%, transparent 38%, rgba(0,0,0,.5) 100%); }
 .rc-frame { position: absolute; inset: 13px; z-index: 5; border-radius: 16px; pointer-events: none;
   border: 1px solid rgba(241,202,85,.24); animation: rcBreathe 6s ease-in-out infinite; transition: border-color .5s var(--ease); }
 @keyframes rcBreathe { 0%,100% { border-color: rgba(241,202,85,.2); } 50% { border-color: rgba(241,202,85,.4); } }
@@ -3791,6 +3883,21 @@ html.reveal-ready .hero-home .hero-content {
 .rcard.is-paused .rc-frame { animation-play-state: paused !important; }
 .rcard.is-paused .rc-seal::after,
 .rcard.is-paused .rc-reserve::after { animation-play-state: paused !important; }
+/* will-change only while the Ken-Burns/breathe animations are actually
+   running - hinting the compositor for cards that are sitting still (off-
+   screen) just costs memory for nothing. */
+.rcard:not(.is-paused) .rc-img,
+.rcard:not(.is-paused) .rc-frame { will-change: transform; }
+/* backdrop-filter is one of the most expensive properties in this stylesheet;
+   with 6 cards in the room grid it's the single biggest cost on this page.
+   Off-screen cards don't need the live glass blur - drop it to a solid
+   fallback (still fully readable) and restore it the moment the card is
+   back in view, cutting simultaneous blur regions from a constant 6 down to
+   whatever's actually on screen. */
+.rcard.is-paused .rc-glass {
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  background: linear-gradient(180deg, rgba(10,22,15,.88), rgba(5,13,9,.95));
+}
 
 /* ── D · mobile performance: cheaper glass + no continuous zoom (phones) ── */
 @media (max-width: 760px) {
@@ -4252,12 +4359,37 @@ body.home-canvas { background: var(--cream-2); }
   margin-top: clamp(-240px, -18vw, -130px);
   padding-top: clamp(56px, 8vw, 110px);
   padding-bottom: clamp(130px, 15vw, 210px);
+  /* fade v97: the foot-of-triptych melt into cream. A 2-stop jump straight
+     from green-900 to cream-2 crosses too much lightness/hue in too few
+     pixels — sRGB linear interpolation between a saturated dark green and a
+     pale warm cream dips through a desaturated "muddy" grey-sage dead zone
+     partway through, which reads as a visible band, not a melt. Fixed two
+     ways: (1) widened the band itself (340px -> up to 620px) so the same
+     total color change is spread over more pixels, and (2) walked the path
+     through 8 stops instead of 2 - the existing brand green scale for the
+     dark half (900->800->700->600), two hand-tuned sage bridge tones (HSL-
+     interpolated, saturation kept up on purpose so the midpoint reads as
+     living foliage rather than grey) for the big remaining gap, then the
+     existing green-100 before landing on cream-2. On shorter renders of this
+     section the wide fade band can crowd right up against the earlier
+     "become opaque" stop above, compressing that small green-950->green-900
+     step into just a few pixels and reintroducing a mini-seam of its own —
+     `max()` guarantees at least 72px of breathing room between the two
+     so they never collide regardless of viewport height. */
+  --triptych-fade: clamp(420px, 40vw, 620px);
+  --triptych-fade-start: max(calc(clamp(260px, 22vw, 380px) + 72px), calc(100% - var(--triptych-fade)));
   background:
     linear-gradient(180deg,
       rgba(7,26,17,0) 0px,
       rgba(7,26,17,.45) clamp(110px, 10vw, 180px),
       var(--green-950) clamp(260px, 22vw, 380px),
-      var(--green-900) calc(100% - 340px),
+      var(--green-900) var(--triptych-fade-start),
+      var(--green-800) calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .14),
+      var(--green-700) calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .28),
+      var(--green-600) calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .42),
+      #58ba7b calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .58),
+      #a6d4b1 calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .74),
+      var(--green-100) calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .88),
       var(--cream-2) 100%),
     /* backstop layer: body.home-canvas is CREAM, and the crossfade gradient
        above only completes at 260-380px in, while the hero (the only emerald
