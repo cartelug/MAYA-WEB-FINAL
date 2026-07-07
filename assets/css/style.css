@@ -952,6 +952,84 @@ body { padding-top: var(--header-h); }
 .section:not(.dark) .stat span { color: var(--muted); }
 
 /* =========================================================================
+   Stats band — "Foil on Emerald"  (homepage "Why choose Maya")
+   A true dark island floating on the light canvas, not a color-blocked
+   section. The ::before "ink wash" is alpha-only (transparent -> solid
+   green-950 -> transparent) rather than interpolated between hex colours —
+   at 0% and 100% it is mathematically transparent, so it is pixel-identical
+   to whatever flat canvas colour sits above and below it on ANY page this
+   pattern is reused on, with zero risk of banding or a colour-matching
+   guess. .stats-foil itself carries no background of its own (bare
+   .section already renders transparent), so the seam cannot show even if
+   the surrounding canvas colour ever changes.
+   ========================================================================= */
+.stats-foil {
+  position: relative; isolation: isolate; overflow: hidden;
+  padding: clamp(150px, 19vw, 240px) 0;
+  text-align: center; color: #fff;
+}
+.stats-foil-ink {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(120% 55% at 50% 38%, rgba(30,101,65,.4), transparent 68%),
+    linear-gradient(180deg,
+      rgba(7,26,17,0) 0,
+      rgba(7,26,17,.5) clamp(30px, 4.5vw, 58px),
+      rgba(7,26,17,.94) clamp(72px, 9vw, 118px),
+      var(--green-950) clamp(118px, 14.5vw, 186px),
+      var(--green-950) calc(100% - clamp(118px, 14.5vw, 186px)),
+      rgba(7,26,17,.94) calc(100% - clamp(72px, 9vw, 118px)),
+      rgba(7,26,17,.5) calc(100% - clamp(30px, 4.5vw, 58px)),
+      rgba(7,26,17,0) 100%);
+}
+.stats-foil-inner { position: relative; z-index: 1; max-width: 640px; }
+.stats-foil .eyebrow { color: var(--gold-2); }
+.stats-foil .eyebrow::before { background: var(--gold-2); }
+.stats-foil h2 { color: #fff; }
+.stats-foil .muted { color: rgba(255,255,255,.72); max-width: 52ch; margin-left: auto; margin-right: auto; }
+
+.stat-row-foil { margin-top: clamp(38px, 5vw, 54px); text-align: left; }
+.stat-foil {
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; gap: clamp(16px, 2.6vw, 26px);
+  padding: clamp(20px, 2.6vw, 26px) clamp(4px, 1vw, 10px);
+  border-bottom: 1px solid rgba(241,202,85,.16);
+}
+.stat-foil:last-child { border-bottom: 0; }
+.stat-foil-mark {
+  flex: none; width: clamp(48px, 5.6vw, 56px); aspect-ratio: 1; border-radius: 50%;
+  display: grid; place-items: center; color: var(--gold-2);
+  border: 1px solid rgba(241,202,85,.4); background: rgba(241,202,85,.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+}
+.stat-foil-mark svg { width: 54%; height: 54%; }
+.stat-foil-txt { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.stat-foil .stat-pop {
+  font-family: var(--font-display); font-size: clamp(2.5rem, 3.6vw, 3.4rem);
+  line-height: .9; font-weight: 500; letter-spacing: .005em;
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,.4));
+}
+.stat-foil-txt span:last-child {
+  font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.68);
+}
+.stat-foil-ghost {
+  position: absolute; z-index: -1; right: -4%; top: 50%; transform: translateY(-50%);
+  width: clamp(90px, 12vw, 140px); height: clamp(90px, 12vw, 140px);
+  color: rgba(241,202,85,.08); pointer-events: none;
+}
+@media (max-width: 640px) {
+  .stats-foil { text-align: left; }
+  .stats-foil-inner { max-width: none; }
+  .stats-foil .muted { margin-left: 0; margin-right: 0; }
+  .stat-foil { align-items: flex-start; }
+  .stat-foil-ghost { display: none; }
+}
+@media (prefers-reduced-motion: reduce), (hover: none) {
+  .stats-foil .stat-pop { filter: none; }
+}
+
+/* =========================================================================
    Testimonials
    ========================================================================= */
 .quote-card {
