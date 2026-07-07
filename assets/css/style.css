@@ -3887,6 +3887,9 @@ html.reveal-ready .hero-home .hero-content {
 .rcard:hover h3::after { width: 100%; }
 .rc-tl { display: block; font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 500;
   font-size: 15px; color: rgba(255,255,255,.82); margin-bottom: 12px; line-height: 1.25; }
+.rc-price { display: flex; align-items: baseline; gap: 6px; margin: 0 0 12px; }
+.rc-price b { font-family: var(--font-sans); font-weight: 800; font-size: 1.15rem; color: var(--gold-2); }
+.rc-price span { font-size: .68rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: rgba(255,255,255,.55); }
 .rc-chips { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 14px; }
 .rc-chip { display: inline-flex; align-items: center; gap: 5px; font-family: "Montserrat", sans-serif;
   font-size: 10.5px; font-weight: 500; color: #eaf3ec; background: rgba(255,255,255,.09);

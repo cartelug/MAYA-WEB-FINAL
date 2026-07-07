@@ -1055,7 +1055,8 @@
 
   var WA = "https://wa.me/256773883760?text=";
   var ROOMS = ["Luxury Suite", "Premium Double Suite", "Premium Single Suite",
-               "DnD Standard Room", "Msizi Honeymoon Cottage", "Msizi Cottage",
+               "DnD Standard Double Room", "DnD Standard Single Room",
+               "Msizi Honeymoon Cottage", "Msizi Cottage", "Family Cottages",
                "Group / Long Stay", "Not sure yet"];
   var TIMES = ["Morning (8–11am)", "Midday (11am–2pm)", "Afternoon (2–5pm)", "Evening (5–8pm)"];
   var TABLE_TIMES = ["Lunch (12–2pm)", "Afternoon (2–5pm)", "Dinner (5–9pm)"];
