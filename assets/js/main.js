@@ -1274,6 +1274,12 @@
     }
     var v = {};
     new FormData(form).forEach(function (val, key) { v[key] = String(val).trim(); });
+    if (v.checkin && v.checkout && new Date(v.checkout) <= new Date(v.checkin)) {
+      var coEl = form.querySelector("[name=checkout]");
+      if (coEl) { coEl.classList.add("bs-invalid"); coEl.focus(); }
+      statusEl.textContent = "Check-out must be after check-in.";
+      return;
+    }
     statusEl.textContent = "Opening WhatsApp with your details…";
     window.open(WA + encodeURIComponent(compose(current, v)), "_blank", "noopener");
     setTimeout(close, 900);

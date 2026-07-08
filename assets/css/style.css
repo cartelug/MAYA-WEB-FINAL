@@ -3889,7 +3889,7 @@ html.reveal-ready .hero-home .hero-content {
   font-size: 15px; color: rgba(255,255,255,.82); margin-bottom: 12px; line-height: 1.25; }
 .rc-price { display: flex; align-items: baseline; gap: 6px; margin: 0 0 12px; }
 .rc-price b { font-family: var(--font-sans); font-weight: 800; font-size: 1.15rem; color: var(--gold-2); }
-.rc-price span { font-size: .68rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+.rc-price span { font-size: .68rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: rgba(255,255,255,.72); }
 .rc-chips { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 14px; }
 .rc-chip { display: inline-flex; align-items: center; gap: 5px; font-family: "Montserrat", sans-serif;
   font-size: 10.5px; font-weight: 500; color: #eaf3ec; background: rgba(255,255,255,.09);
@@ -4794,7 +4794,7 @@ body:not(.hero-page) .site-header {
 .bs-close svg { width: 18px; height: 18px; }
 .bs-eyebrow {
   margin: 0 0 6px; font-size: .68rem; font-weight: 800;
-  letter-spacing: .3em; text-transform: uppercase; color: var(--gold);
+  letter-spacing: .3em; text-transform: uppercase; color: var(--gold-ink);
 }
 .bs-title { margin: 0 0 4px; font-size: clamp(1.35rem, 4.5vw, 1.7rem); color: var(--green-900); line-height: 1.1; padding-right: 48px; }
 .bs-sub { margin: 0 0 18px; font-size: .92rem; color: #5c6b60; }
