@@ -4458,20 +4458,31 @@ body.home-canvas { background: var(--cream-2); }
      step into just a few pixels and reintroducing a mini-seam of its own —
      `max()` guarantees at least 72px of breathing room between the two
      so they never collide regardless of viewport height. */
-  --triptych-fade: clamp(420px, 40vw, 620px);
+  --triptych-fade: clamp(500px, 46vw, 640px);
   --triptych-fade-start: max(calc(clamp(260px, 22vw, 380px) + 72px), calc(100% - var(--triptych-fade)));
+  /* fade v98: mobile stacks the pillars so the section is much taller,
+     which compressed the old 420px melt and re-exposed the grey-sage dead
+     zone. Two fixes: (1) a wider band (min 420->500px) so the same colour
+     change spreads over more pixels on tall/narrow renders; (2) a warmer,
+     13-stop path — the pale bridges (#a6d4b1, green-100) were desaturated
+     enough to read grey, so they're replaced by tones that carry a little
+     warmth/chroma the whole way down (green -> soft green -> warm sage ->
+     warm haze -> cream), keeping the midpoint reading as sunlit foliage. */
   background:
     linear-gradient(180deg,
       rgba(7,26,17,0) 0px,
       rgba(7,26,17,.45) clamp(110px, 10vw, 180px),
       var(--green-950) clamp(260px, 22vw, 380px),
       var(--green-900) var(--triptych-fade-start),
-      var(--green-800) calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .14),
-      var(--green-700) calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .28),
-      var(--green-600) calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .42),
-      #58ba7b calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .58),
-      #a6d4b1 calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .74),
-      var(--green-100) calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .88),
+      var(--green-800) calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .10),
+      var(--green-700) calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .22),
+      var(--green-600) calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .34),
+      #4f9d6e calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .46),
+      #7bbd8f calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .57),
+      #a7d4ab calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .68),
+      #cbe4bf calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .78),
+      #e6ecd0 calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .87),
+      #f4efd9 calc(var(--triptych-fade-start) + (100% - var(--triptych-fade-start)) * .94),
       var(--cream-2) 100%),
     /* backstop layer: body.home-canvas is CREAM, and the crossfade gradient
        above only completes at 260-380px in, while the hero (the only emerald
