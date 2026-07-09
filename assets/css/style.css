@@ -2346,6 +2346,9 @@ label { font-weight: 600; font-size: .9rem; }
    into the white .page-hero above and the white .section below with no new
    hard seam to solve, and so the existing dark-green .ri-stat text needs no
    color-scheme fork to stay readable. */
+/* opt-in real photo behind the stat strip — url() lives here (not inline)
+   so it resolves against this stylesheet's folder, not the HTML page */
+.stat-banner.stat-banner--photo { --stat-banner-img: url('../images/home/gardens-slider.jpg'); }
 .stat-banner {
   position: relative;
   --stat-banner-img: none;
