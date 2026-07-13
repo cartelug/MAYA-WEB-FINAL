@@ -1359,6 +1359,38 @@ label { font-weight: 600; font-size: .9rem; }
 .mini { font-size: .85rem; opacity: .72; margin-top: 12px; }
 
 /* =========================================================================
+   Design credit — 97 Design (Neeza Amani Shyaka)
+   ========================================================================= */
+.footer-credit {
+  margin-top: 46px;
+  display: flex; align-items: center; gap: clamp(16px, 2.4vw, 26px);
+  flex-wrap: wrap;
+}
+.footer-credit .fc-logo { display: inline-flex; flex: 0 0 auto; }
+.footer-credit .fc-logo img {
+  width: clamp(78px, 11vw, 108px); height: auto; display: block;
+  opacity: .9;
+  transition: opacity var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+.footer-credit .fc-logo:hover img { opacity: 1; transform: translateY(-2px); }
+.footer-credit .fc-meta { min-width: 200px; }
+.footer-credit .fc-lead {
+  color: rgba(255,255,255,.9);
+  font-size: .98rem; line-height: 1.4; margin: 0 0 5px;
+}
+.footer-credit .fc-lead strong { color: var(--gold-2); font-weight: 700; }
+.footer-credit .fc-sub {
+  color: rgba(255,255,255,.58);
+  font-size: .83rem; line-height: 1.5; margin: 0; letter-spacing: .015em;
+}
+.footer-credit .fc-sub a { color: rgba(255,255,255,.74); font-weight: 600; }
+.footer-credit .fc-sub a:hover { color: var(--gold-2); }
+@media (max-width: 600px) {
+  .footer-credit { margin-top: 36px; gap: 14px; }
+  .footer-credit .fc-meta { min-width: 0; }
+}
+
+/* =========================================================================
    Floating WhatsApp — redesigned premium FAB
    ========================================================================= */
 .floating-whatsapp {
