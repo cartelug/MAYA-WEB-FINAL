@@ -4445,7 +4445,7 @@ body.home-canvas { background: var(--cream-2); }
        hero→triptych melt no longer depends on the mask alone: reduce-motion
        (mask off) now gets the same painted fade. --- */
 .home-canvas .hero-home .hero-image {
-  background-image: url("../images/hero/home-hero-mobile.webp");
+  background-image: url("../images/hero/home-hero-mobile-2.webp");
   /* pin the baked dissolve to the hero's foot: no bottom overscan, and the
      Ken-Burns scale grows up/sideways only, never past the painted fade */
   inset: -10% -2% 0 -2%;
@@ -4454,7 +4454,8 @@ body.home-canvas { background: var(--cream-2); }
 }
 @media (min-width: 761px) {
   .home-canvas .hero-home .hero-image {
-    background-image: url("../images/hero/home-hero-desktop.webp");
+    background-image: url("../images/hero/home-hero-desktop-2.webp");
+    background-position: center 24%;
   }
 }
 /* the artwork carries its own dusk-dark left flank and painted foot — ease
@@ -4913,4 +4914,40 @@ body:not(.hero-page) .site-header {
 @media (max-width: 900px) {
   .interior-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .interior-tile { min-height: 240px; }
+}
+
+/* =========================================================================
+   Menu — buffet order composer (2026-07 content update)
+   ========================================================================= */
+.buffet-order {
+  margin-top: 26px;
+  border: 1px solid var(--green-100);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, #fff, #fcf9f2);
+  box-shadow: var(--shadow);
+  padding: clamp(18px, 3vw, 28px);
+}
+.buffet-order .bo-kicker {
+  font-size: .74rem; font-weight: 800; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--gold);
+}
+.buffet-order h3 { margin: 6px 0 14px; color: var(--green-900); }
+.bo-form {
+  display: grid; grid-template-columns: 1.4fr .7fr 1fr; gap: 14px;
+  align-items: end;
+}
+.bo-form label { display: block; font-weight: 600; font-size: .9rem; color: var(--green-900); }
+.bo-form .input { margin-top: 6px; width: 100%; }
+.bo-form select.input { appearance: auto; -webkit-appearance: auto; }
+.bo-total {
+  grid-column: 1 / -1;
+  font-size: .95rem; color: var(--green-800);
+  padding: 10px 14px; border-radius: 12px;
+  background: rgba(212,166,42,.10); border: 1px dashed rgba(212,166,42,.45);
+}
+.bo-total strong { font-weight: 800; color: var(--green-900); }
+.bo-submit { grid-column: 1 / -1; justify-content: center; }
+.bo-note { grid-column: 1 / -1; margin: 0; text-align: center; font-size: .78rem; color: #8a978d; }
+@media (max-width: 760px) {
+  .bo-form { grid-template-columns: 1fr; }
 }

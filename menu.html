@@ -21,7 +21,7 @@
   <meta property="og:url" content="https://www.mayanatureresort.com/menu.html" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="canonical" href="https://www.mayanatureresort.com/menu.html" />
-  <link rel="stylesheet" href="assets/css/style.css?v=20260718a" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260718b" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -340,6 +340,37 @@
               <p class="pack-note">A celebration centrepiece — order ahead.</p>
             </article>
           </div>
+
+          <!-- Buffet order composer: builds a WhatsApp order, nothing is stored -->
+          <div class="buffet-order" data-reveal>
+            <div class="bo-head">
+              <span class="bo-kicker">Order a buffet</span>
+              <h3>Pick a package, tell us how many — we'll do the rest.</h3>
+            </div>
+            <form class="bo-form" data-buffet-form>
+              <label>Package
+                <select class="input" name="package" required>
+                  <option value="Basic Package" data-price="65000" data-per="person">Basic Package — UGX 65,000 per person</option>
+                  <option value="Grand Package" data-price="80000" data-per="person" selected>Grand Package — UGX 80,000 per person</option>
+                  <option value="Lavish Package" data-price="95000" data-per="person">Lavish Package — UGX 95,000 per person</option>
+                  <option value="BBQ Package" data-price="60000" data-per="person">BBQ Package — UGX 60,000 per person</option>
+                  <option value="Stuffed Whole Goat" data-price="1000000" data-per="order">Stuffed Whole Goat — UGX 1,000,000 (per goat, order ahead)</option>
+                </select>
+              </label>
+              <label>Guests
+                <input class="input" type="number" name="guests" min="1" max="10000" step="1" value="10" inputmode="numeric" required />
+              </label>
+              <label>Date <span class="muted" style="font-weight:400">(optional)</span>
+                <input class="input" type="text" name="date" placeholder="e.g. 24 August, or this Saturday" />
+              </label>
+              <div class="bo-total" aria-live="polite">Estimated total&nbsp;<strong data-buffet-total>UGX 800,000</strong></div>
+              <button class="btn btn-primary magnet bo-submit" type="submit">
+                Order this buffet on WhatsApp
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.6 1 1.3 1.7.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.2.1.6 0 .9Z"/></svg>
+              </button>
+              <p class="bo-note">Final pricing is confirmed by our events team — the estimate is a guide.</p>
+            </form>
+          </div>
         </section>
 
         <section class="menu-cat has-photo" id="food-indian" data-cat="Indian Corner">
@@ -382,8 +413,9 @@
           <p class="menu-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h10"/></svg> All burgers are served with chips and salad.</p>
         </section>
 
-        <section class="menu-cat" id="food-sandwich" data-cat="Sandwich Corner">
+        <section class="menu-cat has-photo" id="food-sandwich" data-cat="Sandwich Corner">
           <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">09</span><h2>Sandwich Corner</h2><span class="menu-sun"></span></div>
+          <img class="menu-cat-hero" src="assets/images/menu/sandwich-corner.jpg" alt="Layered vegetable sandwich on toasted brown bread" loading="lazy">
           <ul class="menu-items cols-2">
             <li class="m-item"><div class="m-row"><span class="m-name">Steak Sandwich</span><span class="m-dots"></span><span class="m-price">30,000<i>/=</i></span></div><p class="m-desc">Grilled beef fillet, onions and tomato slices.</p></li>
             <li class="m-item"><div class="m-row"><span class="m-name">Chicken Sandwich</span><span class="m-dots"></span><span class="m-price">30,000<i>/=</i></span></div><p class="m-desc">Grilled chicken fillet and onions.</p></li>
@@ -406,8 +438,9 @@
           </ul>
         </section>
 
-        <section class="menu-cat" id="food-grill" data-cat="Charcoal Grill">
+        <section class="menu-cat has-photo" id="food-grill" data-cat="Charcoal Grill">
           <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">11</span><h2>Charcoal Grill</h2><span class="menu-sun"></span></div>
+          <img class="menu-cat-hero" src="assets/images/resort/bbq-charcoal-grill.jpg" alt="Seasoned meat skewers grilling over charcoal" loading="lazy">
           <p class="menu-cat-sub" data-reveal>From the traditional charcoal grill — “experience nature in the garden.”</p>
           <ul class="menu-items cols-2">
             <li class="m-item"><div class="m-row"><span class="m-name">Whole Fish Mchomo</span><span class="m-dots"></span><span class="m-price">60,000<i>/=</i></span></div></li>
@@ -655,8 +688,9 @@
           </ul>
         </section>
 
-        <section class="menu-cat" id="drinks-cocktails" data-cat="Maya Cocktail Corner">
+        <section class="menu-cat has-photo" id="drinks-cocktails" data-cat="Maya Cocktail Corner">
           <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">12</span><h2>Maya Cocktail Corner</h2><span class="menu-sun"></span></div>
+          <img class="menu-cat-hero" src="assets/images/menu/cocktails.jpg" alt="A colourful selection of cocktails" loading="lazy">
           <ul class="menu-items cols-2">
             <li class="m-item"><div class="m-row"><span class="m-name">Long Island Iced Tea</span><span class="m-dots"></span><span class="m-price">30,000<i>/=</i></span></div><p class="m-desc">Vodka, gin, tequila, white rum, Cointreau, lime &amp; cola.</p></li>
             <li class="m-item"><div class="m-row"><span class="m-name">Margarita</span><span class="m-dots"></span><span class="m-price">25,000<i>/=</i></span></div><p class="m-desc">Tequila, lime juice &amp; sugar syrup.</p></li>
@@ -704,8 +738,9 @@
           </ul>
         </section>
 
-        <section class="menu-cat" id="drinks-juice" data-cat="Fresh Juices">
+        <section class="menu-cat has-photo" id="drinks-juice" data-cat="Fresh Juices">
           <div class="menu-cat-head" data-reveal><span class="menu-cat-kicker">16</span><h2>Fresh Juices</h2><span class="menu-sun"></span></div>
+          <img class="menu-cat-hero" src="assets/images/resort/maya-meal-drinks.jpg" alt="Meals served with colourful fresh drinks at Maya Nature Resort" loading="lazy">
           <ul class="menu-items cols-2">
             <li class="m-item"><div class="m-row"><span class="m-name">Passion Juice</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
             <li class="m-item"><div class="m-row"><span class="m-name">Melon Juice</span><span class="m-dots"></span><span class="m-price">15,000<i>/=</i></span></div></li>
@@ -802,7 +837,7 @@
       <a data-book="stay" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27d%20like%20to%20make%20a%20reservation." target="_blank" rel="noopener">Reserve on WhatsApp</a>
     </div>
   </footer>
-  <script src="assets/js/main.js?v=20260718a"></script>
+  <script src="assets/js/main.js?v=20260718b"></script>
   <script src="assets/js/menu.js"></script>
   <a data-book="table" class="floating-whatsapp" href="https://wa.me/256773883760?text=Hello%20Maya%20Nature%20Resort%2C%20I%27d%20like%20to%20book%20a%20table." target="_blank" rel="noopener" aria-label="Book on WhatsApp">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.6 1 1.3 1.7.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.2.1.6 0 .9Z"/></svg>

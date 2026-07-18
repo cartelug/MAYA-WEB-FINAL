@@ -1284,3 +1284,40 @@
     setTimeout(close, 900);
   });
 })();
+
+/* ---------- Buffet order composer (menu page) ---------- */
+(function () {
+  "use strict";
+  document.querySelectorAll("[data-buffet-form]").forEach(function (form) {
+    var pkg = form.querySelector("[name='package']");
+    var guests = form.querySelector("[name='guests']");
+    var dateEl = form.querySelector("[name='date']");
+    var totalEl = form.querySelector("[data-buffet-total]");
+    var fmt = function (n) { return "UGX " + Number(n).toLocaleString("en-US"); };
+    var calc = function () {
+      var opt = pkg.selectedOptions[0];
+      var price = Number(opt && opt.dataset.price) || 0;
+      var per = (opt && opt.dataset.per) || "person";
+      var n = Math.max(1, parseInt(guests.value, 10) || 1);
+      return { total: per === "person" ? price * n : price, n: n, per: per };
+    };
+    var update = function () {
+      if (totalEl) totalEl.textContent = fmt(calc().total);
+    };
+    pkg.addEventListener("change", update);
+    guests.addEventListener("input", update);
+    update();
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var name = pkg.value;
+      var c = calc();
+      var date = (dateEl && dateEl.value.trim()) || "";
+      var message = "Hello Maya Nature Resort, I'd like to order the " + name +
+        (c.per === "person" ? " buffet" : "") +
+        " for " + c.n + " guest" + (c.n === 1 ? "" : "s") +
+        (date ? " on " + date : "") +
+        ". Estimated total " + fmt(c.total) + ".";
+      window.open("https://wa.me/256773883760?text=" + encodeURIComponent(message), "_blank", "noopener");
+    });
+  });
+})();
