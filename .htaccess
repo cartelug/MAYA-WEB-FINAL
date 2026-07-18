@@ -1,0 +1,31 @@
+# Maya Nature Resort — static site (Apache / DreamHost)
+
+# ---- basics -------------------------------------------------------------
+ErrorDocument 404 /404.html
+Options -Indexes
+
+# ---- redirects ----------------------------------------------------------
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Never serve internal folders publicly (safety if ever uploaded by mistake)
+RewriteRule ^(docs|\.claude)(/|$) - [R=404,L]
+
+# Legacy WordPress routes -> new pages.
+# Absolute www targets so every host/scheme variant lands in ONE hop.
+RewriteRule ^accommodation/?$ https://www.mayanatureresort.com/rooms.html [R=301,L]
+RewriteRule ^contacts/?$ https://www.mayanatureresort.com/contact.html [R=301,L]
+RewriteRule ^reservation/?$ https://www.mayanatureresort.com/contact.html [R=301,L]
+RewriteRule ^gallery/?$ https://www.mayanatureresort.com/gallery.html [R=301,L]
+RewriteRule ^about-us/?$ https://www.mayanatureresort.com/ [R=301,L]
+RewriteRule ^our-services/?$ https://www.mayanatureresort.com/experiences.html [R=301,L]
+RewriteRule ^play-ground/?$ https://www.mayanatureresort.com/amenities/playland.html [R=301,L]
+RewriteRule ^the-ropes-bar-and-restaurant/?$ https://www.mayanatureresort.com/menu.html [R=301,L]
+RewriteRule ^project(/.*)?$ https://www.mayanatureresort.com/rooms.html [R=301,L]
+
+# Canonical host + HTTPS in a single hop:
+# http://…, or any request on the bare domain, -> https://www.…
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^mayanatureresort\.com$ [NC]
+RewriteRule ^(.*)$ https://www.mayanatureresort.com/$1 [R=301,L]
+</IfModule>

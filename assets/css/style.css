@@ -1508,6 +1508,7 @@ label { font-weight: 600; font-size: .9rem; }
 .mobile-menu.is-open a.mm-link:nth-child(6) { transition-delay: .50s; }
 .mobile-menu.is-open a.mm-link:nth-child(7) { transition-delay: .57s; }
 .mobile-menu.is-open a.mm-link:nth-child(8) { transition-delay: .64s; }
+.mobile-menu.is-open a.mm-link:nth-child(9) { transition-delay: .71s; }
 
 .mobile-menu .mm-cta {
   margin-top: 36px;
@@ -4875,4 +4876,41 @@ body:not(.hero-page) .site-header {
 @media (prefers-reduced-motion: reduce) {
   .bs-backdrop, .bs-panel { transition: none !important; }
   .bs-panel { transform: none !important; opacity: 1 !important; }
+}
+
+/* =========================================================================
+   Rooms — supplementary interiors grid (2026-07 content update)
+   ========================================================================= */
+.interior-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.interior-tile {
+  position: relative;
+  min-height: 300px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  cursor: zoom-in;
+  box-shadow: var(--shadow);
+  transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+.interior-tile::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(transparent 60%, rgba(7,26,17,.45));
+  opacity: 0;
+  transition: opacity var(--t-fast) var(--ease);
+}
+.interior-tile:hover, .interior-tile:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(9,26,17,.25);
+}
+.interior-tile:hover::after { opacity: 1; }
+.interior-tile:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+@media (max-width: 900px) {
+  .interior-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .interior-tile { min-height: 240px; }
 }
