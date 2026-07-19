@@ -1,0 +1,50 @@
+name: Deploy to DreamHost
+
+# Deploys the website to DreamHost whenever main is updated
+# (or when triggered manually from the Actions tab).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: dreamhost-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Web files only — internal docs, originals and repo config never go public.
+      - name: Stage web files
+        run: |
+          mkdir -p _site
+          cp -a *.html amenities assets robots.txt sitemap.xml site.webmanifest _site/
+          cp -a .htaccess _site/
+          cp assets/images/logo/favicon.ico _site/favicon.ico
+          echo "Staged $(find _site -type f | wc -l) files"
+
+      - name: Upload site via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          server: ${{ secrets.DREAMHOST_HOST }}
+          username: ${{ secrets.DREAMHOST_USERNAME }}
+          password: ${{ secrets.DREAMHOST_PASSWORD }}
+          port: 22
+          sftp_only: true
+          local_path: './_site/*'
+          remote_path: ${{ secrets.DREAMHOST_REMOTE_PATH }}
+
+      # The '*' glob above skips dotfiles, so ship .htaccess explicitly.
+      - name: Upload .htaccess
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          server: ${{ secrets.DREAMHOST_HOST }}
+          username: ${{ secrets.DREAMHOST_USERNAME }}
+          password: ${{ secrets.DREAMHOST_PASSWORD }}
+          port: 22
+          sftp_only: true
+          local_path: './_site/.htaccess'
+          remote_path: ${{ secrets.DREAMHOST_REMOTE_PATH }}
