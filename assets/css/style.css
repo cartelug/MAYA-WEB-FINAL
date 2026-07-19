@@ -349,14 +349,14 @@ p + p { margin-top: 14px; }
   width: 0; border-radius: 999px;
   background: linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 62%, #fffdf4 100%);
   box-shadow: 0 0 12px rgba(241,202,85,.6), 0 0 26px rgba(212,166,42,.4);
-  animation: preloaderFill 1.05s var(--ease-premium) .2s forwards;
+  animation: preloaderFill .78s var(--ease-premium) .1s forwards;
 }
 .preloader-bar::before {
   content: ""; position: absolute; top: 50%; left: 0;
   width: 8px; height: 8px; border-radius: 50%; background: #fff;
   box-shadow: 0 0 10px 2px rgba(255,255,255,.9), 0 0 20px 6px rgba(241,202,85,.6);
   transform: translate(-50%, -50%); opacity: 0; z-index: 2;
-  animation: preloaderSpark 1.05s var(--ease-premium) .2s forwards;
+  animation: preloaderSpark .78s var(--ease-premium) .1s forwards;
 }
 @keyframes plHalo {
   0%   { opacity: 0; transform: translate(-50%, -50%) scale(.55); }
@@ -3190,6 +3190,40 @@ html.intro-ready .hero-intro > .hero-trust   { animation: heroRise .85s var(--ea
 @keyframes heroRise {
   from { opacity: 0; transform: translateY(26px); filter: blur(4px); }
   to   { opacity: 1; transform: none; filter: blur(0); }
+}
+
+/* ---- Phones & touch: same entrance, no per-frame blur ----
+   Animating filter: blur() drops off the GPU fast-path and is the biggest
+   cause of a janky hero open on mobile. These variants keep the identical
+   motion (fade + rise + pop) using only compositor-friendly transform/opacity.
+   The continuous Ken-Burns and mesh-drift are also paused so nothing keeps a
+   full-screen layer churning the GPU while the page sits idle. */
+@keyframes heroLogoInLite {
+  0%   { opacity: 0; transform: translateY(-34px) scale(.82); }
+  58%  { opacity: 1; transform: translateY(5px) scale(1.025); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes heroRiseLite {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes numPopLite {
+  0%   { opacity: 0; transform: scale(.35) translateY(12px); }
+  55%  { filter: drop-shadow(0 0 24px rgba(241,202,85,.85)); }
+  100% { opacity: 1; transform: none; }
+}
+@media (pointer: coarse), (max-width: 760px) {
+  html.intro-ready .hero-intro > .hero-logo    { animation: heroLogoInLite 1.1s var(--ease-premium) both; }
+  html.intro-ready .hero-intro > h1            { animation: heroRiseLite .85s var(--ease-premium) .55s both; }
+  html.intro-ready .hero-intro > p             { animation: heroRiseLite .85s var(--ease-premium) .92s both; }
+  html.intro-ready .hero-intro > .hero-actions { animation: heroRiseLite .85s var(--ease-premium) 1.22s both; }
+  html.intro-ready .hero-intro > .hero-trust   { animation: heroRiseLite .85s var(--ease-premium) 1.46s both; }
+  html.intro-ready .trust-stat-num             { animation: numPopLite 1s cubic-bezier(.34, 1.56, .64, 1) 1.7s both; }
+  /* no scroll-linked blur on the hero content (per-frame blur = jank on phones) */
+  html.reveal-ready .hero-home .hero-content   { filter: none; }
+  /* stop continuous full-screen GPU work while the page is idle */
+  .hero-home .hero-image { animation: none; }
+  .section.dark::before  { animation: none; }
 }
 
 /* --- 3. Trust strip: giant animated 6+, amenity mini-pills --- */

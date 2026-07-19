@@ -21,7 +21,7 @@
   const startIntro = () => { if (!reduceMotion) root.classList.add("intro-ready"); };
   const preloader = document.querySelector(".preloader");
   if (preloader) {
-    const minShow = reduceMotion ? 400 : 1400; // snappier open; logo reveal still completes
+    const minShow = reduceMotion ? 300 : 950; // snappier open; logo reveal still completes
     const start = performance.now();
     const reveal = () => { preloader.classList.add("is-loaded"); startIntro(); };
     const hide = () => {

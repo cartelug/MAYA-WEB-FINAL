@@ -11,6 +11,13 @@ RewriteEngine On
 # Never serve internal folders publicly (safety if ever uploaded by mistake)
 RewriteRule ^(docs|\.claude)(/|$) - [R=404,L]
 
+# Drop index.html from the address bar: an explicit request for index.html
+# 301s to the clean path. THE_REQUEST guards against the internal
+# DirectoryIndex mapping so this never loops. Absolute www+https target keeps
+# it a single hop.
+RewriteCond %{THE_REQUEST} \s/+(?:[^?\s]*/)?index\.html[\s?] [NC]
+RewriteRule ^(.*/)?index\.html$ https://www.mayanatureresort.com/$1 [R=301,L]
+
 # Legacy WordPress routes -> new pages.
 # Absolute www targets so every host/scheme variant lands in ONE hop.
 RewriteRule ^accommodation/?$ https://www.mayanatureresort.com/rooms.html [R=301,L]
