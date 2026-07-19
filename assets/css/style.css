@@ -2440,10 +2440,13 @@ label { font-weight: 600; font-size: .9rem; }
    is where that photo's own baked-in top/bottom fade gets a CSS backstop. */
 .stat-banner::before {
   content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  /* Wash the photo to a pale backdrop so the dark-green engraved stat text
+     stays readable (the gardens shot is bright, so a 10% veil left the text
+     invisible). Keeps a hint of the photo texture, edges still fade to cream. */
   background: linear-gradient(180deg,
-    #fff 0%, rgba(255,255,255,.35) clamp(48px,6vw,84px),
-    rgba(255,255,255,.1) 50%,
-    rgba(255,255,255,.35) calc(100% - clamp(48px,6vw,84px)), #fff 100%);
+    #fff 0%, rgba(255,255,255,.84) clamp(48px,6vw,84px),
+    rgba(255,255,255,.72) 50%,
+    rgba(255,255,255,.84) calc(100% - clamp(48px,6vw,84px)), #fff 100%);
 }
 .stat-banner > .container { position: relative; z-index: 1; }
 
