@@ -15,13 +15,76 @@
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   if (!reduceMotion) root.classList.add("reveal-ready");
 
+  /* ---------- Hero headline → masked word cascade (nature reveal) ----------
+     Splits the home hero <h1> into per-word spans so each word rises in on
+     `intro-ready`. Transform/opacity only — smooth on every device. If motion
+     is reduced the words are simply left visible (reveal-ready is never set). */
+  const heroH1 = document.querySelector(".hero-home .hero-intro h1");
+  if (heroH1 && heroH1.dataset.hw !== "1") {
+    heroH1.dataset.hw = "1";
+    let wi = 0;
+    const mkWord = (text, em) => {
+      const outer = document.createElement("span");
+      outer.className = "hw" + (em ? " hw-em" : "");
+      const inner = document.createElement("span");
+      inner.className = "hw-in";
+      inner.textContent = text;
+      inner.style.setProperty("--wi", wi++);
+      outer.appendChild(inner);
+      return outer;
+    };
+    const frag = document.createDocumentFragment();
+    Array.from(heroH1.childNodes).forEach((node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        node.textContent.split(/(\s+)/).forEach((p) => {
+          if (/^\s+$/.test(p)) frag.appendChild(document.createTextNode(" "));
+          else if (p.length) frag.appendChild(mkWord(p, false));
+        });
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        frag.appendChild(mkWord(node.textContent, node.tagName === "EM"));
+      }
+    });
+    heroH1.textContent = "";
+    heroH1.appendChild(frag);
+  }
+
   /* ---------- Preloader → orchestrated hero entrance ---------- */
   // Hero stays hidden behind the preloader; once it lifts we add `intro-ready`
   // so the logo animates in first and the wording follows, on open.
   const startIntro = () => { if (!reduceMotion) root.classList.add("intro-ready"); };
   const preloader = document.querySelector(".preloader");
+  const isHome = document.body.classList.contains("home-canvas");
+
+  // On the home page the preloader showcases the resort's amenities as they
+  // cascade in — an attractive "what's inside" reveal. Injected here (not in
+  // the HTML) so every page shares one source of truth. Inner pages keep a
+  // quick, minimal preloader for fast navigation.
+  if (preloader && isHome && !reduceMotion) {
+    const AMEN = [
+      ["Pool",     '<path d="M2 16c1.5 0 1.5 1 3 1s1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1 1.5-1 3-1M6 12V5a2 2 0 0 1 2-2h2M6 8h4"/>'],
+      ["Gym",      '<path d="M6.5 6.5 17.5 17.5M4 9l-1 1 11 11 1-1M15 4l-1 1 5 5 1-1M2 16l2 2M16 2l2 2"/>'],
+      ["Sauna",    '<path d="M5 13c0-3 2.5-3 2.5-6M11.75 13c0-3 2.5-3 2.5-6M18.5 13c0-3 2.5-3 2.5-6M3 16h18M4 20h16"/>'],
+      ["Zip-line", '<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>'],
+      ["Nature",   '<path d="M3 18c2-1 3-3 4-5M7 13c2 0 4-1 6-4M13 9c1.5 0 3-.8 4-2M5 21c4-2 7-5 9-9 1.6-3.2 4-5 6-5"/>'],
+      ["Wildlife", '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>'],
+      ["Fountain", '<path d="M12 3v4M12 7c-2 1-3 3-3 6 0 4 1.5 5 3 5s3-1 3-5c0-3-1-5-3-6ZM6 10c-1 .6-1.6 2-1.6 3.5M18 10c1 .6 1.6 2 1.6 3.5M9 21h6"/>'],
+      ["BBQ",      '<path d="M8 21c0-3 1-4 1-6M16 21c0-3-1-4-1-6M5 11h14a7 7 0 0 1-14 0ZM12 11V4M10 6c0-1.5.7-2.5 2-3 1 1 1 2 .5 3"/>'],
+    ];
+    const wrap = document.createElement("div");
+    wrap.className = "pl-amen"; wrap.setAttribute("aria-hidden", "true");
+    wrap.innerHTML = AMEN.map((a, i) =>
+      `<span class="pl-amen-item" style="--i:${i}"><span class="pl-amen-ic">` +
+      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${a[1]}</svg>` +
+      `</span><b>${a[0]}</b></span>`).join("");
+    const inner = preloader.querySelector(".preloader-inner");
+    const bar = preloader.querySelector(".preloader-bar");
+    if (inner) { bar ? inner.insertBefore(wrap, bar) : inner.appendChild(wrap); }
+    requestAnimationFrame(() => wrap.classList.add("is-in"));
+  }
+
   if (preloader) {
-    const minShow = reduceMotion ? 300 : 950; // snappier open; logo reveal still completes
+    // Home shows the amenity cascade briefly; inner pages stay snappy.
+    const minShow = reduceMotion ? 300 : (isHome ? 1600 : 900);
     const start = performance.now();
     const reveal = () => { preloader.classList.add("is-loaded"); startIntro(); };
     const hide = () => {
@@ -30,7 +93,7 @@
     };
     if (document.readyState === "complete") hide();
     else window.addEventListener("load", hide, { once: true });
-    setTimeout(reveal, 5200); // failsafe
+    setTimeout(reveal, 5600); // failsafe
   } else {
     startIntro(); // no preloader on this page — play the entrance straight away
   }
