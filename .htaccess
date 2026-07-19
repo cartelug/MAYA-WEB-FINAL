@@ -18,17 +18,27 @@ RewriteRule ^(docs|\.claude)(/|$) - [R=404,L]
 RewriteCond %{THE_REQUEST} \s/+(?:[^?\s]*/)?index\.html[\s?] [NC]
 RewriteRule ^(.*/)?index\.html$ https://www.mayanatureresort.com/$1 [R=301,L]
 
-# Legacy WordPress routes -> new pages.
+# Clean URLs: any old "*.html" page link 301s to its folder in one hop.
+# THE_REQUEST guard = only real client requests are redirected, never the
+# internal 404 ErrorDocument or DirectoryIndex subrequests (so those keep
+# working). index.html is handled above; 404.html is left in place.
+RewriteCond %{THE_REQUEST} \s/+amenities/[a-z0-9-]+\.html[\s?] [NC]
+RewriteRule ^amenities/([a-z0-9-]+)\.html$ https://www.mayanatureresort.com/amenities/$1/ [R=301,L]
+RewriteCond %{THE_REQUEST} \s/+[a-z0-9-]+\.html[\s?] [NC]
+RewriteCond %{REQUEST_URI} !^/(index|404)\.html$ [NC]
+RewriteRule ^([a-z0-9-]+)\.html$ https://www.mayanatureresort.com/$1/ [R=301,L]
+
+# Legacy WordPress routes -> new pages (clean folder URLs).
 # Absolute www targets so every host/scheme variant lands in ONE hop.
-RewriteRule ^accommodation/?$ https://www.mayanatureresort.com/rooms.html [R=301,L]
-RewriteRule ^contacts/?$ https://www.mayanatureresort.com/contact.html [R=301,L]
-RewriteRule ^reservation/?$ https://www.mayanatureresort.com/contact.html [R=301,L]
-RewriteRule ^gallery/?$ https://www.mayanatureresort.com/gallery.html [R=301,L]
+RewriteRule ^accommodation/?$ https://www.mayanatureresort.com/rooms/ [R=301,L]
+RewriteRule ^contacts/?$ https://www.mayanatureresort.com/contact/ [R=301,L]
+RewriteRule ^reservation/?$ https://www.mayanatureresort.com/contact/ [R=301,L]
+RewriteRule ^gallery/?$ https://www.mayanatureresort.com/gallery/ [R=301,L]
 RewriteRule ^about-us/?$ https://www.mayanatureresort.com/ [R=301,L]
-RewriteRule ^our-services/?$ https://www.mayanatureresort.com/experiences.html [R=301,L]
-RewriteRule ^play-ground/?$ https://www.mayanatureresort.com/amenities/playland.html [R=301,L]
-RewriteRule ^the-ropes-bar-and-restaurant/?$ https://www.mayanatureresort.com/menu.html [R=301,L]
-RewriteRule ^project(/.*)?$ https://www.mayanatureresort.com/rooms.html [R=301,L]
+RewriteRule ^our-services/?$ https://www.mayanatureresort.com/experiences/ [R=301,L]
+RewriteRule ^play-ground/?$ https://www.mayanatureresort.com/amenities/playland/ [R=301,L]
+RewriteRule ^the-ropes-bar-and-restaurant/?$ https://www.mayanatureresort.com/menu/ [R=301,L]
+RewriteRule ^project(/.*)?$ https://www.mayanatureresort.com/rooms/ [R=301,L]
 
 # Canonical host + HTTPS in a single hop:
 # http://…, or any request on the bare domain, -> https://www.…

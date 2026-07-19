@@ -21,7 +21,10 @@ jobs:
       - name: Stage web files
         run: |
           mkdir -p _site
-          cp -a *.html amenities assets robots.txt sitemap.xml site.webmanifest _site/
+          # Root files + every clean-URL page folder (each is <name>/index.html).
+          cp -a *.html \
+                rooms events menu gallery directions contact experiences conference-hall privacy \
+                amenities assets robots.txt sitemap.xml site.webmanifest _site/
           cp -a .htaccess _site/
           cp assets/images/logo/favicon.ico _site/favicon.ico
           echo "Staged $(find _site -type f | wc -l) files"

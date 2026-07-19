@@ -4800,17 +4800,19 @@ body:not(.hero-page) .site-header {
    --mms compensates per-image decoration so the LETTERFORMS read at one
    optical size (each PNG carries a different share of foliage/icon art). */
 /* Home now uses a clean URL (./ on root pages, ../ on amenity pages, / on 404) */
+/* Clean folder URLs: Home is ./ ../ ../../ or / ; others end in "<name>/" */
 .mm-link[href="./"],
 .mm-link[href="../"],
-.mm-link[href="/"]                 { --mms: .8;  }
-.mm-link[href$="rooms.html"]       { --mms: 1.12; }
-.mm-link[href$="conference-hall.html"] { --mms: 1.46; }
-.mm-link[href$="events.html"]      { --mms: 1.06; }
-.mm-link[href$="experiences.html"] { --mms: 1.16; }
-.mm-link[href$="menu.html"]        { --mms: 1.04; }
-.mm-link[href$="gallery.html"]     { --mms: .78; }
-.mm-link[href$="directions.html"]  { --mms: 1.12; }
-.mm-link[href$="contact.html"]     { --mms: 1.12; }
+.mm-link[href="../../"],
+.mm-link[href="/"]                     { --mms: .8;  }
+.mm-link[href$="rooms/"]               { --mms: 1.12; }
+.mm-link[href$="conference-hall/"]     { --mms: 1.46; }
+.mm-link[href$="events/"]              { --mms: 1.06; }
+.mm-link[href$="experiences/"]         { --mms: 1.16; }
+.mm-link[href$="menu/"]                { --mms: 1.04; }
+.mm-link[href$="gallery/"]             { --mms: .78; }
+.mm-link[href$="directions/"]          { --mms: 1.12; }
+.mm-link[href$="contact/"]             { --mms: 1.12; }
 .mobile-menu a.mm-link { justify-content: flex-start; padding: 2px 0; }
 .mobile-menu a.mm-link::after { content: none; } /* retire the "→" — the art is the row */
 .mm-link picture { display: block; line-height: 0; }
