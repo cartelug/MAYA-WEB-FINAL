@@ -4572,7 +4572,7 @@ body.home-canvas { background: var(--cream-2); }
        hero→triptych melt no longer depends on the mask alone: reduce-motion
        (mask off) now gets the same painted fade. --- */
 .home-canvas .hero-home .hero-image {
-  background-image: url("../images/hero/home-hero-mobile-2.webp");
+  background-image: url("../images/hero/home-hero-mobile-3.webp");
   /* pin the baked dissolve to the hero's foot: no bottom overscan, and the
      Ken-Burns scale grows up/sideways only, never past the painted fade */
   inset: -10% -2% 0 -2%;
@@ -4581,7 +4581,7 @@ body.home-canvas { background: var(--cream-2); }
 }
 @media (min-width: 761px) {
   .home-canvas .hero-home .hero-image {
-    background-image: url("../images/hero/home-hero-desktop-2.webp");
+    background-image: url("../images/hero/home-hero-desktop-3.webp");
     background-position: center 58%;
   }
 }
