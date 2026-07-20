@@ -1124,7 +1124,7 @@
   var TABLE_TIMES = ["Lunch (12–2pm)", "Afternoon (2–5pm)", "Dinner (5–9pm)"];
   var OCCASIONS = ["Wedding", "Introduction Ceremony", "Graduation Party", "Conference",
                    "Party", "Corporate Retreat", "Other celebration"];
-  var VENUES = ["Bulangiti Hall", "Oasis Gardens", "Not sure yet"];
+  var VENUES = ["Bulangiti Hall", "Jambula Gardens", "Not sure yet"];
 
   var sheet = document.createElement("div");
   sheet.className = "booksheet";
